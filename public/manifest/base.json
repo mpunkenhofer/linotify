@@ -12,13 +12,16 @@
     "48": "assets/linotify_icon48.png",
     "128": "assets/linotify_icon128.png"
   },
-  "page_action": {
+  "browser_action": {
+    "browser_style": true,
+    "default_title": "LiNotify",
     "default_icon": {
       "16": "assets/linotify_icon16.png",
       "32": "assets/linotify_icon32.png",
       "48": "assets/linotify_icon48.png",
       "128": "assets/linotify_icon128.png"
-    }
+    },
+    "default_popup": "popup.html"
   },
   "options_ui": {
     "page": "options.html",

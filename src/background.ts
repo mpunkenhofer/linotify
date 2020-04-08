@@ -11,7 +11,13 @@ const api = axios.create({
 const periodInMinutes = 1;
 browser.alarms.create('apiPollAlarm', { periodInMinutes })
 
+let count = 0;
+
 browser.alarms.onAlarm.addListener(() => {
+    count++;
+
+    browser.browserAction.setBadgeText({text: count.toString()});
+
     api.get('/users/status', {
         params: {
             ids: 'necator'
