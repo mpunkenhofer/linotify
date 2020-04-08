@@ -18,7 +18,7 @@
     "predev": "rimraf dist",
     "dev": "cross-env NODE_ENV=development webpack --config webpack.dev.config.js --mode=development --watch --display-error-details",
     "lint": "eslint . --ext .js,.ts",
-    "icons": "inkscape public/images/lichess.svg --export-png=public/images/linotify_icon16.png -w 16 -h 16 && inkscape public/images/lichess.svg --export-png=public/images/linotify_icon32.png -w 32 -h 32 && inkscape public/images/lichess.svg --export-png=public/images/linotify_icon48.png -w 48 -h 48 && inkscape public/images/lichess.svg --export-png=public/images/linotify_icon64.png -w 64 -h 64 && inkscape public/images/lichess.svg --export-png=public/images/linotify_icon96.png -w 96 -h 96 && inkscape public/images/lichess.svg --export-png=public/images/linotify_icon128.png -w 128 -h 128"
+    "icons": "inkscape public/images/linotify_filled.svg --export-png=public/images/linotify_icon16.png -w 16 -h 16 && inkscape public/images/linotify_filled.svg --export-png=public/images/linotify_icon32.png -w 32 -h 32 && inkscape public/images/linotify_filled.svg --export-png=public/images/linotify_icon48.png -w 48 -h 48 && inkscape public/images/linotify_filled.svg --export-png=public/images/linotify_icon64.png -w 64 -h 64 && inkscape public/images/linotify.svg --export-png=public/images/linotify_icon96.png -w 96 -h 96 && inkscape public/images/linotify.svg --export-png=public/images/linotify_icon128.png -w 128 -h 128"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.27.0",
