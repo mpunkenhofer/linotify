@@ -8,7 +8,7 @@
     "notify"
   ],
   "version": "1.0.0",
-  "description": "Browser extension for lichess.org which notifies you if a certain player is online and/or playing. ",
+  "description": "Browser extension for lichess.org which notifies you if a certain player is online and/or playing.",
   "homepage": "https://github.com/mpunkenhofer/linotify",
   "private": true,
   "scripts": {
