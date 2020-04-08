@@ -1,0 +1,37 @@
+{
+  "name": "LiNotify",
+  "description": "__MSG_extensionDescription__",
+  "manifest_version": 2,
+  "default_locale": "en",
+  "permissions": [
+    "alarms",
+    "storage", 
+    "notifications"
+  ],
+  "icons": {
+    "48": "assets/linotify_icon48.png",
+    "128": "assets/linotify_icon128.png"
+  },
+  "page_action": {
+    "default_icon": {
+      "16": "assets/linotify_icon16.png",
+      "32": "assets/linotify_icon32.png",
+      "48": "assets/linotify_icon48.png",
+      "128": "assets/linotify_icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": [ "http://*.lichess.org/*", "https://*.lichess.org/*" ],
+      "js": ["content.js"],
+      "css": [ "content.css" ]
+    }
+  ]
+}

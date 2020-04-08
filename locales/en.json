@@ -1,0 +1,9 @@
+{
+  "browserActionTitle": {
+    "message": "LiNotify",
+    "description": "[Don't Translate] The title of the browser action button"
+  },
+  "extensionDescription": {
+    "message": "Notifies you when a certain lichess.org player is online and/or plays."
+  }
+}
