@@ -36,8 +36,8 @@ module.exports = {
             { from: 'public/images/linotify_icon*', to: 'assets/[name].[ext]' },
             { from: 'public/images/*.svg', to: 'assets/[name].[ext]' },
             { from: 'locales', to: '_locales/[name]/messages.json' },
-            { from: 'public/fonts/*.woff', to: 'public/fonts/[name].[ext]' },
-            { from: 'public/fonts/*.woff2', to: 'public/fonts/[name].[ext]' },
+            { from: 'public/fonts/*.woff', to: 'assets/[name].[ext]' },
+            { from: 'public/fonts/*.woff2', to: 'assets/[name].[ext]' },
             { from: 'public/*.html', to: '[name].[ext]' },
         ]),
         new WebpackExtensionManifestPlugin({

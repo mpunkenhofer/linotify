@@ -54,5 +54,8 @@
       "js": ["content.js"],
       "css": [ "content.css" ]
     }
+  ],
+  "web_accessible_resources": [
+    "assets/linotify.woff2"
   ]
 }

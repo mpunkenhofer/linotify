@@ -1,9 +1,14 @@
 import { browser } from "webextension-polyfill-ts";
 import axios, { AxiosResponse, AxiosError } from 'axios';
+import { enableStorageApiLogger } from "./api/storage";
 
 console.log('LiNotify is open source! https://github.com/mpunkenhofer/linotify');
 
-const api = axios.create({
+if (process.env.NODE_ENV === "development") {
+    enableStorageApiLogger();
+}
+
+const lichessApi = axios.create({
     baseURL: 'https://lichess.org/api/',
     timeout: 1000
 });
@@ -18,7 +23,7 @@ browser.alarms.onAlarm.addListener(() => {
 
     browser.browserAction.setBadgeText({text: count.toString()});
 
-    api.get('/users/status', {
+    lichessApi.get('/users/status', {
         params: {
             ids: 'necator'
         }

@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "afterbegin",
+        "beforeend",
         "inkscape",
         "linotify",
         "litags",
@@ -9,5 +10,8 @@
         "ornicar",
         "pngs",
         "woff"
+    ],
+    "cSpell.ignoreWords": [
+        "cchanged"
     ]
 }

@@ -1,7 +1,31 @@
 #powerTip {
     .btn-rack {
-        a, a.relation-button {
-            flex: 0 0 20% !important;
+        a,
+        a.relation-button {
+            flex: 0 0 18% !important;
+        }
+        .linotify__btn {
+            flex: 1 1 auto !important;
         }
     }
+}
+
+.linotify_symbol {
+    margin-left: 0.6rem;
+}
+
+.linotify__btn[data-icon]::before {
+    font-family: 'linotify' !important;
+}
+
+.linotify_check {
+    color: #629924;
+}
+
+.linotify_times {
+    color: #c33;
+}
+
+.linotify_display_none {
+    display: none;
 }
