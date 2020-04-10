@@ -1,0 +1,30 @@
+export const TITLES = {
+    'LM': 'Lichess Master',
+    'CM': 'Candidate Master',
+    'WCM': 'Woman Candidate Master',
+    'NM': 'National Master',
+    'WNM': "Woman National Master",
+    'FM': 'Fide Master',
+    'WFM': "Woman Fide Master",
+    'IM': 'International Master',
+    'WIM': 'Woman International Master',
+    'GM': 'Grand Master',
+    'WGM': 'Woman Grand Master',
+} 
+
+export const ICONS = {
+    'bullet': 'T',
+    'blitz': ')',
+    'rapid': '#',
+    'classical': '+',
+    'ultraBullet': '{',
+    'crazyhouse': '&#xe00b',
+    'chess960': "'",
+    'antichess': '@',
+    'atomic': '>',
+    'threeCheck': '.',
+    'kingOfTheHill': '(',
+    'horde': '_',
+    'racingKings': '&#xe00a',
+    'correspondence': ';',
+}

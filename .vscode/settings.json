@@ -8,10 +8,13 @@
         "nargs",
         "necator",
         "ornicar",
+        "perfs",
         "pngs",
         "woff"
     ],
     "cSpell.ignoreWords": [
-        "cchanged"
+        "cchanged",
+        "mixins",
+        "noopener"
     ]
 }

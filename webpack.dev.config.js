@@ -1,12 +1,13 @@
-const pkg = require('./package.json');
 const path = require('path');
-const baseManifest = require('./public/manifest/base');
 const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const WebpackExtensionManifestPlugin = require('webpack-extension-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
 const ExtensionReloader = require('webpack-extension-reloader');
+
+const pkg = require('./package.json');
+const manifest = require('./src/manifest');
 
 module.exports = {
     mode: 'development',
@@ -15,14 +16,18 @@ module.exports = {
 
     entry: {
         content: [
-            './src/content.ts',
-            './src/content.scss',
+            './src/content/content.ts',
+            './src/content/content.scss',
         ],
         options: [
-            './src/options.ts',
-            './src/options.scss',
+            './src/options/options.ts',
+            './src/options/options.scss',
         ],
-        background: './src/background.ts',
+        popup: [
+            './src/popup/popup.ts',
+            './src/popup/popup.scss',
+        ],
+        background: './src/background/background.ts',
     },
 
     output: {
@@ -33,16 +38,16 @@ module.exports = {
     plugins: [
         new webpack.ProgressPlugin(),
         new CopyPlugin([
-            { from: 'public/images/linotify_icon*', to: 'assets/[name].[ext]' },
-            { from: 'public/images/*.svg', to: 'assets/[name].[ext]' },
             { from: 'locales', to: '_locales/[name]/messages.json' },
-            { from: 'public/fonts/*.woff', to: 'assets/[name].[ext]' },
-            { from: 'public/fonts/*.woff2', to: 'assets/[name].[ext]' },
-            { from: 'public/*.html', to: '[name].[ext]' },
+            { from: 'assets/images/linotify_icon*', to: 'assets/[name].[ext]' },
+            { from: 'assets/images/*.svg', to: 'assets/[name].[ext]' },
+            { from: 'assets/fonts/*.woff', to: 'assets/fonts/[name].[ext]' },
+            { from: 'assets/fonts/*.woff2', to: 'assets/fonts/[name].[ext]' },
+            { from: 'src/*/*.html', to: '[name].[ext]' },
         ]),
         new WebpackExtensionManifestPlugin({
             config: {
-                base: baseManifest,
+                base: manifest,
                 extend: {
                     name: 'LiNotify - Dev Build',
                     version: pkg.version,

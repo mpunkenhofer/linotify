@@ -6,8 +6,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackExtensionManifestPlugin = require('webpack-extension-manifest-plugin');
 const IgnoreEmitPlugin = require('ignore-emit-webpack-plugin');
-const baseManifest = require('./public/manifest/base');
+
 const pkg = require('./package.json');
+const manifest = require('./src/manifest');
 
 module.exports = env => {
 	return {
@@ -15,15 +16,20 @@ module.exports = env => {
 
 		entry: {
 			content: [
-				'./src/content.ts',
-				'./src/content.scss',
+				'./src/content/content.ts',
+				'./src/content/content.scss',
 			],
-			background: './src/background.ts',
 			options: [
-				'./src/options.ts',
-				'./src/options.scss',
+				'./src/options/options.ts',
+				'./src/options/options.scss',
 			],
+			popup: [
+				'./src/popup/popup.ts',
+				'./src/popup/popup.scss',
+			],
+			background: './src/background/background.ts',
 		},
+	
 
 		output: {
 			path: path.resolve(__dirname, 'dist'),
@@ -33,16 +39,16 @@ module.exports = env => {
 		plugins: [
 			new webpack.ProgressPlugin(),
 			new CopyPlugin([
-				{from: 'public/images/linotify_icon*', to: 'assets/[name].[ext]'},
-				{from: 'public/images/*.svg', to: 'assets/[name].[ext]'},
-				{from: 'locales', to: '_locales/[name]/messages.json'},
-				{from: 'public/*.html', to: '[name].[ext]'},
-				{from: 'public/fonts/*.woff', to: 'public/fonts/[name].[ext]'},
-				{from: 'public/fonts/*.woff2', to: 'public/fonts/[name].[ext]'},
+				{ from: 'locales', to: '_locales/[name]/messages.json' },
+				{ from: 'assets/images/linotify_icon*', to: 'assets/[name].[ext]' },
+				{ from: 'assets/images/*.svg', to: 'assets/[name].[ext]' },
+				{ from: 'assets/fonts/*.woff', to: 'assets/[name].[ext]' },
+				{ from: 'assets/fonts/*.woff2', to: 'assets/[name].[ext]' },
+				{ from: 'src/*/*.html', to: '[name].[ext]' },
 			]),
 			new WebpackExtensionManifestPlugin({
 				config: {
-					base: baseManifest,
+					base: manifest,
 					extend: {
 						version: pkg.version,
 						homepage_url: pkg.homepage

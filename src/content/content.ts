@@ -1,4 +1,4 @@
-import { enableStorageApiLogger, getUser, addUser, removeUser } from "./api/storage";
+import { enableStorageApiLogger, getUser, addUser, removeUser } from "../common/storage";
 import { browser } from "webextension-polyfill-ts";
 
 console.log('LiNotify is open source! https://github.com/mpunkenhofer/linotify');
@@ -12,7 +12,7 @@ const createFontStyleNode = (): void => {
     node.type = "text/css";
     node.textContent = `@font-face { 
         font-family: linotify; 
-        src: url('${browser.extension.getURL("assets/linotify.woff2")}');
+        src: url('${browser.extension.getURL("assets/fonts/linotify.woff2")}');
         font-display: block;
         font-weight: normal;
         font-style: normal;
@@ -31,8 +31,6 @@ const createNotifyButton = (userId: string): HTMLElement => {
     check.setAttribute('data-icon', 'E');
 
     button.appendChild(check);
-
-    console.log(button);
 
     button.onmouseover = (): void => {
         check.setAttribute('data-icon', 'L');

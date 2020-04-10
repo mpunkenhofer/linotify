@@ -57,23 +57,7 @@ using  [ESLint](http://eslint.org/) with typescript support by
 
 ## Project structure
 
-  - `dist/`: build output
-  - `locales`: i18n translations
-  - `public/`: misc files
-  - `public/fonts/`: font files (.woff2, .woff)
-  - `public/fonts/files/`: font dev files - if any
-  - `public/images/`: images (logos, icons, sample images)
-  - `public/manifest/base.json`: base browser extension manifest file
-  - `src/`: all LiNotify code
-  - `src/content.ts`: **content entry** file
-  - `src/background.ts`: **background entry** file
-  - `src/options.ts`: **options entry** file
-  - `src/constants/`: i18n constants, other constants defined in files used across the project
-  - `src/util/`: utility functions - if any
-  - `tsconfig.json`: compiler options
-  - `package.json`: package info, dependencies
-  - `webpack.dev.config.js`: dev build script
-  - `webpack.prod.config.js`: prod build script
+*
 
 ### Resources
 

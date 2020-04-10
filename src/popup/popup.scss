@@ -1,0 +1,132 @@
+@import "fonts";
+
+$c-user-link: #787878;
+$c-link: #1b78d0;
+$c-title: #d59020;
+$c-good: #629924;
+$c-bad: #c33;
+$c-online: $c-good;
+$c-font: #4d4d4d;
+$c-bg-page: #f7f7f7; 
+$c-body-gradient: #ebeae9;
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    width: 20em;
+    box-sizing: border-box;
+    min-height: 100%;
+}
+
+body {
+    background: $c-bg-page linear-gradient(to bottom, $c-body-gradient, $c-bg-page 50px) no-repeat;
+    color: $c-font;
+    overflow-x: hidden;
+    &.fixed-scroll {
+      /* prevents scroll bar flicker when dragging a piece out */
+      overflow-y: scroll;
+    }
+  }
+
+a {
+    cursor: pointer;
+    color: $c-link;
+    text-decoration: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.user-link {
+    color: $c-user-link;
+    font-weight: bold;
+
+    &:hover {
+        color: $c-link;
+    }
+}
+
+.title {
+    color: $c-title;
+}
+
+good {
+    color: $c-good;
+    &:before {
+        content: "N";
+    }
+}
+
+bad {
+    color: $c-bad;
+    &:before {
+        content: "M";
+    }
+}
+
+.line {
+    color: $c-font;
+    opacity: 0.5;
+    display: inline-block;
+    width: 1.5em;
+    text-align: center;
+    vertical-align: text-top;
+
+    &:before {
+        content: "Ò";
+    }
+}
+
+.user-link.online .line {
+    color: $c-online;
+    opacity: 0.9;
+    &:before {
+        content: "\e010";
+    }
+}
+
+.user-link.online .line.patron {
+    opacity: 1;
+    &:before {
+        content: "\e019";
+    }
+}
+
+.user-link .line.patron {
+    opacity: 0.8;
+    &:before {
+        content: "\e019";
+    }
+}
+
+.game-link {
+    color: $c-font;
+    opacity: .7;
+    &:before {
+        content: '4';
+    }
+    &:hover {
+        opacity: 1;
+    }
+}
+
+good::before,
+bad::before,
+.game-link::before,
+.line::before {
+    font-size: 1.2em;
+    vertical-align: middle;
+    font-family: "lichess";
+    font-style: normal;
+    font-weight: normal;
+    text-transform: none;
+    opacity: 0.9;
+}

@@ -21,6 +21,7 @@
     "icons": "py ./bin/svg2pngs.py ./public/images/linotify_icon.svg -d public/images/ -p linotify_icon -r 16 32 48 64 96 128"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.149",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
     "copy-webpack-plugin": "^5.1.1",
@@ -45,6 +46,7 @@
     "zip-webpack-plugin": "^3.0.0"
   },
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.19.2",
+    "lodash": "^4.17.15"
   }
 }
