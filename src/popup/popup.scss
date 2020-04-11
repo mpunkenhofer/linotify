@@ -131,7 +131,7 @@ bad {
     color: $c-font;
     opacity: 0.7;
     &:before {
-        content: "4";
+        content: "1";
     }
     &:hover {
         opacity: 1;
@@ -139,7 +139,6 @@ bad {
 }
 
 .user-table {
-    margin: 0.2em;
     background-color: white;
     white-space: nowrap;
 

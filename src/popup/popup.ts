@@ -11,7 +11,7 @@ const createUserCellElement = (user: User): HTMLElement => {
     userLink.href = `https://lichess.org/@/${user.id}`;
     userLink.target = '_blank';
     userLink.rel = 'noopener noreferrer'
-    userLink.innerText = user.username;
+    userLink.innerText = (user.username && user.username.length > 0) ? user.username : user.id;
 
     const line = document.createElement('i');
     line.classList.add('line');
@@ -31,7 +31,7 @@ const createUserCellElement = (user: User): HTMLElement => {
     if (user.patron) {
         line.title = 'Lichess Patron';
         line.classList.add('patron');
-    } 
+    }
 
     userLink.insertAdjacentElement('afterbegin', line);
 
@@ -48,9 +48,9 @@ const createRatingCellElement = (user: User): HTMLElement => {
 
 const createRatingProgressionElement = (user: User): HTMLElement => {
     const topPerf = topPerformance(user);
-    const progression = document.createElement(user.perfs[topPerf.mode].prog < 0 ? 'bad' : 'good');
+    const progression = document.createElement(topPerf.prog < 0 ? 'bad' : 'good');
     progression.classList.add('rp');
-    progression.innerText = user.perfs[topPerformance(user).mode].prog.toString();
+    progression.innerText = topPerf.prog.toString();
 
     return progression;
 }
@@ -76,13 +76,19 @@ const createUserTable = (): HTMLElement => {
             console.log(users);
 
             for (const user of users) {
+                if (!user || !user.id || !(user.id.length > 0))
+                    continue;
+
                 const row = table.insertRow();
                 row.insertCell().appendChild(createUserCellElement(user));
                 row.insertCell().appendChild(createRatingCellElement(user));
                 row.insertCell().appendChild(createRatingProgressionElement(user));
-                if (user.playing) {
+
+                if(user.playing)
                     row.insertCell().appendChild(createTvLinkCellElement(user));
-                }
+                else
+                    row.insertCell();
+
             }
         })
         .catch(err => console.error(err));
@@ -92,7 +98,14 @@ const createUserTable = (): HTMLElement => {
     return wrapper;
 }
 
+const createCollapseAble  = (content: HTMLElement): HTMLElement => {
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('collapseable');
+
+    wrapper.appendChild(content);
+    return wrapper;
+}
 
 const root = document.getElementById('root');
 
-root?.appendChild(createUserTable());
+root?.appendChild(createCollapseAble(createUserTable()));

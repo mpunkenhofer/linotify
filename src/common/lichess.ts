@@ -3,7 +3,7 @@ import { User, UserStatus } from './types';
 
 const lichessApi = axios.create({
     baseURL: 'https://lichess.org/api/',
-    timeout: 1000
+    timeout: 10000
 });
 
 export const getUserStatus = async (ids: string[] | string): Promise<UserStatus[]> => {

@@ -1,14 +1,16 @@
 import { User, RatingType } from "./types";
 
-export const topPerformance = (user: User): {mode: RatingType; rating: number} => {
-    let topPerf: {mode: RatingType; rating: number} = {mode: 'bullet', rating: 1500};
+const interestingRatings = ['bullet', 'blitz', 'rapid', 'classical', 'ultraBullet', 'crazyhouse', 'antichess', 'atomic', 'threeCheck', 'kingOfTheHill', 'horde', 'racingKings'];
 
-    for(const key in user.perfs) {
+export const topPerformance = (user: User): { mode: RatingType; rating: number; prog: number } => {
+    let topPerf: { mode: RatingType; rating: number; prog: number } = { mode: 'bullet', rating: 1500, prog: 0 };
+
+    for (const key in user.perfs) {
         const perf = user.perfs[key];
-        
-        if(perf) {
-            if(perf.rating > topPerf.rating)
-                topPerf = {mode: key as RatingType, rating: perf.rating};
+
+        if (perf && interestingRatings.includes(key)) {
+            if (perf.rating > topPerf.rating)
+                topPerf = { mode: key as RatingType, rating: perf.rating, prog: perf.prog };
         }
     }
 

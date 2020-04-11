@@ -33,5 +33,6 @@ export const ICONS = {
     'ograve': 'Ò',
     'patron': '\ue019',
     'online': '\ue010',
+    'tv': '1',
     'delicious': '4'
 }

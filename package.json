@@ -18,12 +18,13 @@
     "predev": "rimraf dist",
     "dev": "cross-env NODE_ENV=development webpack --config webpack.dev.config.js --mode=development --watch --display-error-details",
     "lint": "eslint . --ext .js,.ts",
-    "icons": "py ./bin/svg2pngs.py ./public/images/linotify_icon.svg -d public/images/ -p linotify_icon -r 16 32 48 64 96 128"
+    "icons": "py ./bin/svg2pngs.py ./assets/images/files/linotify_icon_v2.svg -d assets/images/ -p linotify_icon -r 16 32 48 64 96 128"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.149",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
+    "bootstrap": "^4.4.1",
     "copy-webpack-plugin": "^5.1.1",
     "cross-env": "^7.0.2",
     "css-loader": "^3.5.1",
