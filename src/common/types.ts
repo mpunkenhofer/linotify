@@ -1,4 +1,5 @@
 export type TitleType = 'LM' | 'CM' | 'WCM' | 'NM' | 'WNM' | 'FM' | 'WFM' | 'IM' | 'WIM' | 'GM' | 'WGM' | '';
+export type RatingType = 'bullet' | 'blitz' | 'rapid' | 'classical' | 'ultraBullet' | 'crazyhouse' | 'antichess' | 'atomic' | 'threeCheck' | 'kingOfTheHill' | 'horde' | 'racingKings' | 'correspondence' | 'puzzle';
 
 export interface User {
     id: string;
@@ -7,7 +8,7 @@ export interface User {
     online: boolean;
     playing: string | boolean;
     patron: boolean;
-    perfs: {[_: string]: {rating: number; prog: number}};
+    perfs: {[_: string]: {games: number; rating: number; prog: number; prov: boolean}};
     seenAt: number;
 }
 

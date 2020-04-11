@@ -53,7 +53,7 @@ export const getUserData = async (id: string): Promise<User> => {
                 username: response.data.username || id,
                 title: response.data.title || '',
                 online: response.data.online || false,
-                playing: response.data.playing || false,
+                playing: response.data.playing ? true : false || false,
                 patron: response.data.patron || false,
                 perfs: response.data.perfs || {},
                 seenAt: response.data.seenAt || 0,

@@ -1,10 +1,12 @@
 import { browser } from "webextension-polyfill-ts";
 import { User } from "./types";
 import { getUserData } from "./lichess";
+import { topPerformance } from "./util";
 
-const setUsers = async (users: User[]): Promise<void> => {
+const setUser = async (user: User): Promise<void> => {
     try {
-        await browser.storage.sync.set({ ['users']: users });
+        // TODO: can fail if storage full
+        await browser.storage.sync.set({[user.id]: user});
     } catch (err) {
         console.error(err);
     }
@@ -12,41 +14,81 @@ const setUsers = async (users: User[]): Promise<void> => {
     return;
 }
 
+// const setUsers = async (users: User[]): Promise<void> => {
+//     try {
+//         // TODO: can fail if storage full
+//         const usersObj = users.reduce((a, b) => Object.assign(a, { [b.id]: b }), {});
+//         await browser.storage.sync.set(usersObj);
+//     } catch (err) {
+//         console.error(err);
+//     }
+
+//     return;
+// }
+
 export const getUsers = async (): Promise<User[]> => {
     try {
-        const users = (await browser.storage.sync.get('users'))['users'];
+        const usersObj = await browser.storage.sync.get(null);
 
-        if (users === undefined) {
-            setUsers([]);
-            return []
-        } else {
-            return users;
+        if (usersObj !== undefined) {
+            const users: User[] = Object.values(usersObj);
+
+            if (users) {
+                users.sort((a, b) => {
+                    if (a.playing) {
+                        if (b.playing)
+                            return topPerformance(b).rating - topPerformance(a).rating;
+                        else
+                            return -1;
+                    } else if (b.playing) {
+                        return 1;
+                    } else if (a.online) {
+                        if (b.online)
+                            return topPerformance(b).rating - topPerformance(a).rating;
+                        else
+                            return -1;
+                    } else if (b.online) {
+                        return 1;
+                    } else {
+                        return topPerformance(b).rating - topPerformance(a).rating;
+                    }
+                });
+
+                return users;
+            }
         }
     } catch (err) {
         console.error(err);
-        return [];
     }
 
+    return [];
+}
+
+export const removeUser = (id: string): Promise<void> => {
+    try {
+        return browser.storage.sync.remove(id);
+    } catch(err) {
+        console.error(err);
+    }
+
+    return Promise.resolve();
 }
 
 export const getUser = async (id: string): Promise<User | null> => {
-    const users = await getUsers();
-    return users.find(u => u.id.toLowerCase() === id.toLowerCase()) || null;
+    try {
+        const user = await browser.storage.sync.get(id);
+
+        if(user)
+            return user[id] || null;
+    } catch(err) {
+        console.error(err);
+    }
+
+    return null;
 }
 
-export const updateUser = async (user: User): Promise<User[]> => {
-    const users = await getUsers();
-
-    const updatedUsers = users.map(u => {
-        if (u.id.toLowerCase() === user.id.toLowerCase()) {
-            return user;
-        } else {
-            return u;
-        }
-    });
-
-    await setUsers(updatedUsers);
-    return updatedUsers;
+export const updateUser = (user: User): Promise<void> => {
+    return setUser(user);
 }
 
 const createUser = (id: string): User => (
@@ -63,17 +105,10 @@ const createUser = (id: string): User => (
 );
 
 export const addUser = async (id: string): Promise<void> => {
-    const users = await getUsers();
     const newUser = createUser(id);
-    const updatedUsers = [...users, newUser];
-    await setUsers(updatedUsers);
+    await setUser(newUser);
     getUserData(id).then(user => updateUser(user)).catch(err => console.error(err));
-}
-
-export const removeUser = async (id: string): Promise<void> => {
-    const users = await getUsers();
-    const updatedUsers = users.filter(u => u.id.toLowerCase() != id.toLowerCase());
-    await setUsers(updatedUsers);
+    return;
 }
 
 export const enableStorageApiLogger = (): void => {

@@ -1,6 +1,7 @@
 import { getUsers } from "../common/storage";
 import { User } from "../common/types";
-import { TITLES } from "../constants";
+import { TITLES, ICONS } from "../constants";
+import { topPerformance } from "../common/util";
 
 console.log('LiNotify is open source! https://github.com/mpunkenhofer/linotify');
 
@@ -28,9 +29,9 @@ const createUserCellElement = (user: User): HTMLElement => {
     }
 
     if (user.patron) {
-        line.classList.add('patron');
         line.title = 'Lichess Patron';
-    }
+        line.classList.add('patron');
+    } 
 
     userLink.insertAdjacentElement('afterbegin', line);
 
@@ -39,45 +40,56 @@ const createUserCellElement = (user: User): HTMLElement => {
 
 const createRatingCellElement = (user: User): HTMLElement => {
     const rating = document.createElement('span');
-    rating.innerText = user.perfs['bullet'].rating.toString() || '1500';
+    const topPerf = topPerformance(user);
+    rating.innerText = topPerf.rating.toString() || '?';
+    rating.setAttribute('data-icon', ICONS[topPerf.mode] || ICONS['bullet']);
     return rating;
 }
 
 const createRatingProgressionElement = (user: User): HTMLElement => {
-    const progression = document.createElement(user.perfs['bullet'].prog < 0 ? 'bad' : 'good');
-    progression.innerText = user.perfs['bullet'].prog.toString();
+    const topPerf = topPerformance(user);
+    const progression = document.createElement(user.perfs[topPerf.mode].prog < 0 ? 'bad' : 'good');
+    progression.classList.add('rp');
+    progression.innerText = user.perfs[topPerformance(user).mode].prog.toString();
+
     return progression;
 }
 
-const createLiveGameLinkCellElement = (user: User): HTMLElement => {
+const createTvLinkCellElement = (user: User): HTMLElement => {
     const gameLink = document.createElement('a');
     gameLink.classList.add('game-link');
-    gameLink.href = `https://lichess.org/@/${user.id}`;
+    gameLink.href = `https://lichess.org/@/${user.id}/tv`;
     gameLink.target = '_blank';
     gameLink.rel = 'noopener noreferrer'
 
-    console.log(user);
-    
     return gameLink;
 }
 
-const createUserTable = (): HTMLTableElement => {
+const createUserTable = (): HTMLElement => {
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('user-table');
+
     const table = document.createElement('table');
+
     getUsers()
         .then(users => {
+            console.log(users);
+
             for (const user of users) {
                 const row = table.insertRow();
                 row.insertCell().appendChild(createUserCellElement(user));
                 row.insertCell().appendChild(createRatingCellElement(user));
                 row.insertCell().appendChild(createRatingProgressionElement(user));
-                if(user.playing) {
-                    row.insertCell().appendChild(createLiveGameLinkCellElement(user));
+                if (user.playing) {
+                    row.insertCell().appendChild(createTvLinkCellElement(user));
                 }
             }
         })
         .catch(err => console.error(err));
 
-    return table;
+    wrapper.appendChild(table);
+
+    return wrapper;
 }
 
 

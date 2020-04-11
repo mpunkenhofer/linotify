@@ -42,8 +42,8 @@ module.exports = env => {
 				{ from: 'locales', to: '_locales/[name]/messages.json' },
 				{ from: 'assets/images/linotify_icon*', to: 'assets/[name].[ext]' },
 				{ from: 'assets/images/*.svg', to: 'assets/[name].[ext]' },
-				{ from: 'assets/fonts/*.woff', to: 'assets/[name].[ext]' },
-				{ from: 'assets/fonts/*.woff2', to: 'assets/[name].[ext]' },
+				{ from: 'assets/fonts/*.woff', to: 'assets/fonts/[name].[ext]' },
+				{ from: 'assets/fonts/*.woff2', to: 'assets/fonts/[name].[ext]' },
 				{ from: 'src/*/*.html', to: '[name].[ext]' },
 			]),
 			new WebpackExtensionManifestPlugin({
