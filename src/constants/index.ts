@@ -1,3 +1,14 @@
+import { Preferences } from "../common/types";
+
+export const defaultPreferences: Preferences = {
+    popupTheme: 'light',
+    popupCollapsibleStatuses: {
+        playing: true,
+        online: true,
+        offline: false,
+    }
+}
+
 export const TITLES = {
     'LM': 'Lichess Master',
     'CM': 'Candidate Master',

@@ -8,7 +8,7 @@ export interface User {
     online: boolean;
     playing: string | boolean;
     patron: boolean;
-    perfs: {[_: string]: {games: number; rating: number; prog: number; prov: boolean}};
+    perfs: { [_: string]: { games: number; rating: number; prog: number; prov: boolean } };
     seenAt: number;
     lastApiUpdate: number;
 }
@@ -20,12 +20,14 @@ export interface UserStatus {
     playing: boolean;
 }
 
-export interface Preferences {
-    collapsibleStatuses: CollapsibleStatuses;
-}
+export type PopupThemeType = 'dark' | 'light';
+export type PopupCollapsibleStatusesType = 'playing' | 'online' | 'offline';
 
-export interface CollapsibleStatuses {
-    playing: boolean;
-    online: boolean;
-    offline: boolean;
+export interface Preferences {
+    popupTheme: PopupThemeType;
+    popupCollapsibleStatuses: {
+        playing: boolean;
+        online: boolean;
+        offline: boolean;
+    };
 }

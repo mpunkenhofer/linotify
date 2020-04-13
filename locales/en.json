@@ -15,6 +15,15 @@
   "patron": {
     "message": "Lichess Patron"
   },
+  "online": {
+    "message": "Online"
+  },
+  "offline": {
+    "message": "Offline"
+  },
+  "playing": {
+    "message": "Playing"
+  },
   "options": {
     "message": "Options"
   },

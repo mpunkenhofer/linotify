@@ -1,4 +1,4 @@
-@import "light";
+@import "themes";
 
 .user-table,
 table,
@@ -8,9 +8,13 @@ tr {
 }
 
 .user-table {
-    background-color: $c-bg-page-tertiary;
+    @include themify() {
+        background-color: themed('bg-tertiary');
+        border: 1px solid themed('border-primary');
+    }
+
     white-space: nowrap;
-    border: 1px solid $c-border-color;
+
 
     td {
         display: table-cell;
@@ -22,30 +26,44 @@ tr {
 
     tr {
         &:nth-child(odd) {
-            background: $c-bg-page-secondary;
+            @include themify() {
+                background-color: themed('bg-secondary');
+            }
         }
     }
 
     .user-link {
-        color: $c-user-link;
+        @include themify() {
+            color: themed('user-link');
+        }
+
         font-weight: bold;
 
         &:hover {
-            color: $c-link;
+            @include themify() {
+                color: themed('link');
+            }
         }
     }
 
     .title {
-        color: $c-title;
+        @include themify() {
+            color: themed('chess-title');
+        }
+
         padding-right: 0.5em;
     }
 
     good {
-        color: $c-good;
+        @include themify() {
+            color: themed('good');
+        }
     }
 
     bad {
-        color: $c-bad;
+        @include themify() {
+            color: themed('bad');
+        }
     }
 
     .rp {
@@ -53,7 +71,10 @@ tr {
     }
 
     .line {
-        color: $c-font;
+        @include themify() {
+            color: themed('font');
+        }
+
         opacity: 0.5;
         display: inline-block;
         width: 1.5em;
@@ -62,7 +83,10 @@ tr {
     }
 
     .user-link.online .line {
-        color: $c-online;
+        @include themify() {
+            color: themed('online');
+        }
+
         opacity: 0.9;
     }
 
@@ -75,10 +99,16 @@ tr {
     }
 
     .game-link {
-        color: $c-font;
+        @include themify() {
+            color: themed('font');
+        }
+
         opacity: 1;
         &:hover {
-            color: $c-link;
+            @include themify() {
+                color: themed('link');
+            }
+
             opacity: 1;
         }
     }

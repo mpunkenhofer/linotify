@@ -1,20 +1,26 @@
-@import "light";
+@import "themes";
 
 .footer {
     display: flex;
-    margin: .5em .5em .2em .5em;
+    margin: 0.5em 0.5em 0.2em 0.5em;
 
-    .options-link, .github-link {
-        color: $c-font;
+    .options-link,
+    .github-link {
+        @include themify() {
+            color: themed("font");
+        }
+
         opacity: 0.8;
         margin-right: 1em;
 
         &::before {
-            margin-right: .3em;
+            margin-right: 0.3em;
         }
 
         &:hover {
-            color: $c-link;
+            @include themify() {
+                color: themed("link");
+            }
             opacity: 1;
         }
     }

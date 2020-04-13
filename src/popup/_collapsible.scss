@@ -1,19 +1,25 @@
-@import "light";
+@import "themes";
 
 .collapsible {
     margin-bottom: 0.5em;
     .collapsible-btn {
+        @include themify() {
+            color: themed('font');
+        }
+
         display: flex;
         flex-direction: row;
         text-decoration: none;
         font-weight: bold;
-        color: $c-font;
         user-select: none;
 
         &:after {
+            @include themify() {
+                border-bottom: 1px solid themed('border-secondary');
+            }
+
             content: "";
             flex: 1 1;
-            border-bottom: 1px solid $c-font;
             margin: auto;
         }
 

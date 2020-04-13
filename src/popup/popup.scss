@@ -1,18 +1,20 @@
+@import "themes";
 @import "common";
 @import "fonts";
 @import "icons";
-@import "light";
 @import "table";
 @import "collapsible";
 @import "footer";
 
 html {
-    min-width: 20em;
+    min-width: 22em;
 }
 
 main {
-    background-color: $c-bg-page;
-    color: $c-font;
+    @include themify() {
+        background-color: themed('bg-primary');
+        color: themed('font');
+    }
 
     padding: .5em;
 }

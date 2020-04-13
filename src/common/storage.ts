@@ -1,20 +1,13 @@
 import { browser } from "webextension-polyfill-ts";
-import { User, Preferences } from "./types";
+import { User, Preferences, PopupThemeType, PopupCollapsibleStatusesType } from "./types";
 import { getUserData } from "./lichess";
 import { topPerformance } from "./util";
-
-const defaultPreferences: Preferences = {
-    collapsibleStatuses: {
-        playing: true,
-        online: true,
-        offline: false,
-    }
-}
+import { defaultPreferences } from "../constants";
 
 const setPreferences = async (preferences: Preferences): Promise<void> => {
     try {
-        await browser.storage.local.set({'preferences': preferences});
-    } catch(err) {
+        await browser.storage.local.set({ 'preferences': preferences });
+    } catch (err) {
         console.error(err);
     }
 
@@ -25,47 +18,42 @@ export const getPreferences = async (): Promise<Preferences> => {
     try {
         const prefs = await browser.storage.local.get('preferences');
 
-        if(prefs && prefs['preferences'] !== undefined)
+        if (prefs && prefs['preferences'] !== undefined)
             return prefs['preferences'];
         else
             setPreferences(defaultPreferences);
-    } catch(err) {
+    } catch (err) {
         console.error(err);
     }
 
     return defaultPreferences;
 }
 
-export const setCollapsibleStatus = async (status: 'playing' | 'online' | 'offline', value: boolean): Promise<void> => {
+export const setTheme = async (theme: PopupThemeType): Promise<void> => {
     const prefs = await getPreferences();
-    const updatedPrefs = {...prefs, collapsibleStatuses: {...prefs.collapsibleStatuses, [status]: value}};
+    const updatedPrefs: Preferences = { ...prefs, popupTheme: theme };
     await setPreferences(updatedPrefs);
     return;
 }
 
-export const toggleCollapsibleStatus = async(status: 'playing' | 'online' | 'offline'): Promise<void> => {
+export const setCollapsibleStatus = async (status: PopupCollapsibleStatusesType, value: boolean): Promise<void> => {
     const prefs = await getPreferences();
-    const updatedPrefs = {...prefs, collapsibleStatuses: {...prefs.collapsibleStatuses, [status]: !prefs.collapsibleStatuses[status]}};
+    const updatedPrefs: Preferences = { ...prefs, popupCollapsibleStatuses: { ...prefs.popupCollapsibleStatuses, [status]: value } };
     await setPreferences(updatedPrefs);
     return;
 }
 
-// const setUsers = async (users: User[]): Promise<void> => {
-//     try {
-//         // TODO: can fail if storage full
-//         const usersObj = users.reduce((a, b) => Object.assign(a, { [b.id]: b }), {});
-//         await browser.storage.sync.set(usersObj);
-//     } catch (err) {
-//         console.error(err);
-//     }
-
-//     return;
-// }
+export const toggleCollapsibleStatus = async (status: PopupCollapsibleStatusesType): Promise<void> => {
+    const prefs = await getPreferences();
+    const updatedPrefs: Preferences = { ...prefs, popupCollapsibleStatuses: { ...prefs.popupCollapsibleStatuses, [status]: !prefs.popupCollapsibleStatuses[status] } };
+    await setPreferences(updatedPrefs);
+    return;
+}
 
 const setUser = async (user: User): Promise<void> => {
     try {
         // TODO: can fail if storage full
-        await browser.storage.sync.set({[user.id]: user});
+        await browser.storage.sync.set({ [user.id]: user });
     } catch (err) {
         console.error(err);
     }
@@ -114,7 +102,7 @@ export const getUsers = async (): Promise<User[]> => {
 export const removeUser = (id: string): Promise<void> => {
     try {
         return browser.storage.sync.remove(id);
-    } catch(err) {
+    } catch (err) {
         console.error(err);
     }
 
@@ -125,9 +113,9 @@ export const getUser = async (id: string): Promise<User | null> => {
     try {
         const user = await browser.storage.sync.get(id);
 
-        if(user && user[id] != undefined)
+        if (user && user[id] != undefined)
             return user[id];
-    } catch(err) {
+    } catch (err) {
         console.error(err);
     }
 

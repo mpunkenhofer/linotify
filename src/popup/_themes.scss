@@ -1,0 +1,43 @@
+$themes: (
+    light: (
+        user-link: #787878,
+        link: #1b78d0,
+        chess-title: #d59020,
+        good: #629924,
+        online: #629924,
+        bad: #c33,
+        font: #4d4d4d,
+        bg-primary: #f7f7f7,
+        bg-secondary: #f7f6f5,
+        bg-tertiary: #ffffff,
+        border-primary: #d9d9d9,
+        border-secondary: #4d4d4d,
+    ),
+    dark: (
+        user-link: #999,
+        link: #3692e7,
+        chess-title: #bf811d,
+        good: #629924,
+        online: #629924,
+        bad: #c33,
+        font: #bababa,
+        bg-primary: #1a1918,
+        bg-secondary: #302e2c,
+        bg-tertiary: #262421,
+        border-primary: #404040,
+        border-secondary: #919191,
+    ),
+);
+
+@mixin themify() {
+    @each $theme, $map in $themes {
+        $theme-map: map-get($themes, $theme) !global;
+        .theme--#{$theme} & {
+            @content;
+        }
+    }
+}
+
+@function themed($key) {
+    @return map-get($theme-map, $key);
+  }

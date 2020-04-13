@@ -1,5 +1,5 @@
-import { getUsers, getPreferences, toggleCollapsibleStatus, enableStorageApiLogger } from "../common/storage";
-import { User } from "../common/types";
+import { getUsers, getPreferences, toggleCollapsibleStatus, enableStorageApiLogger, setTheme } from "../common/storage";
+import { User, PopupThemeType } from "../common/types";
 import { TITLES, ICONS, GITHUB, clearBadgeTextMessage } from "../constants";
 import { topPerformance } from "../common/util";
 import { isString } from "lodash";
@@ -102,13 +102,13 @@ const createUserTable = (users: User[]): HTMLElement => {
 }
 
 interface CollapsibleProps {
-    element: HTMLElement; 
+    element: HTMLElement;
     title: HTMLElement | string;
     show?: boolean;
     onShow?: () => void;
 }
 
-const createCollapsible = ({element, title, show, onShow}: CollapsibleProps): HTMLElement => {
+const createCollapsible = ({ element, title, show, onShow }: CollapsibleProps): HTMLElement => {
     const wrapper = document.createElement('div');
     wrapper.classList.add('collapsible');
 
@@ -129,9 +129,9 @@ const createCollapsible = ({element, title, show, onShow}: CollapsibleProps): HT
             header.setAttribute('data-icon', 'E');
         }
 
-        if(onShow !== undefined)
-                onShow();
-                
+        if (onShow !== undefined)
+            onShow();
+
         elementWrapper.classList.toggle('show');
     }
 
@@ -151,7 +151,27 @@ const createCollapsible = ({element, title, show, onShow}: CollapsibleProps): HT
     return wrapper;
 }
 
-const createFooter = (): HTMLElement => {
+const toggleTheme = (): void => {
+    if (document.body.classList.contains('theme--dark')) {
+        document.body.classList.replace('theme--dark', 'theme--light');
+    } else {
+        document.body.classList.replace('theme--light', 'theme--dark');
+    }
+}
+
+const setInitialTheme = (theme: PopupThemeType): void => {
+    if(document.body.classList.contains('theme--light') || document.body.classList.contains('theme--dark')) {
+        if(theme == 'dark' && document.body.classList.contains('theme--light'))
+            toggleTheme();
+    } else {
+        if(theme == 'light')
+            document.body.classList.add('theme--light');
+        else
+            document.body.classList.add('theme--dark');
+    }
+}
+
+const createFooter = (onThemeSwitch?: (newTheme: PopupThemeType) => void): HTMLElement => {
     const footer = document.createElement('div');
     footer.classList.add('footer');
 
@@ -169,31 +189,41 @@ const createFooter = (): HTMLElement => {
     github.target = '_blank';
     github.rel = 'noopener noreferrer'
 
+    const theme = document.createElement('a');
+    theme.textContent = 'theme-switch';
+    theme.onclick = (): void => {
+        toggleTheme();
+        if (onThemeSwitch) {
+            const newTheme = document.body.classList.contains('theme--dark') ? 'dark' : 'light';
+            onThemeSwitch(newTheme);
+        }
+    }
+
     const version = document.createElement('span');
     version.classList.add('version');
     version.textContent = `v${pkg.version}`;
 
     footer.appendChild(options);
     footer.appendChild(github);
+    footer.appendChild(theme);
     footer.appendChild(version);
 
     return footer;
 }
 
 const requestClearBadgeText = (): void => {
-    browser.runtime.sendMessage({ 'request': clearBadgeTextMessage }).catch(err => console.log(err));
+    browser.runtime.sendMessage({ 'request': clearBadgeTextMessage }).catch(err => console.error(err));
 }
 
 const root = document.getElementById('root');
 
 getPreferences()
     .then(prefs => {
+        setInitialTheme(prefs.popupTheme);
         getUsers()
             .then(users => {
                 // clear badge
                 requestClearBadgeText();
-                
-                console.log(prefs);
 
                 const playing = users.filter(u => u.playing);
                 const online = users.filter(u => !u.playing && u.online);
@@ -202,29 +232,29 @@ getPreferences()
                 offline.length > 0 &&
                     root?.insertAdjacentElement('afterbegin',
                         createCollapsible({
-                            element: createUserTable(offline), 
-                            title: `Offline (${offline.length})`,
-                            show: prefs.collapsibleStatuses.offline,
+                            element: createUserTable(offline),
+                            title: `${i18n.offline} (${offline.length})`,
+                            show: prefs.popupCollapsibleStatuses.offline,
                             onShow: () => toggleCollapsibleStatus('offline')
                         }));
                 online.length > 0 &&
                     root?.insertAdjacentElement('afterbegin',
                         createCollapsible({
-                            element: createUserTable(online), 
-                            title: `Online (${online.length})`,
-                            show: prefs.collapsibleStatuses.online,
+                            element: createUserTable(online),
+                            title: `${i18n.online} (${online.length})`,
+                            show: prefs.popupCollapsibleStatuses.online,
                             onShow: () => toggleCollapsibleStatus('online')
                         }));
                 playing.length > 0 &&
                     root?.insertAdjacentElement('afterbegin',
                         createCollapsible({
-                            element: createUserTable(playing), 
-                            title: `Playing (${playing.length})`,
-                            show: prefs.collapsibleStatuses.playing,
+                            element: createUserTable(playing),
+                            title: `${i18n.playing} (${playing.length})`,
+                            show: prefs.popupCollapsibleStatuses.playing,
                             onShow: () => toggleCollapsibleStatus('playing')
                         }));
             })
-    }).catch(err => console.log(err));
+    }).catch(err => console.error(err));
 
-root?.insertAdjacentElement('beforeend', createFooter());
+root?.insertAdjacentElement('beforeend', createFooter(setTheme));
 
