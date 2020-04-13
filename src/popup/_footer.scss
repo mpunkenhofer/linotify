@@ -1,0 +1,25 @@
+@import "light";
+
+.footer {
+    display: flex;
+    margin: .5em .5em .2em .5em;
+
+    .options-link, .github-link {
+        color: $c-font;
+        opacity: 0.8;
+        margin-right: 1em;
+
+        &::before {
+            margin-right: .3em;
+        }
+
+        &:hover {
+            color: $c-link;
+            opacity: 1;
+        }
+    }
+
+    .version {
+        margin-left: auto;
+    }
+}

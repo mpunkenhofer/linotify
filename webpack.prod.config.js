@@ -30,12 +30,11 @@ module.exports = env => {
 			background: './src/background/background.ts',
 		},
 	
-
 		output: {
 			path: path.resolve(__dirname, 'dist'),
 			filename: '[name].js',
 		},
-
+	
 		plugins: [
 			new webpack.ProgressPlugin(),
 			new CopyPlugin([
@@ -44,6 +43,7 @@ module.exports = env => {
 				{ from: 'assets/images/*.svg', to: 'assets/[name].[ext]' },
 				{ from: 'assets/fonts/*.woff', to: 'assets/fonts/[name].[ext]' },
 				{ from: 'assets/fonts/*.woff2', to: 'assets/fonts/[name].[ext]' },
+				{ from: 'assets/sounds/*', to: 'assets/sounds/[name].[ext]' },
 				{ from: 'src/*/*.html', to: '[name].[ext]' },
 			]),
 			new WebpackExtensionManifestPlugin({

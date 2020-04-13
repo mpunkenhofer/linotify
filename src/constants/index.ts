@@ -36,3 +36,7 @@ export const ICONS = {
     'tv': '1',
     'delicious': '4'
 }
+
+export const clearBadgeTextMessage = 'clearBadgeText';
+
+export const GITHUB = 'https://github.com/mpunkenhofer/linotify';

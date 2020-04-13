@@ -1,0 +1,50 @@
+@import "light";
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: "Noto Sans", Sans-Serif;
+    font-size: 1em;
+
+    box-sizing: border-box;
+    //min-height: 100%;
+}
+
+body {
+    overflow-x: hidden;
+    &.fixed-scroll {
+        /* prevents scroll bar flicker when dragging a piece out */
+        overflow-y: scroll;
+    }
+}
+
+a {
+    cursor: pointer;
+    color: $c-link;
+    text-decoration: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: middle;
+    text-align: inherit;
+}

@@ -1,0 +1,38 @@
+@import "light";
+
+.collapsible {
+    margin-bottom: 0.5em;
+    .collapsible-btn {
+        display: flex;
+        flex-direction: row;
+        text-decoration: none;
+        font-weight: bold;
+        color: $c-font;
+        user-select: none;
+
+        &:after {
+            content: "";
+            flex: 1 1;
+            border-bottom: 1px solid $c-font;
+            margin: auto;
+        }
+
+        &:after {
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+        }
+    }
+
+    .collapsible-content {
+        display: none;
+        overflow: hidden;
+    }
+
+    .collapsible-content.show {
+        display: block;
+    }
+
+    .collapsible-content {
+        padding: 0.5em 1em;
+    }
+}

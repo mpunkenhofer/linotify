@@ -10,6 +10,7 @@ export interface User {
     patron: boolean;
     perfs: {[_: string]: {games: number; rating: number; prog: number; prov: boolean}};
     seenAt: number;
+    lastApiUpdate: number;
 }
 
 export interface UserStatus {
@@ -17,4 +18,14 @@ export interface UserStatus {
     id: string;
     online: boolean;
     playing: boolean;
+}
+
+export interface Preferences {
+    collapsibleStatuses: CollapsibleStatuses;
+}
+
+export interface CollapsibleStatuses {
+    playing: boolean;
+    online: boolean;
+    offline: boolean;
 }

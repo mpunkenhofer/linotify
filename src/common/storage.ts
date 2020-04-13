@@ -1,16 +1,52 @@
 import { browser } from "webextension-polyfill-ts";
-import { User } from "./types";
+import { User, Preferences } from "./types";
 import { getUserData } from "./lichess";
 import { topPerformance } from "./util";
 
-const setUser = async (user: User): Promise<void> => {
+const defaultPreferences: Preferences = {
+    collapsibleStatuses: {
+        playing: true,
+        online: true,
+        offline: false,
+    }
+}
+
+const setPreferences = async (preferences: Preferences): Promise<void> => {
     try {
-        // TODO: can fail if storage full
-        await browser.storage.sync.set({[user.id]: user});
-    } catch (err) {
+        await browser.storage.local.set({'preferences': preferences});
+    } catch(err) {
         console.error(err);
     }
 
+    return;
+}
+
+export const getPreferences = async (): Promise<Preferences> => {
+    try {
+        const prefs = await browser.storage.local.get('preferences');
+
+        if(prefs && prefs['preferences'] !== undefined)
+            return prefs['preferences'];
+        else
+            setPreferences(defaultPreferences);
+    } catch(err) {
+        console.error(err);
+    }
+
+    return defaultPreferences;
+}
+
+export const setCollapsibleStatus = async (status: 'playing' | 'online' | 'offline', value: boolean): Promise<void> => {
+    const prefs = await getPreferences();
+    const updatedPrefs = {...prefs, collapsibleStatuses: {...prefs.collapsibleStatuses, [status]: value}};
+    await setPreferences(updatedPrefs);
+    return;
+}
+
+export const toggleCollapsibleStatus = async(status: 'playing' | 'online' | 'offline'): Promise<void> => {
+    const prefs = await getPreferences();
+    const updatedPrefs = {...prefs, collapsibleStatuses: {...prefs.collapsibleStatuses, [status]: !prefs.collapsibleStatuses[status]}};
+    await setPreferences(updatedPrefs);
     return;
 }
 
@@ -25,6 +61,17 @@ const setUser = async (user: User): Promise<void> => {
 
 //     return;
 // }
+
+const setUser = async (user: User): Promise<void> => {
+    try {
+        // TODO: can fail if storage full
+        await browser.storage.sync.set({[user.id]: user});
+    } catch (err) {
+        console.error(err);
+    }
+
+    return;
+}
 
 export const getUsers = async (): Promise<User[]> => {
     try {
@@ -78,8 +125,8 @@ export const getUser = async (id: string): Promise<User | null> => {
     try {
         const user = await browser.storage.sync.get(id);
 
-        if(user)
-            return user[id] || null;
+        if(user && user[id] != undefined)
+            return user[id];
     } catch(err) {
         console.error(err);
     }
@@ -94,13 +141,14 @@ export const updateUser = (user: User): Promise<void> => {
 const createUser = (id: string): User => (
     {
         id,
-        username: '',
+        username: id,
         title: '',
         online: false,
         playing: false,
         patron: false,
         perfs: {},
         seenAt: 0,
+        lastApiUpdate: 0,
     }
 );
 

@@ -43,6 +43,7 @@ module.exports = {
             { from: 'assets/images/*.svg', to: 'assets/[name].[ext]' },
             { from: 'assets/fonts/*.woff', to: 'assets/fonts/[name].[ext]' },
             { from: 'assets/fonts/*.woff2', to: 'assets/fonts/[name].[ext]' },
+            { from: 'assets/sounds/*', to: 'assets/sounds/[name].[ext]' },
             { from: 'src/*/*.html', to: '[name].[ext]' },
         ]),
         new WebpackExtensionManifestPlugin({

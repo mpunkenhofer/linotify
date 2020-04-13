@@ -57,6 +57,7 @@ export const getUserData = async (id: string): Promise<User> => {
                 patron: response.data.patron || false,
                 perfs: response.data.perfs || {},
                 seenAt: response.data.seenAt || 0,
+                lastApiUpdate: Date.now()
             };
         } else {
             return Promise.reject(`unexpected status code: ${response.status}`);

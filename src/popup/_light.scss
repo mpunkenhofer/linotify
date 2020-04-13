@@ -1,0 +1,63 @@
+$c-user-link: #787878;
+$c-link: #1b78d0;
+$c-title: #d59020;
+$c-good: #629924;
+$c-bad: #c33;
+$c-online: $c-good;
+$c-font: #4d4d4d;
+$c-bg-page: #f7f7f7;
+$c-bg-page-secondary: #f7f6f5;
+$c-bg-page-tertiary: #ffffff;
+$c-body-gradient: #ebeae9;
+$c-border-color: #d9d9d9;
+
+// $themes: (
+//     light: (
+//         $c-user-link: #787878,
+//         $c-link: #1b78d0,
+//         $c-title: #d59020,
+//         $c-good: #629924,
+//         $c-bad: #c33,
+//         $c-online: $c-good,
+//         $c-font: #4d4d4d,
+//         $c-bg-page: #f7f7f7,
+//         $c-bg-page-secondary: #f7f6f5,
+//         $c-bg-page-tertiary: #ffffff,
+//         $c-body-gradient: #ebeae9,
+//         $c-border-color: #d9d9d9,
+//     ),
+//     dark: (
+//         $c-user-link: #787878,
+//         $c-link: #1b78d0,
+//         $c-title: #d59020,
+//         $c-good: #629924,
+//         $c-bad: #c33,
+//         $c-online: $c-good,
+//         $c-font: #4d4d4d,
+//         $c-bg-page: #f7f7f7,
+//         $c-bg-page-secondary: #f7f6f5,
+//         $c-bg-page-tertiary: #ffffff,
+//         $c-body-gradient: #ebeae9,
+//         $c-border-color: #d9d9d9,
+//     ),
+// );
+
+// @mixin themify($themes: $themes) {
+//     @each $theme, $map in $themes {
+//         .theme-#{$theme} & {
+//             $theme-map: () !global;
+//             @each $key, $submap in $map {
+//                 $value: map-get(map-get($themes, $theme), "#{$key}");
+//                 $theme-map: map-merge(
+//                     $theme-map,
+//                     (
+//                         $key: $value,
+//                     )
+//                 ) !global;
+//             }
+
+//             @content;
+//             $theme-map: null !global;
+//         }
+//     }
+// }

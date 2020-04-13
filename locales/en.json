@@ -5,5 +5,23 @@
   },
   "extensionDescription": {
     "message": "Notifies you when a certain lichess.org player is online and/or plays."
+  },
+  "no": {
+    "message": "No"
+  },
+  "yes": {
+    "message": "Yes"
+  },
+  "patron": {
+    "message": "Lichess Patron"
+  },
+  "options": {
+    "message": "Options"
+  },
+  "liNotifyButtonActivate": {
+    "message": "Enable LiNotify!"
+  },
+  "liNotifyButtonDeactivate": {
+    "message": "Disable LiNotify!"
   }
 }

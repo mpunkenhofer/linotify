@@ -1,5 +1,6 @@
 import { enableStorageApiLogger, getUser, addUser, removeUser } from "../common/storage";
 import { browser } from "webextension-polyfill-ts";
+import { i18n } from "../constants/i18n";
 
 console.log('LiNotify is open source! https://github.com/mpunkenhofer/linotify');
 
@@ -50,9 +51,11 @@ const createNotifyButton = (userId: string): HTMLElement => {
             if (user) {
                 removeUser(user.id);
                 check.classList.toggle('linotify_display_none', true);
+                button.title = i18n.liNotifyButtonActivate;
             } else {
                 addUser(userId);
                 check.classList.toggle('linotify_display_none', false);
+                button.title = i18n.liNotifyButtonDeactivate;
             }
         }).catch(err => console.error(err));
     }

@@ -1,0 +1,70 @@
+.collapsible-btn::before,
+[data-icon]::before,
+.rp::before,
+.rp::before,
+.game-link::before,
+.line::before,
+.options-link::before,
+.github-link::before {
+    font-size: 1.2em;
+    vertical-align: middle;
+    font-style: normal;
+    font-weight: normal;
+    text-transform: none;
+    opacity: 0.9;
+}
+
+.collapsible-btn::before,
+[data-icon]::before {
+    content: attr(data-icon);
+}
+
+[data-icon]::before,
+.rp::before,
+.rp::before,
+.game-link::before,
+.line::before,
+.options-link::before {
+    font-family: "lichess";
+}
+
+.collapsible-btn::before,
+.github-link::before {
+    font-family: "linotify";
+}
+
+good::before {
+    content: "N";
+}
+
+bad::before {
+    content: "M";
+}
+
+.user-link.online .line::before {
+    content: "\e010";
+}
+
+.user-link.online .line.patron::before {
+    content: "\e019";
+}
+
+.user-link .line.patron::before {
+    content: "\e019";
+}
+
+.game-link::before {
+    content: "1";
+}
+
+.line::before {
+     content: "Ò";
+}
+
+.options-link::before {
+    content: "%";
+}
+
+.github-link::before {
+    content: "g";
+}
