@@ -37,7 +37,7 @@ export const getUserStatus = async (ids: string[] | string): Promise<UserStatus[
     }
 }
 
-export const getUserData = async (id: string): Promise<User> => {
+export const getUserData = async (id: string): Promise<Partial<User>> => {
     if (!id) {
         return Promise.reject('invalid id');
     }
@@ -57,7 +57,7 @@ export const getUserData = async (id: string): Promise<User> => {
                 patron: response.data.patron || false,
                 perfs: response.data.perfs || {},
                 seenAt: response.data.seenAt || 0,
-                lastApiUpdate: Date.now()
+                lastApiUpdate: Date.now(),
             };
         } else {
             return Promise.reject(`unexpected status code: ${response.status}`);

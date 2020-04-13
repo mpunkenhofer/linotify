@@ -12,8 +12,14 @@
   "yes": {
     "message": "Yes"
   },
+  "users": {
+    "message": "Users"
+  },
   "theme": {
     "message": "Theme"
+  },
+  "remove": {
+    "message": "Remove"
   },
   "patron": {
     "message": "Lichess Patron"
@@ -36,6 +42,12 @@
   "spectate": {
     "message": "Spectate"
   },
+  "settings": {
+    "message": "Settings"
+  },
+  "userCount": {
+    "message": "User count"
+  },
   "liNotifyButtonActivate": {
     "message": "Enable LiNotify!"
   },
@@ -47,5 +59,20 @@
   },
   "liNotifyButtonDeactivate": {
     "message": "Disable LiNotify!"
+  },
+  "searchUsersInputPlaceholder": {
+    "message": "Search Users..."
+  },
+  "displayBadgeTextSettingTitle": {
+    "message": "Enable Extension Icon Badge Text"
+  },
+  "displayBadgeTextSettingDescription": {
+    "message": "Controls if there should be a number displayed bellow the extension icon or not. The number signifies how many users came online/started playing since you last checked."
+  },
+  "enableSystemNotificationsSettingTitle": {
+    "message": "Enable System Notifications"
+  },
+  "enableSystemNotificationsSettingDescription": {
+    "message": "Lets you control if LiNotify should trigger system notifications. Appearance and sound are entirely operating system dependent."
   }
 }

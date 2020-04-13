@@ -40,6 +40,8 @@ module.exports = env => {
 			new CopyPlugin([
 				{ from: 'locales', to: '_locales/[name]/messages.json' },
 				{ from: 'assets/images/linotify_icon*', to: 'assets/[name].[ext]' },
+				{ from: 'assets/images/linotify_browser_action_icon*', to: 'assets/[name].[ext]' },
+				{ from: 'assets/images/linotify_browser_action_icon_dark_theme*', to: 'assets/[name].[ext]' },
 				{ from: 'assets/images/*.svg', to: 'assets/[name].[ext]' },
 				{ from: 'assets/fonts/*.woff', to: 'assets/fonts/[name].[ext]' },
 				{ from: 'assets/fonts/*.woff2', to: 'assets/fonts/[name].[ext]' },

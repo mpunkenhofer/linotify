@@ -50,10 +50,25 @@ export const toggleCollapsibleStatus = async (status: PopupCollapsibleStatusesTy
     return;
 }
 
-const setUser = async (user: User): Promise<void> => {
+export const toggleNotificationsEnabled = async (): Promise<void> => {
+    const prefs = await getPreferences();
+    const updatedPrefs: Preferences = { ...prefs, notificationsEnabled: !prefs.notificationsEnabled };
+    await setPreferences(updatedPrefs);
+    return;
+}
+
+export const toggleDisplayBadgeTextEnabled = async (): Promise<void> => {
+    const prefs = await getPreferences();
+    const updatedPrefs: Preferences = { ...prefs, displayBadgeTextEnabled: !prefs.displayBadgeTextEnabled };
+    await setPreferences(updatedPrefs);
+    return;
+}
+
+const setUser = async (user: Partial<User>): Promise<void> => {
     try {
         // TODO: can fail if storage full
-        await browser.storage.sync.set({ [user.id]: user });
+        if (user.id !== undefined)
+            await browser.storage.sync.set({ [user.id]: user });
     } catch (err) {
         console.error(err);
     }
@@ -122,9 +137,10 @@ export const getUser = async (id: string): Promise<User | null> => {
     return null;
 }
 
-export const updateUser = (user: User): Promise<void> => {
+export const updateUser = (user: Partial<User>): Promise<void> => {
     return setUser(user);
 }
+
 
 const createUser = (id: string): User => (
     {
@@ -137,13 +153,18 @@ const createUser = (id: string): User => (
         perfs: {},
         seenAt: 0,
         lastApiUpdate: 0,
+        notifyWhenOnline: false,
+        notifyWhenPlaying: true
     }
 );
 
 export const addUser = async (id: string): Promise<void> => {
     const newUser = createUser(id);
     await setUser(newUser);
-    getUserData(id).then(user => updateUser(user)).catch(err => console.error(err));
+    getUserData(id)
+        .then(user =>
+            updateUser({ ...user, notifyWhenOnline: newUser.notifyWhenOnline, notifyWhenPlaying: newUser.notifyWhenPlaying }))
+        .catch(err => console.error(err));
     return;
 }
 

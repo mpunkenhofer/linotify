@@ -262,45 +262,48 @@ const requestClearBadgeText = (): void => {
 
 const root = document.getElementById('root');
 
-storage.getPreferences()
-    .then(prefs => {
-        setTheme(prefs.popupTheme);
-        storage.getUsers()
-            .then(users => {
-                // clear badge
-                requestClearBadgeText();
+if (root) {
+    storage.getPreferences()
+        .then(prefs => {
+            setTheme(prefs.popupTheme);
+            storage.getUsers()
+                .then(users => {
+                    // clear badge
+                    requestClearBadgeText();
 
-                const playing = users.filter(u => u.playing);
-                const online = users.filter(u => !u.playing && u.online);
-                const offline = users.filter(u => !u.playing && !u.online);
+                    const playing = users.filter(u => u.playing);
+                    const online = users.filter(u => !u.playing && u.online);
+                    const offline = users.filter(u => !u.playing && !u.online);
 
-                playing.length > 0 && root?.appendChild(createCollapsible({
-                    element: createUserTable(playing),
-                    title: `${i18n.playing} (${playing.length})`,
-                    show: prefs.popupCollapsibleStatuses.playing,
-                    onShow: () => storage.toggleCollapsibleStatus('playing')
-                }));
+                    playing.length > 0 && root.appendChild(createCollapsible({
+                        element: createUserTable(playing),
+                        title: `${i18n.playing} (${playing.length})`,
+                        show: prefs.popupCollapsibleStatuses.playing,
+                        onShow: () => storage.toggleCollapsibleStatus('playing')
+                    }));
 
-                online.length > 0 && root?.appendChild(createCollapsible({
-                    element: createUserTable(online),
-                    title: `${i18n.online} (${online.length})`,
-                    show: prefs.popupCollapsibleStatuses.online,
-                    onShow: () => storage.toggleCollapsibleStatus('online')
-                }));
+                    online.length > 0 && root.appendChild(createCollapsible({
+                        element: createUserTable(online),
+                        title: `${i18n.online} (${online.length})`,
+                        show: prefs.popupCollapsibleStatuses.online,
+                        onShow: () => storage.toggleCollapsibleStatus('online')
+                    }));
 
-                offline.length > 0 && root?.appendChild(createCollapsible({
-                    element: createUserTable(offline),
-                    title: `${i18n.offline} (${offline.length})`,
-                    show: prefs.popupCollapsibleStatuses.offline,
-                    onShow: () => storage.toggleCollapsibleStatus('offline')
-                }));
+                    offline.length > 0 && root.appendChild(createCollapsible({
+                        element: createUserTable(offline),
+                        title: `${i18n.offline} (${offline.length})`,
+                        show: prefs.popupCollapsibleStatuses.offline,
+                        onShow: () => storage.toggleCollapsibleStatus('offline')
+                    }));
 
-                root?.appendChild(createFooter(
-                    createOptionsLink(),
-                    createGitHubLink(),
-                    createThemeSwitch(prefs.popupTheme, storage.setTheme),
-                    createVersionIndicator()
-                ));
-            })
-    }).catch(err => console.error(err));
-
+                    root.appendChild(createFooter(
+                        createOptionsLink(),
+                        createGitHubLink(),
+                        createThemeSwitch(prefs.popupTheme, storage.setTheme),
+                        createVersionIndicator()
+                    ));
+                })
+        }).catch(err => console.error(err));
+} else {
+    console.error('missing root element?');
+}

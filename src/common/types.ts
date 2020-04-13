@@ -11,6 +11,8 @@ export interface User {
     perfs: { [_: string]: { games: number; rating: number; prog: number; prov: boolean } };
     seenAt: number;
     lastApiUpdate: number;
+    notifyWhenOnline: boolean;
+    notifyWhenPlaying: boolean;
 }
 
 export interface UserStatus {
@@ -30,4 +32,6 @@ export interface Preferences {
         online: boolean;
         offline: boolean;
     };
+    notificationsEnabled: boolean;
+    displayBadgeTextEnabled: boolean;
 }

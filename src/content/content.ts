@@ -23,12 +23,21 @@ const createFontStyleNode = (): void => {
 
 const createNotifyButton = (userId: string): HTMLElement => {
     const button = document.createElement('a');
+    button.title = i18n.liNotifyButtonActivate;
     button.classList.add('btn-rack__btn', 'linotify__btn');
     button.setAttribute('data-icon', 'A');
 
     const check = document.createElement('i');
+
     check.classList.add('linotify_symbol', 'linotify_check', 'linotify_display_none');
-    getUser(userId).then(user => user && check.classList.remove('linotify_display_none')).catch(err => console.error(err));
+    getUser(userId)
+        .then(user => {
+            if (user) {
+                check.classList.remove('linotify_display_none')
+                button.title = i18n.liNotifyButtonDeactivate;
+            }
+        })
+        .catch(err => console.error(err));
     check.setAttribute('data-icon', 'E');
 
     button.appendChild(check);

@@ -6,7 +6,9 @@ export const defaultPreferences: Preferences = {
         playing: true,
         online: true,
         offline: false,
-    }
+    },
+    notificationsEnabled: true,
+    displayBadgeTextEnabled: true,
 }
 
 export const TITLES = {

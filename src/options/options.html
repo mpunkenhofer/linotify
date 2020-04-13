@@ -9,8 +9,43 @@
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root"></div>
+        <main id="root">
+            <nav class="navbar navbar-expand navbar-dark bg-primary flex-column flex-md-row options-navbar">
+                <a class="navbar-brand" href="https://lichess.org/" target="_blank" rel="noopener noreferrer" aria-label="Lichess">
+                    <img src="/assets/linotify_icon.svg"
+                         class="d-inline-block align-top mr-2 mr-md-4 ln-brand-icon" alt="LiNotify Icon"/>
+                    LiNotify
+                </a>
+                <ul class="navbar-nav ml-md-auto mr-md-3">
+                    <li class="nav-item mr-md-2">
+                        <span id="ln-version" class="navbar-text p-2"></span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-2" href="https://github.com/mpunkenhofer/linotify" target="_blank" rel="noopener noreferrer"
+                           aria-label="GitHub">
+                            <img src="/assets/github.svg" class="navbar-icon"
+                                 alt="GitHub Litags Repository"/>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-2" href="https://discord.gg/4d7QWUK" target="_blank" rel="noopener noreferrer"
+                           aria-label="Discord">
+                            <img src="/assets/discord.svg" class="navbar-icon"
+                                 alt="Discord Community"/>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link p-2" href="https://paypal.me/litags" target="_blank" rel="noopener noreferrer"
+                           aria-label="PayPal">
+                            <img src="/assets/paypal.svg" class="navbar-icon"
+                                 alt="PayPal Donation Link"/>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div id="content" class="px-1 py-1 py-md-3 px-md-5 bg-white">
+            </div> 
+        </main>
         <script type="text/javascript" src="options.js"></script>
-        <h1>LiNotify! OPTIONS</h1>
     </body>
 </html>
