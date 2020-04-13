@@ -1,4 +1,4 @@
-import { getUsers, getPreferences, toggleCollapsibleStatus, enableStorageApiLogger, setTheme } from "../common/storage";
+import * as storage from "../common/storage";
 import { User, PopupThemeType } from "../common/types";
 import { TITLES, ICONS, GITHUB, clearBadgeTextMessage } from "../constants";
 import { topPerformance } from "../common/util";
@@ -10,7 +10,7 @@ import { i18n } from "../constants/i18n";
 console.log('LiNotify is open source! https://github.com/mpunkenhofer/linotify');
 
 if (process.env.NODE_ENV === "development") {
-    enableStorageApiLogger();
+    storage.enableStorageApiLogger();
 }
 
 const createUserCellElement = (user: User): HTMLElement => {
@@ -70,6 +70,7 @@ const createTvLinkCellElement = (user: User): HTMLElement => {
     gameLink.href = `https://lichess.org/@/${user.id}/tv`;
     gameLink.target = '_blank';
     gameLink.rel = 'noopener noreferrer'
+    gameLink.title = i18n.spectate;
 
     return gameLink;
 }
@@ -151,37 +152,80 @@ const createCollapsible = ({ element, title, show, onShow }: CollapsibleProps): 
     return wrapper;
 }
 
-const toggleTheme = (): void => {
-    if (document.body.classList.contains('theme--dark')) {
-        document.body.classList.replace('theme--dark', 'theme--light');
-    } else {
-        document.body.classList.replace('theme--light', 'theme--dark');
-    }
-}
+const setTheme = (theme: PopupThemeType): void => {
+    document.body.classList.remove('theme--light', 'theme--dark');
 
-const setInitialTheme = (theme: PopupThemeType): void => {
-    if(document.body.classList.contains('theme--light') || document.body.classList.contains('theme--dark')) {
-        if(theme == 'dark' && document.body.classList.contains('theme--light'))
-            toggleTheme();
-    } else {
-        if(theme == 'light')
-            document.body.classList.add('theme--light');
-        else
+    switch (theme) {
+        case 'dark': {
             document.body.classList.add('theme--dark');
+            break;
+        }
+        case 'light':
+        default: {
+            document.body.classList.add('theme--light');
+        }
     }
 }
 
-const createFooter = (onThemeSwitch?: (newTheme: PopupThemeType) => void): HTMLElement => {
-    const footer = document.createElement('div');
-    footer.classList.add('footer');
+const createThemeSwitch = (active: PopupThemeType, onThemeSwitch?: (newTheme: PopupThemeType) => void): HTMLElement => {
+    const themeSwitch = document.createElement('group');
+    themeSwitch.classList.add('theme-switch');
+    //themeSwitch.innerText = i18n.theme;
 
+    const lightWrap = document.createElement('div');
+    lightWrap.title = i18n.lightThemeButtonTitle;
+
+    const darkWrap = document.createElement('div');
+    darkWrap.title = i18n.darkThemeButtonTitle;
+
+    const lightInput = document.createElement('input');
+    lightInput.id = 'light-theme-btn';
+    lightInput.type = 'radio';
+    lightInput.checked = active == 'light';
+    lightInput.name = 'theme-btn';
+    lightInput.onchange = (): void => {
+        setTheme('light');
+        if (onThemeSwitch) {
+            onThemeSwitch('light');
+        }
+    }
+
+    lightWrap.appendChild(lightInput);
+    lightWrap.insertAdjacentHTML('beforeend', '<label class="light-theme-icon" for="light-theme-btn"/>');
+
+    const darkInput = document.createElement('input');
+    darkInput.id = 'dark-theme-btn';
+    darkInput.type = 'radio';
+    darkInput.checked = active == 'dark';
+    darkInput.name = 'theme-btn';
+    darkInput.onchange = (): void => {
+        setTheme('dark');
+        if (onThemeSwitch) {
+            onThemeSwitch('dark');
+        }
+    }
+
+    darkWrap.appendChild(darkInput);
+    darkWrap.insertAdjacentHTML('beforeend', '<label class="dark-theme-icon" for="dark-theme-btn"/>');
+
+    themeSwitch.appendChild(lightWrap);
+    themeSwitch.appendChild(darkWrap);
+
+    return themeSwitch;
+}
+
+const createOptionsLink = (): HTMLElement => {
     const options = document.createElement('a');
     options.classList.add('options-link');
     options.href = browser.runtime.getURL('options.html');
     options.textContent = i18n.options;
     options.target = '_blank';
-    options.rel = 'noopener noreferrer'
+    options.rel = 'noopener noreferrer';
 
+    return options;
+}
+
+const createGitHubLink = (): HTMLElement => {
     const github = document.createElement('a');
     github.classList.add('github-link');
     github.href = GITHUB;
@@ -189,24 +233,25 @@ const createFooter = (onThemeSwitch?: (newTheme: PopupThemeType) => void): HTMLE
     github.target = '_blank';
     github.rel = 'noopener noreferrer'
 
-    const theme = document.createElement('a');
-    theme.textContent = 'theme-switch';
-    theme.onclick = (): void => {
-        toggleTheme();
-        if (onThemeSwitch) {
-            const newTheme = document.body.classList.contains('theme--dark') ? 'dark' : 'light';
-            onThemeSwitch(newTheme);
-        }
-    }
+    return github;
+}
 
+const createVersionIndicator = (): HTMLElement => {
     const version = document.createElement('span');
     version.classList.add('version');
     version.textContent = `v${pkg.version}`;
+    version.title = i18n.version;
 
-    footer.appendChild(options);
-    footer.appendChild(github);
-    footer.appendChild(theme);
-    footer.appendChild(version);
+    return version;
+}
+
+const createFooter = (...elements: HTMLElement[]): HTMLElement => {
+    const footer = document.createElement('div');
+    footer.classList.add('footer');
+
+
+    for (const element of elements)
+        footer.appendChild(element);
 
     return footer;
 }
@@ -217,10 +262,10 @@ const requestClearBadgeText = (): void => {
 
 const root = document.getElementById('root');
 
-getPreferences()
+storage.getPreferences()
     .then(prefs => {
-        setInitialTheme(prefs.popupTheme);
-        getUsers()
+        setTheme(prefs.popupTheme);
+        storage.getUsers()
             .then(users => {
                 // clear badge
                 requestClearBadgeText();
@@ -229,32 +274,33 @@ getPreferences()
                 const online = users.filter(u => !u.playing && u.online);
                 const offline = users.filter(u => !u.playing && !u.online);
 
-                offline.length > 0 &&
-                    root?.insertAdjacentElement('afterbegin',
-                        createCollapsible({
-                            element: createUserTable(offline),
-                            title: `${i18n.offline} (${offline.length})`,
-                            show: prefs.popupCollapsibleStatuses.offline,
-                            onShow: () => toggleCollapsibleStatus('offline')
-                        }));
-                online.length > 0 &&
-                    root?.insertAdjacentElement('afterbegin',
-                        createCollapsible({
-                            element: createUserTable(online),
-                            title: `${i18n.online} (${online.length})`,
-                            show: prefs.popupCollapsibleStatuses.online,
-                            onShow: () => toggleCollapsibleStatus('online')
-                        }));
-                playing.length > 0 &&
-                    root?.insertAdjacentElement('afterbegin',
-                        createCollapsible({
-                            element: createUserTable(playing),
-                            title: `${i18n.playing} (${playing.length})`,
-                            show: prefs.popupCollapsibleStatuses.playing,
-                            onShow: () => toggleCollapsibleStatus('playing')
-                        }));
+                playing.length > 0 && root?.appendChild(createCollapsible({
+                    element: createUserTable(playing),
+                    title: `${i18n.playing} (${playing.length})`,
+                    show: prefs.popupCollapsibleStatuses.playing,
+                    onShow: () => storage.toggleCollapsibleStatus('playing')
+                }));
+
+                online.length > 0 && root?.appendChild(createCollapsible({
+                    element: createUserTable(online),
+                    title: `${i18n.online} (${online.length})`,
+                    show: prefs.popupCollapsibleStatuses.online,
+                    onShow: () => storage.toggleCollapsibleStatus('online')
+                }));
+
+                offline.length > 0 && root?.appendChild(createCollapsible({
+                    element: createUserTable(offline),
+                    title: `${i18n.offline} (${offline.length})`,
+                    show: prefs.popupCollapsibleStatuses.offline,
+                    onShow: () => storage.toggleCollapsibleStatus('offline')
+                }));
+
+                root?.appendChild(createFooter(
+                    createOptionsLink(),
+                    createGitHubLink(),
+                    createThemeSwitch(prefs.popupTheme, storage.setTheme),
+                    createVersionIndicator()
+                ));
             })
     }).catch(err => console.error(err));
-
-root?.insertAdjacentElement('beforeend', createFooter(setTheme));
 

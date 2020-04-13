@@ -12,6 +12,7 @@ $themes: (
         bg-tertiary: #ffffff,
         border-primary: #d9d9d9,
         border-secondary: #4d4d4d,
+        accent: rgba(214, 79, 0, 0.7),
     ),
     dark: (
         user-link: #999,
@@ -24,8 +25,9 @@ $themes: (
         bg-primary: #1a1918,
         bg-secondary: #302e2c,
         bg-tertiary: #262421,
-        border-primary: #404040,
+        border-primary: #4e4e4e,
         border-secondary: #919191,
+        accent: rgba(214, 79, 0, 0.7),
     ),
 );
 

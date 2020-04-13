@@ -12,6 +12,9 @@
   "yes": {
     "message": "Yes"
   },
+  "theme": {
+    "message": "Theme"
+  },
   "patron": {
     "message": "Lichess Patron"
   },
@@ -27,8 +30,20 @@
   "options": {
     "message": "Options"
   },
+  "version": {
+    "message": "Version"
+  },
+  "spectate": {
+    "message": "Spectate"
+  },
   "liNotifyButtonActivate": {
     "message": "Enable LiNotify!"
+  },
+  "darkThemeButtonTitle": {
+    "message": "Dark Theme"
+  },
+  "lightThemeButtonTitle": {
+    "message": "Light Theme"
   },
   "liNotifyButtonDeactivate": {
     "message": "Disable LiNotify!"

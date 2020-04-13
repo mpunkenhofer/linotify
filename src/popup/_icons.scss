@@ -5,7 +5,9 @@
 .game-link::before,
 .line::before,
 .options-link::before,
-.github-link::before {
+.github-link::before,
+.light-theme-icon::before,
+.dark-theme-icon::before {
     font-size: 1.2em;
     vertical-align: middle;
     font-style: normal;
@@ -29,7 +31,9 @@
 }
 
 .collapsible-btn::before,
-.github-link::before {
+.github-link::before,
+.light-theme-icon::before,
+.dark-theme-icon::before {
     font-family: "linotify";
 }
 
@@ -67,4 +71,14 @@ bad::before {
 
 .github-link::before {
     content: "g";
+}
+
+.light-theme-icon::before {
+    font-size: 1em !important;
+    content: "S";
+}
+
+.dark-theme-icon::before {
+    font-size: 1em !important;
+    content: "M";
 }

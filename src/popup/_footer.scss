@@ -3,6 +3,7 @@
 .footer {
     display: flex;
     margin: 0.5em 0.5em 0.2em 0.5em;
+    align-items: center;
 
     .options-link,
     .github-link {
@@ -26,6 +27,6 @@
     }
 
     .version {
-        margin-left: auto;
+        margin-left: 2em;
     }
 }
