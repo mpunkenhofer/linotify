@@ -7,6 +7,7 @@ LiNotify (li[chess] notify{notifications}) is a cross browser extension which no
 <img src="https://raw.githubusercontent.com/mpunkenhofer/linotify/master/assets/images/linotify_demo2.png" alt="linotify demo2"/>
 <img src="https://raw.githubusercontent.com/mpunkenhofer/linotify/master/assets/images/linotify_demo4.png" alt="linotify demo4"/>
 <img src="https://raw.githubusercontent.com/mpunkenhofer/linotify/master/assets/images/linotify_demo5.png" alt="linotify demo5"/>
+<img src="https://raw.githubusercontent.com/mpunkenhofer/linotify/master/assets/images/linotify_demo6.png" alt="linotify demo6"/>
 
 LiNotify is written in [Typescript](https://www.typescriptlang.org/), uses [Webpack](https://webpack.js.org/) for module 
 bundling. Lichess [API](https://lichess.org/api) requests are made with [Axios](https://github.com/axios/axios), CSS is generated with [Sass](https://sass-lang.com/), making use of [Bootstrap](https://getbootstrap.com/), for cross browser support [webextension-polyfill-ts](https://github.com/Lusito/webextension-polyfill-ts) is used.
