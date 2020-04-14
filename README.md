@@ -10,7 +10,12 @@ LiNotify (li[chess] notify{notifications}) is a cross browser extension which no
 <img src="https://raw.githubusercontent.com/mpunkenhofer/linotify/master/assets/images/linotify_demo6.png" alt="linotify demo6"/>
 
 LiNotify is written in [Typescript](https://www.typescriptlang.org/), uses [Webpack](https://webpack.js.org/) for module 
-bundling. Lichess [API](https://lichess.org/api) requests are made with [Axios](https://github.com/axios/axios), CSS is generated with [Sass](https://sass-lang.com/), making use of [Bootstrap](https://getbootstrap.com/), for cross browser support [webextension-polyfill-ts](https://github.com/Lusito/webextension-polyfill-ts) is used.
+bundling. Lichess [API](https://lichess.org/api) requests are made with [Axios](https://github.com/axios/axios), CSS is generated with [Sass](https://sass-lang.com/), making use of [Bootstrap](https://getbootstrap.com/), for cross browser support [webextension-polyfill-ts](https://github.com/Lusito/webextension-polyfill-ts) is used. System notifications are displayed by using the browser [notifications api](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications) which is supported by most modern browsers.
+
+This extension requires the following permissions: 
+* Notifications: To display system notifications if a player comes online or starts playing.
+* Alarms: To periodically poll the lichess api for any player status changes.
+* Storage: To store player data and extension settings. 
 
 ## Building and contributing
 

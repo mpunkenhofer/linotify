@@ -30,7 +30,7 @@ const createOnlineNotification = (user: User): void => {
                 if (prefs.notificationsEnabled) {
                     browser.notifications.create('test', {
                         "type": "basic",
-                        "iconUrl": browser.runtime.getURL("assets/linotify_icon.svg"),
+                        "iconUrl": browser.runtime.getURL("assets/images/linotify_icon.svg"),
                         "title": "LiNotify!",
                         "message": `${(user.username && user.username.length > 0) ? user.username : user.id} is now online on lichess.org.`
                     });
@@ -48,7 +48,7 @@ const createPlayingNotification = (user: User): void => {
                 if (prefs.notificationsEnabled) {
                     browser.notifications.create('test', {
                         "type": "basic",
-                        "iconUrl": browser.runtime.getURL("assets/linotify_icon.svg"),
+                        "iconUrl": browser.runtime.getURL("assets/images/linotify_icon.svg"),
                         "title": "LiNotify!",
                         "message": `${(user.username && user.username.length > 0) ? user.username : user.id} is playing on lichess.org!`,
                     });

@@ -9,34 +9,34 @@
     "notifications"
   ],
   "icons": {
-    "48": "assets/linotify_icon48.png",
-    "96": "assets/linotify_icon96.png",
-    "128": "assets/linotify_icon128.png"
+    "48": "assets/images/linotify_icon48.png",
+    "96": "assets/images/linotify_icon96.png",
+    "128": "assets/images/linotify_icon128.png"
   },
   "browser_action": {
     "browser_style": true,
     "default_title": "LiNotify",
     "default_icon": {
-      "16": "assets/linotify_browser_action_icon16.png",
-      "32": "assets/linotify_browser_action_icon32.png",
-      "48": "assets/linotify_browser_action_icon48.png",
-      "128": "assets/linotify_browser_action_icon128.png"
+      "16": "assets/images/linotify_browser_action_icon16.png",
+      "32": "assets/images/linotify_browser_action_icon32.png",
+      "48": "assets/images/linotify_browser_action_icon48.png",
+      "128": "assets/images/linotify_browser_action_icon128.png"
     },
     "theme_icons": [{
-      "light": "assets/linotify_browser_action_icon16.png",
-      "dark": "assets/linotify_browser_action_icon_dark_theme16.png",
+      "light": "assets/images/linotify_browser_action_icon16.png",
+      "dark": "assets/images/linotify_browser_action_icon_dark_theme16.png",
       "size": 16
     }, {
-      "light": "assets/linotify_browser_action_icon16.png",
-      "dark": "assets/linotify_browser_action_icon_dark_theme32.png",
+      "light": "assets/images/linotify_browser_action_icon16.png",
+      "dark": "assets/images/linotify_browser_action_icon_dark_theme32.png",
       "size": 32
     }, {
-      "light": "assets/linotify_browser_action_icon48.png",
-      "dark": "assets/linotify_browser_action_icon_dark_theme48.png",
+      "light": "assets/images/linotify_browser_action_icon48.png",
+      "dark": "assets/images/linotify_browser_action_icon_dark_theme48.png",
       "size": 48
     }, {
-      "light": "assets/linotify_browser_action_icon128.png",
-      "dark": "assets/linotify_browser_action_icon_dark_theme128.png",
+      "light": "assets/images/linotify_browser_action_icon128.png",
+      "dark": "assets/images/linotify_browser_action_icon_dark_theme128.png",
       "size": 128
     }],
     "default_popup": "popup.html"
