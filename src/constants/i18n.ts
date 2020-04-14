@@ -3,6 +3,17 @@ import {browser} from "webextension-polyfill-ts";
 const i = (key: string): string => browser.i18n.getMessage(key);
 
 export const i18n = {
+    lm: i('lm'),
+    cm: i('cm'),
+    nm: i('nm'),
+    fm: i('fm'),
+    im: i('fm'),
+    gm: i('gm'),
+    wcm: i('cm'),
+    wnm: i('nm'),
+    wfm: i('fm'),
+    wim: i('fm'),
+    wgm: i('gm'),
     name: i('name'),
     users: i('users'),
     theme: i('theme'),

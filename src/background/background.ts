@@ -1,7 +1,7 @@
 import { browser } from "webextension-polyfill-ts";
 import { enableStorageApiLogger, getUsers, updateUser, getPreferences } from "../common/storage";
 import { getUserStatus, getUserData } from "../common/lichess";
-import { User, UserStatus } from "../common/types";
+import { User } from "../common/types";
 import { delay } from "lodash";
 import { clearBadgeTextMessage } from "../constants";
 
@@ -15,6 +15,7 @@ let updateCount = 0;
 
 const userDataPollPeriodInMinutes = 30;
 const statusPollPeriodInMinutes = 1;
+
 browser.alarms.create('apiStatusPollAlarm', { periodInMinutes: statusPollPeriodInMinutes })
 
 // const playNotificationSound = (): void => {
@@ -93,52 +94,51 @@ const updateBadgeText = (text: string): void => {
         .catch(err => console.error(err));
 }
 
-const updateUserStatuses = async (): Promise<{ prev: User; new: User }[]> => {
-    const users = await getUsers();
+const updateUserStatuses = (): void => {
+    getUsers()
+        .then(users => {
+            if (!users || users.length < 1)
+                return;
 
-    if (!users || users.length < 1)
-        return [];
+            const userIds = users.map(u => u.id);
 
-    const userRecord = users
-        .map(u => {
-            return { [u.id.toLowerCase()]: { ...u } }
+            const userRecord = users
+                .map(u => {
+                    return { [u.id.toLowerCase()]: { ...u } }
+                })
+                .reduce((a, b) => Object.assign(a, b), {});
+
+            getUserStatus(userIds).then(userStatuses => {
+                if (!userStatuses || userStatuses.length < 1)
+                    return;
+
+                for (const status of userStatuses) {
+                    if (status.id) {
+                        const user: User = userRecord[status.id];
+
+                        if (user && !user.online && status.online || !user.playing && status.playing) {
+                            const updated = { ...user, ...status } as User;
+                            updateUser({...status});
+
+                            //check if a user started playing or came online and display notification
+                            if (!user.playing && status.playing) {
+                                createPlayingNotification(updated);
+                                updateCount++;
+                            } else if (!user.online && status.online) {
+                                createOnlineNotification(updated);
+                                updateCount++;
+                            }
+                        }
+                    }
+                }
+
+                if (updateCount > 0)
+                    updateBadgeText(updateCount.toString())
+            });
         })
-        .reduce((a, b) => Object.assign(a, b), {});
-    const userIds = users.map(u => u.id);
+        .catch(err => console.error(err));
 
-    const userStatuses = await getUserStatus(userIds);
-    const userStatusesRecord = userStatuses
-        .map(us => {
-            return { [us.id.toLowerCase()]: { ...us } }
-        })
-        .reduce((a, b) => Object.assign(a, b), {});
-
-    const updatedUsers = [];
-
-    for (const userId in userRecord) {
-        const u: User = userRecord[userId];
-        const us: UserStatus = userStatusesRecord[userId];
-
-        if (u != undefined && us != undefined && u.online != us.online || u.playing != us.playing) {
-            const updated = { ...u, playing: us.playing, online: us.online };
-            updateUser(updated);
-            updatedUsers.push({ prev: u, new: updated });
-
-            //check if a user started playing or came online and display notification
-            if (!u.playing && us.playing) {
-                createPlayingNotification(updated);
-                updateCount++;
-            } else if (!u.online && us.online) {
-                createOnlineNotification(updated);
-                updateCount++;
-            }
-        }
-    }
-
-    if (updateCount > 0)
-        updateBadgeText(updateCount.toString())
-
-    return updatedUsers;
+    return;
 }
 
 const messageHandler = (message: { [_: string]: string }): void => {

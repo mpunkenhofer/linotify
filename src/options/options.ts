@@ -3,6 +3,7 @@ import pkg from "../../package.json"
 import { i18n } from "../constants/i18n";
 import { User } from "../common/types";
 import { debounce } from "lodash";
+import { sortByName } from "../common/util";
 
 console.log('LiNotify is open source! https://github.com/mpunkenhofer/linotify');
 
@@ -152,16 +153,37 @@ const createUserTable = (): HTMLElement => {
 
     const createTable = (users: User[]): HTMLElement => {
         updateUserCount(users.length);
+
+        if(users.length < 1)
+            return document.createElement('div');
+
         const table = document.createElement('table');
         table.classList.add('user-table', 'table');
         const tableHead = table.createTHead();
 
         if(tableHead) {
             const row = tableHead.insertRow();
+            
+            const nameHeader = document.createElement('th');
+            nameHeader.scope = 'col';
+            nameHeader.appendChild(document.createTextNode(i18n.name));
 
-            row.insertCell().appendChild(document.createTextNode(i18n.name));
-            row.insertCell().appendChild(document.createTextNode(i18n.notifyWhenOnlineQuestion));
-            row.insertCell().appendChild(document.createTextNode(i18n.notifyWhenPlayingQuestion));
+            const noHeader = document.createElement('th');
+            noHeader.scope = 'col';
+            noHeader.appendChild(document.createTextNode(i18n.notifyWhenOnlineQuestion));
+
+            const npHeader = document.createElement('th');
+            npHeader.scope = 'col';
+            npHeader.appendChild(document.createTextNode(i18n.notifyWhenPlayingQuestion));
+
+            const emptyHeader = document.createElement('th');
+            emptyHeader.scope = 'col';
+            
+            row.appendChild(nameHeader);
+            row.appendChild(noHeader);
+            row.appendChild(npHeader);
+            // insert empty cell for last col
+            row.appendChild(emptyHeader);
         }
 
         const updateTable = (): void => {
@@ -170,7 +192,7 @@ const createUserTable = (): HTMLElement => {
                 .catch(err => console.error(err));
         }
 
-        for (const user of users) {
+        for (const user of sortByName(users)) {
             const row = table.insertRow();
 
             row.insertCell().appendChild(createUserCellElement(user));

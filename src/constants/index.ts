@@ -1,4 +1,5 @@
 import { Preferences } from "../common/types";
+import { i18n } from "./i18n";
 
 export const defaultPreferences: Preferences = {
     popupTheme: 'light',
@@ -12,17 +13,17 @@ export const defaultPreferences: Preferences = {
 }
 
 export const TITLES = {
-    'LM': 'Lichess Master',
-    'CM': 'Candidate Master',
-    'WCM': 'Woman Candidate Master',
-    'NM': 'National Master',
-    'WNM': "Woman National Master",
-    'FM': 'Fide Master',
-    'WFM': "Woman Fide Master",
-    'IM': 'International Master',
-    'WIM': 'Woman International Master',
-    'GM': 'Grand Master',
-    'WGM': 'Woman Grand Master',
+    'LM': i18n.lm,
+    'CM': i18n.cm,
+    'WCM': i18n.wcm,
+    'NM': i18n.nm,
+    'WNM': i18n.wnm,
+    'FM': i18n.fm,
+    'WFM': i18n.wfm,
+    'IM': i18n.im,
+    'WIM': i18n.wim,
+    'GM': i18n.gm,
+    'WGM': i18n.wgm,
 } 
 
 export const ICONS = {

@@ -15,13 +15,6 @@ export interface User {
     notifyWhenPlaying: boolean;
 }
 
-export interface UserStatus {
-    name: string;
-    id: string;
-    online: boolean;
-    playing: boolean;
-}
-
 export type PopupThemeType = 'dark' | 'light';
 export type PopupCollapsibleStatusesType = 'playing' | 'online' | 'offline';
 

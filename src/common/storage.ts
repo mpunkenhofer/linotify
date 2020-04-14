@@ -1,8 +1,8 @@
 import { browser } from "webextension-polyfill-ts";
 import { User, Preferences, PopupThemeType, PopupCollapsibleStatusesType } from "./types";
 import { getUserData } from "./lichess";
-import { topPerformance } from "./util";
 import { defaultPreferences } from "../constants";
+import { createUser } from "./util";
 
 const setPreferences = async (preferences: Preferences): Promise<void> => {
     try {
@@ -29,11 +29,11 @@ export const getPreferences = async (): Promise<Preferences> => {
     return defaultPreferences;
 }
 
-const setUser = async (user: Partial<User>): Promise<void> => {
+const setUser = async (user: User): Promise<void> => {
     try {
         // TODO: can fail if storage full
         if (user.id !== undefined)
-            await browser.storage.sync.set({ [user.id]: user });
+            await browser.storage.sync.set({ [user.id.toLowerCase()]: user });
     } catch (err) {
         console.error(err);
     }
@@ -48,28 +48,7 @@ export const getUsers = async (): Promise<User[]> => {
         if (usersObj !== undefined) {
             const users: User[] = Object.values(usersObj);
 
-            //TODO: sort where applicable, rather than here
             if (users) {
-                users.sort((a, b) => {
-                    if (a.playing) {
-                        if (b.playing)
-                            return topPerformance(b).rating - topPerformance(a).rating;
-                        else
-                            return -1;
-                    } else if (b.playing) {
-                        return 1;
-                    } else if (a.online) {
-                        if (b.online)
-                            return topPerformance(b).rating - topPerformance(a).rating;
-                        else
-                            return -1;
-                    } else if (b.online) {
-                        return 1;
-                    } else {
-                        return topPerformance(b).rating - topPerformance(a).rating;
-                    }
-                });
-
                 return users;
             }
         }
@@ -80,18 +59,9 @@ export const getUsers = async (): Promise<User[]> => {
     return [];
 }
 
-export const removeUser = (id: string): Promise<void> => {
+export const getUser = async (id_: string): Promise<User | null> => {
     try {
-        return browser.storage.sync.remove(id);
-    } catch (err) {
-        console.error(err);
-    }
-
-    return Promise.resolve();
-}
-
-export const getUser = async (id: string): Promise<User | null> => {
-    try {
+        const id = id_.toLowerCase();
         const user = await browser.storage.sync.get(id);
 
         if (user && user[id] != undefined)
@@ -103,33 +73,31 @@ export const getUser = async (id: string): Promise<User | null> => {
     return null;
 }
 
-export const updateUser = (user: Partial<User>): Promise<void> => {
-    return setUser(user);
+export const removeUser = (id_: string): Promise<void> => {
+    try {
+        const id = id_.toLowerCase();
+        return browser.storage.sync.remove(id);
+    } catch (err) {
+        console.error(err);
+    }
+
+    return Promise.resolve();
 }
 
-const createUser = (id: string): User => (
-    {
-        id,
-        username: id,
-        title: '',
-        online: false,
-        playing: false,
-        patron: false,
-        perfs: {},
-        seenAt: 0,
-        lastApiUpdate: 0,
-        notifyWhenOnline: false,
-        notifyWhenPlaying: true
+export const updateUser = async (user: Partial<User>): Promise<void> => {
+    if(user.id) {
+        const u = (await getUser(user.id)) || createUser(user.id); 
+        const updated: User = {...u, ...user} as User;
+        return setUser(updated);
+    } else {
+        Promise.reject('user missing id');
     }
-);
+}
 
 export const addUser = async (id: string): Promise<void> => {
-    const newUser = createUser(id);
+    const newUser = createUser(id.toLowerCase());
     await setUser(newUser);
-    getUserData(id)
-        .then(user =>
-            updateUser({ ...user, notifyWhenOnline: newUser.notifyWhenOnline, notifyWhenPlaying: newUser.notifyWhenPlaying }))
-        .catch(err => console.error(err));
+    getUserData(id).then(userData => updateUser(userData)).catch(err => console.error(err));
     return;
 }
 

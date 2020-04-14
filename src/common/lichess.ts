@@ -1,18 +1,18 @@
 import axios from 'axios';
-import { User, UserStatus } from './types';
+import { User } from './types';
 
 const lichessApi = axios.create({
     baseURL: 'https://lichess.org/api/',
     timeout: 10000
 });
 
-export const getUserStatus = async (ids: string[] | string): Promise<UserStatus[]> => {
+export const getUserStatus = async (ids: string[] | string): Promise<Partial<User>[]> => {
     if (!ids) {
         return Promise.reject('invalid id');
     }
 
     try {
-        const response = await lichessApi.get<UserStatus[]>('/users/status', {
+        const response = await lichessApi.get<Partial<User>[]>('/users/status', {
             params: {
                 ids: Array.isArray(ids) ? ids.join(',') : ids
             }
@@ -21,10 +21,9 @@ export const getUserStatus = async (ids: string[] | string): Promise<UserStatus[
         if (response.status == 200) {
             //console.log(response);
 
-            return response.data.map<UserStatus>(status => {
+            return response.data.map<Partial<User>>(status => {
                 return {
                     id: status.id,
-                    name: status.name,
                     online: status.online || false,
                     playing: status.playing || false,
                 }

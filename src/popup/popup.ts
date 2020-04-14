@@ -1,7 +1,7 @@
 import * as storage from "../common/storage";
 import { User, PopupThemeType } from "../common/types";
 import { TITLES, ICONS, GITHUB, clearBadgeTextMessage } from "../constants";
-import { topPerformance } from "../common/util";
+import { topPerformance, sortByRating } from "../common/util";
 import { isString } from "lodash";
 import { browser } from "webextension-polyfill-ts";
 import pkg from "../../package.json"
@@ -30,7 +30,6 @@ const createUserCellElement = (user: User): HTMLElement => {
         title.innerText = user.title;
 
         if (user.title) {
-            // TODO: i18n
             title.title = TITLES[user.title];
         }
 
@@ -276,21 +275,21 @@ if (root) {
                     const offline = users.filter(u => !u.playing && !u.online);
 
                     playing.length > 0 && root.appendChild(createCollapsible({
-                        element: createUserTable(playing),
+                        element: createUserTable(sortByRating(playing)),
                         title: `${i18n.playing} (${playing.length})`,
                         show: prefs.popupCollapsibleStatuses.playing,
                         onShow: () => storage.toggleCollapsibleStatus('playing')
                     }));
 
                     online.length > 0 && root.appendChild(createCollapsible({
-                        element: createUserTable(online),
+                        element: createUserTable(sortByRating(online)),
                         title: `${i18n.online} (${online.length})`,
                         show: prefs.popupCollapsibleStatuses.online,
                         onShow: () => storage.toggleCollapsibleStatus('online')
                     }));
 
                     offline.length > 0 && root.appendChild(createCollapsible({
-                        element: createUserTable(offline),
+                        element: createUserTable(sortByRating(offline)),
                         title: `${i18n.offline} (${offline.length})`,
                         show: prefs.popupCollapsibleStatuses.offline,
                         onShow: () => storage.toggleCollapsibleStatus('offline')
