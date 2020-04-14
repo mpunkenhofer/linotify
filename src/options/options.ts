@@ -1,4 +1,4 @@
-import { enableStorageApiLogger, getPreferences, toggleNotificationsEnabled, toggleDisplayBadgeTextEnabled, getUsers, removeUser } from "../common/storage";
+import { enableStorageApiLogger, getPreferences, toggleNotificationsEnabled, toggleDisplayBadgeTextEnabled, getUsers, removeUser, toggleNotifyWhenOnline, toggleNotifyWhenPlaying } from "../common/storage";
 import pkg from "../../package.json"
 import { i18n } from "../constants/i18n";
 import { User } from "../common/types";
@@ -102,6 +102,16 @@ const createUserCellElement = (user: User): HTMLElement => {
 const createNotifyWhenOnlineSettingCell = (user: User): HTMLElement => {
     const button = document.createElement('a');
     button.classList.add('notify-online-btn', user.notifyWhenOnline ? 'check-icon' : 'times-icon');
+    button.onclick = (): void => {
+        if(button.classList.contains('check-icon')) {
+            button.classList.replace('check-icon', 'times-icon');
+        } else {
+            button.classList.remove('times-icon');
+            button.classList.add('check-icon');
+        }
+
+        toggleNotifyWhenOnline(user.id);
+    }
 
     return button;
 }
@@ -109,6 +119,16 @@ const createNotifyWhenOnlineSettingCell = (user: User): HTMLElement => {
 const createNotifyWhenPlayingSettingCell = (user: User): HTMLElement => {
     const button = document.createElement('a');
     button.classList.add('notify-playing-btn', user.notifyWhenPlaying ? 'check-icon' : 'times-icon');
+    button.onclick = (): void => {
+        if(button.classList.contains('check-icon')) {
+            button.classList.replace('check-icon', 'times-icon');
+        } else {
+            button.classList.remove('times-icon');
+            button.classList.add('check-icon');
+        }
+
+        toggleNotifyWhenPlaying(user.id);
+    }
 
     return button;
 }
@@ -134,6 +154,21 @@ const createUserTable = (): HTMLElement => {
         updateUserCount(users.length);
         const table = document.createElement('table');
         table.classList.add('user-table', 'table');
+        const tableHead = table.createTHead();
+
+        if(tableHead) {
+            const row = tableHead.insertRow();
+
+            row.insertCell().appendChild(document.createTextNode(i18n.name));
+            row.insertCell().appendChild(document.createTextNode(i18n.notifyWhenOnlineQuestion));
+            row.insertCell().appendChild(document.createTextNode(i18n.notifyWhenPlayingQuestion));
+        }
+
+        const updateTable = (): void => {
+            getUsers()
+                .then(users => tableWrapper.firstChild?.replaceWith(createTable(users)))
+                .catch(err => console.error(err));
+        }
 
         for (const user of users) {
             const row = table.insertRow();
@@ -141,11 +176,7 @@ const createUserTable = (): HTMLElement => {
             row.insertCell().appendChild(createUserCellElement(user));
             row.insertCell().appendChild(createNotifyWhenOnlineSettingCell(user));
             row.insertCell().appendChild(createNotifyWhenPlayingSettingCell(user));
-            row.insertCell().appendChild(createRemoveUserCell(user, () => {
-                getUsers()
-                    .then(users => tableWrapper.firstChild?.replaceWith(createTable(users)))
-                    .catch(err => console.error(err));
-            }));
+            row.insertCell().appendChild(createRemoveUserCell(user, updateTable));
         }
 
         return table;

@@ -30,12 +30,26 @@
         opacity: 0;
     }
 
+    .notify-playing-btn,
+    .notify-online-btn {
+        cursor: pointer;
+    }
+    
     tr:hover {
         background-color: darken($color: $light, $amount: 10);
         .remove-user-btn {
             opacity: 1 !important;
         }
     }
+
+    td {
+        text-align: center;
+
+        &:first-child {
+            text-align: left;
+        }
+    }
+    
 }
 
 %font-icon {

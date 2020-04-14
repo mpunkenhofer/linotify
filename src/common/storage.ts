@@ -29,41 +29,6 @@ export const getPreferences = async (): Promise<Preferences> => {
     return defaultPreferences;
 }
 
-export const setTheme = async (theme: PopupThemeType): Promise<void> => {
-    const prefs = await getPreferences();
-    const updatedPrefs: Preferences = { ...prefs, popupTheme: theme };
-    await setPreferences(updatedPrefs);
-    return;
-}
-
-export const setCollapsibleStatus = async (status: PopupCollapsibleStatusesType, value: boolean): Promise<void> => {
-    const prefs = await getPreferences();
-    const updatedPrefs: Preferences = { ...prefs, popupCollapsibleStatuses: { ...prefs.popupCollapsibleStatuses, [status]: value } };
-    await setPreferences(updatedPrefs);
-    return;
-}
-
-export const toggleCollapsibleStatus = async (status: PopupCollapsibleStatusesType): Promise<void> => {
-    const prefs = await getPreferences();
-    const updatedPrefs: Preferences = { ...prefs, popupCollapsibleStatuses: { ...prefs.popupCollapsibleStatuses, [status]: !prefs.popupCollapsibleStatuses[status] } };
-    await setPreferences(updatedPrefs);
-    return;
-}
-
-export const toggleNotificationsEnabled = async (): Promise<void> => {
-    const prefs = await getPreferences();
-    const updatedPrefs: Preferences = { ...prefs, notificationsEnabled: !prefs.notificationsEnabled };
-    await setPreferences(updatedPrefs);
-    return;
-}
-
-export const toggleDisplayBadgeTextEnabled = async (): Promise<void> => {
-    const prefs = await getPreferences();
-    const updatedPrefs: Preferences = { ...prefs, displayBadgeTextEnabled: !prefs.displayBadgeTextEnabled };
-    await setPreferences(updatedPrefs);
-    return;
-}
-
 const setUser = async (user: Partial<User>): Promise<void> => {
     try {
         // TODO: can fail if storage full
@@ -83,6 +48,7 @@ export const getUsers = async (): Promise<User[]> => {
         if (usersObj !== undefined) {
             const users: User[] = Object.values(usersObj);
 
+            //TODO: sort where applicable, rather than here
             if (users) {
                 users.sort((a, b) => {
                     if (a.playing) {
@@ -141,7 +107,6 @@ export const updateUser = (user: Partial<User>): Promise<void> => {
     return setUser(user);
 }
 
-
 const createUser = (id: string): User => (
     {
         id,
@@ -165,6 +130,59 @@ export const addUser = async (id: string): Promise<void> => {
         .then(user =>
             updateUser({ ...user, notifyWhenOnline: newUser.notifyWhenOnline, notifyWhenPlaying: newUser.notifyWhenPlaying }))
         .catch(err => console.error(err));
+    return;
+}
+
+export const setTheme = async (theme: PopupThemeType): Promise<void> => {
+    const prefs = await getPreferences();
+    const updatedPrefs: Preferences = { ...prefs, popupTheme: theme };
+    await setPreferences(updatedPrefs);
+    return;
+}
+
+export const setCollapsibleStatus = async (status: PopupCollapsibleStatusesType, value: boolean): Promise<void> => {
+    const prefs = await getPreferences();
+    const updatedPrefs: Preferences = { ...prefs, popupCollapsibleStatuses: { ...prefs.popupCollapsibleStatuses, [status]: value } };
+    await setPreferences(updatedPrefs);
+    return;
+}
+
+export const toggleCollapsibleStatus = async (status: PopupCollapsibleStatusesType): Promise<void> => {
+    const prefs = await getPreferences();
+    const updatedPrefs: Preferences = { ...prefs, popupCollapsibleStatuses: { ...prefs.popupCollapsibleStatuses, [status]: !prefs.popupCollapsibleStatuses[status] } };
+    await setPreferences(updatedPrefs);
+    return;
+}
+
+export const toggleNotificationsEnabled = async (): Promise<void> => {
+    const prefs = await getPreferences();
+    const updatedPrefs: Preferences = { ...prefs, notificationsEnabled: !prefs.notificationsEnabled };
+    await setPreferences(updatedPrefs);
+    return;
+}
+
+export const toggleDisplayBadgeTextEnabled = async (): Promise<void> => {
+    const prefs = await getPreferences();
+    const updatedPrefs: Preferences = { ...prefs, displayBadgeTextEnabled: !prefs.displayBadgeTextEnabled };
+    await setPreferences(updatedPrefs);
+    return;
+}
+
+export const toggleNotifyWhenOnline = async (id: string): Promise<void> => {
+    const user = await getUser(id);
+    if (user) {
+        const updatedUser = { ...user, notifyWhenOnline: !user.notifyWhenOnline };
+        await setUser(updatedUser);
+    }
+    return;
+}
+
+export const toggleNotifyWhenPlaying = async (id: string): Promise<void> => {
+    const user = await getUser(id);
+    if (user) {
+        const updatedUser = { ...user, notifyWhenPlaying: !user.notifyWhenPlaying };
+        await setUser(updatedUser);
+    }
     return;
 }
 
