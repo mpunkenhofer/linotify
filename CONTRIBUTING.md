@@ -55,16 +55,9 @@ using  [ESLint](http://eslint.org/) with typescript support by
 2. Click `Load Temporary Add-on` and select `/dist/manifest.json`.
 3. On  the `about:debugging` page use `Reload` if you need to.
 
-## Project structure
-
-*
-
 ### Resources
 
 A collection of useful links regarding this project.
 - [Building a cross-browser extension](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Build_a_cross_browser_extension)
 - [Bootstrap](https://getbootstrap.com/)
   
-### TODO
-
-Everything :) 
