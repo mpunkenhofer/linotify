@@ -298,7 +298,9 @@ if (root) {
                     root.appendChild(createFooter(
                         createOptionsLink(),
                         createGitHubLink(),
-                        createThemeSwitch(prefs.popupTheme, storage.setTheme),
+                        createThemeSwitch(prefs.popupTheme, (newTheme: PopupThemeType) => {
+                            storage.setTheme(newTheme)
+                        }),
                         createVersionIndicator()
                     ));
                 })

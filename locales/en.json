@@ -4,7 +4,7 @@
     "description": "[Don't Translate] The title of the browser action button"
   },
   "extensionDescription": {
-    "message": "Notifies you when a certain lichess.org player is online and/or plays."
+    "message": "Notifies you when a player on lichess.org is online and/or playing."
   },
   "wcm": {
     "message": "Woman Candidate Master"

@@ -41,7 +41,6 @@ module.exports = env => {
 				{ from: 'locales', to: '_locales/[name]/messages.json' },
 				{ from: 'assets/images/linotify_icon*', to: 'assets/images/[name].[ext]' },
 				{ from: 'assets/images/linotify_browser_action_icon*', to: 'assets/images/[name].[ext]' },
-				{ from: 'assets/images/linotify_browser_action_icon_dark_theme*', to: 'assets/images/[name].[ext]' },
 				{ from: 'assets/images/*.svg', to: 'assets/images/[name].[ext]' },
 				{ from: 'assets/fonts/*.woff', to: 'assets/fonts/[name].[ext]' },
 				{ from: 'assets/fonts/*.woff2', to: 'assets/fonts/[name].[ext]' },
@@ -60,7 +59,7 @@ module.exports = env => {
 			new MiniCssExtractPlugin({
 				filename: '[name].css',
 			}),
-			new IgnoreEmitPlugin([/\/style.js$/, /\/*.LICENSE$/]),
+			new IgnoreEmitPlugin([/\/style.js$/, /\/*.LICENSE*/]),
 			new webpack.optimize.AggressiveMergingPlugin(),
 			new webpack.optimize.OccurrenceOrderPlugin(),
 			new ZipPlugin({
