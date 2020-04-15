@@ -18,24 +18,22 @@ const statusPollPeriodInMinutes = 1;
 
 browser.alarms.create('apiStatusPollAlarm', { periodInMinutes: statusPollPeriodInMinutes })
 
-// const playNotificationSound = (): void => {
-//     const notificationSound = new Audio("assets/sounds/GenericNotify.mp3");
-//     notificationSound.play();
-// }
+// TODO: 
+// Clear notification if a player stops playing ? 
+// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications/clear
 
 const createOnlineNotification = (user: User): void => {
     if (user.notifyWhenOnline) {
         getPreferences()
             .then(prefs => {
                 if (prefs.notificationsEnabled) {
-                    browser.notifications.create('test', {
+                    browser.notifications.create({
                         "type": "basic",
                         "iconUrl": browser.runtime.getURL("assets/images/linotify_icon.svg"),
                         "title": "LiNotify!",
                         "message": `${(user.username && user.username.length > 0) ? user.username : user.id} is now online on lichess.org.`
                     });
                 }
-                // playNotificationSound();
             })
             .catch(err => console.error(err));
     }
@@ -46,7 +44,7 @@ const createPlayingNotification = (user: User): void => {
         getPreferences()
             .then(prefs => {
                 if (prefs.notificationsEnabled) {
-                    browser.notifications.create('test', {
+                    browser.notifications.create({
                         "type": "basic",
                         "iconUrl": browser.runtime.getURL("assets/images/linotify_icon.svg"),
                         "title": "LiNotify!",
@@ -55,7 +53,6 @@ const createPlayingNotification = (user: User): void => {
                 }
             })
             .catch(err => console.error(err));
-        // playNotificationSound();
     }
 }
 
