@@ -20,6 +20,9 @@ This extension requires the following permissions:
 * Alarms: to periodically poll the lichess api for any player status changes.
 * Storage: to store player data and extension settings. 
 
+### LiNotify in Stores
+* Chrome: https://chrome.google.com/webstore/detail/linotify/dpfdenddcngojnndogbfhpampiplllpj
+* Firefox: https://addons.mozilla.org/en-US/firefox/addon/linotify/
 ## Building and contributing
 
 See [CONTRIBUTING.md](/CONTRIBUTING.md).
