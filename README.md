@@ -25,8 +25,10 @@ This extension requires the following permissions:
 * Storage: to store player data and extension settings.
 
 ### LiNotify in Stores
-* Chrome: https://chrome.google.com/webstore/detail/linotify/dpfdenddcngojnndogbfhpampiplllpj
-* Firefox: https://addons.mozilla.org/en-US/firefox/addon/linotify/
+
+* [Chrome](https://chrome.google.com/webstore/detail/linotify/dpfdenddcngojnndogbfhpampiplllpj)
+* [Firefox](https://addons.mozilla.org/en-US/firefox/addon/linotify/)
+
 ## Building and contributing
 
 See [CONTRIBUTING.md](/CONTRIBUTING.md).
