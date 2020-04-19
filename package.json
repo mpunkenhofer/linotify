@@ -7,7 +7,7 @@
     "extension",
     "notify"
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Browser extension for lichess.org which notifies you if a certain player is online and/or playing.",
   "homepage": "https://github.com/mpunkenhofer/linotify",
   "private": true,
@@ -19,7 +19,7 @@
     "dev": "cross-env NODE_ENV=development webpack --config webpack.dev.config.js --mode=development --watch --display-error-details",
     "dev-firefox": "cross-env NODE_ENV=development webpack --config webpack.dev.config.js --mode=development --watch --display-error-details --env.browser=firefox",
     "lint": "eslint . --ext .js,.ts",
-    "icons": "py ./bin/svg2pngs.py ./assets/images/linotify_icon.svg -d assets/images/ -p linotify_icon -r 16 32 48 64 96 128 && py ./bin/svg2pngs.py ./assets/images/linotify_browser_action_icon.svg -d assets/images/ -p linotify_browser_action_icon -r 16 32 48 64 96 128"
+    "icons": "py ./bin/svg2pngs.py ./assets/images/linotify_icon.svg -d assets/images/ -p linotify_icon -r 16 32 48 64 96 128"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.149",

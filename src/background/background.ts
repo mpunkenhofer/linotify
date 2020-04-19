@@ -18,43 +18,38 @@ const statusPollPeriodInMinutes = 1;
 
 browser.alarms.create('apiStatusPollAlarm', { periodInMinutes: statusPollPeriodInMinutes })
 
-// TODO: 
-// Clear notification if a player stops playing ? 
-// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications/clear
+const clearNotification = (user: User): void => {
+    browser.notifications.clear(user.id);
+}
 
 const createOnlineNotification = (user: User): void => {
     if (user.notifyWhenOnline) {
-        getPreferences()
-            .then(prefs => {
-                if (prefs.notificationsEnabled) {
-                    browser.notifications.create({
-                        "type": "basic",
-                        "iconUrl": browser.runtime.getURL("assets/images/linotify_icon.svg"),
-                        "title": "LiNotify!",
-                        "message": `${(user.username && user.username.length > 0) ? user.username : user.id} is now online on lichess.org.`
-                    });
-                }
-            })
-            .catch(err => console.error(err));
+        // clear old notification
+        clearNotification(user);
+
+        browser.notifications.create(user.id, {
+            "type": "basic",
+            "iconUrl": browser.runtime.getURL("assets/images/linotify_icon.svg"),
+            "title": "LiNotify!",
+            "message": `${(user.username && user.username.length > 0) ? user.username : user.id} is now online on lichess.org.`
+        });
     }
 }
 
 const createPlayingNotification = (user: User): void => {
     if (user.notifyWhenPlaying) {
-        getPreferences()
-            .then(prefs => {
-                if (prefs.notificationsEnabled) {
-                    browser.notifications.create({
-                        "type": "basic",
-                        "iconUrl": browser.runtime.getURL("assets/images/linotify_icon.svg"),
-                        "title": "LiNotify!",
-                        "message": `${(user.username && user.username.length > 0) ? user.username : user.id} is playing on lichess.org!`,
-                    });
-                }
-            })
-            .catch(err => console.error(err));
+        // clear old notification
+        clearNotification(user);
+
+        browser.notifications.create(user.id, {
+            "type": "basic",
+            "iconUrl": browser.runtime.getURL("assets/images/linotify_icon.svg"),
+            "title": "LiNotify!",
+            "message": `${(user.username && user.username.length > 0) ? user.username : user.id} is playing on lichess.org!`,
+        });
     }
 }
+
 
 const updateUserData = (): void => {
     const successiveUpdateDelayInMs = 3000;
@@ -80,58 +75,57 @@ const clearBadgeText = (): void => {
 }
 
 const updateBadgeText = (text: string): void => {
-    getPreferences()
-        .then(prefs => {
-            if (prefs.displayBadgeTextEnabled) {
-                browser.browserAction.setBadgeText({ text });
-            } else {
-                clearBadgeText();
-            }
-        })
-        .catch(err => console.error(err));
+    browser.browserAction.setBadgeText({ text });
 }
 
 const updateUserStatuses = (): void => {
-    getUsers()
-        .then(users => {
-            if (!users || users.length < 1)
-                return;
+    getPreferences()
+        .then(prefs => {
+            getUsers()
+                .then(users => {
+                    if (!users || users.length < 1)
+                        return;
 
-            const userIds = users.map(u => u.id);
+                    const userIds = users.map(u => u.id);
 
-            const userRecord = users
-                .map(u => {
-                    return { [u.id.toLowerCase()]: { ...u } }
-                })
-                .reduce((a, b) => Object.assign(a, b), {});
+                    const userRecord = users
+                        .map(u => {
+                            return { [u.id.toLowerCase()]: { ...u } }
+                        })
+                        .reduce((a, b) => Object.assign(a, b), {});
 
-            getUserStatus(userIds).then(userStatuses => {
-                if (!userStatuses || userStatuses.length < 1)
-                    return;
+                    getUserStatus(userIds).then(userStatuses => {
+                        if (!userStatuses || userStatuses.length < 1)
+                            return;
 
-                for (const status of userStatuses) {
-                    if (status.id) {
-                        const user: User = userRecord[status.id];
+                        for (const status of userStatuses) {
+                            if (status.id) {
+                                const user: User = userRecord[status.id];
 
-                        if (user && !user.online && status.online || !user.playing && status.playing) {
-                            const updated = { ...user, ...status } as User;
-                            updateUser({...status});
+                                if (user) {
+                                    const updated = { ...user, ...status } as User;
+                                    updateUser({ ...status });
 
-                            //check if a user started playing or came online and display notification
-                            if (!user.playing && status.playing) {
-                                createPlayingNotification(updated);
-                                updateCount++;
-                            } else if (!user.online && status.online) {
-                                createOnlineNotification(updated);
-                                updateCount++;
+                                    //check if a user started playing or came online and display notification
+                                    if (!user.playing && status.playing) {
+                                        prefs.notificationsEnabled && createPlayingNotification(updated);
+                                        updateCount++;
+                                    } else if (!user.online && status.online) {
+                                        prefs.notificationsEnabled && createOnlineNotification(updated);
+                                        updateCount++;
+                                    } else if (user.playing && !status.playing || user.online && !status.online) {
+                                        clearNotification(updated);
+                                    }
+                                }
                             }
                         }
-                    }
-                }
 
-                if (updateCount > 0)
-                    updateBadgeText(updateCount.toString())
-            });
+                        if (updateCount > 0 && prefs.displayBadgeTextEnabled)
+                            updateBadgeText(updateCount.toString());
+                        else
+                            clearBadgeText();
+                    });
+                })
         })
         .catch(err => console.error(err));
 

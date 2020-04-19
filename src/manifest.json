@@ -17,11 +17,10 @@
     "browser_style": true,
     "default_title": "LiNotify",
     "default_icon": {
-      "16": "assets/images/linotify_browser_action_icon16.png",
-      "32": "assets/images/linotify_browser_action_icon32.png",
-      "48": "assets/images/linotify_browser_action_icon48.png",
-      "96": "assets/images/linotify_browser_action_icon96.png",
-      "128": "assets/images/linotify_browser_action_icon128.png"
+      "32": "assets/images/linotify_icon32.png",
+      "48": "assets/images/linotify_icon48.png",
+      "96": "assets/images/linotify_icon96.png",
+      "128": "assets/images/linotify_icon128.png"
     },
     "default_popup": "popup.html"
   },

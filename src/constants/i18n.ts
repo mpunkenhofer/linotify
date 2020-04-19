@@ -38,5 +38,4 @@ export const i18n = {
     displayBadgeTextSettingDescription: i('displayBadgeTextSettingDescription'),
     enableSystemNotificationsSettingTitle: i('enableSystemNotificationsSettingTitle'),
     enableSystemNotificationsSettingDescription: i('enableSystemNotificationsSettingDescription')
-
 }

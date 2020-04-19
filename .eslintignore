@@ -6,8 +6,8 @@ dist
 coverage
 # don't lint locales
 locales
-# don't lint public folder
-public
+# don't lint assets folder
+assets
 # don't list webpack config files
 webpack.dev.config.js
 webpack.prod.config.js

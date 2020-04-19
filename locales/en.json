@@ -110,5 +110,11 @@
   },
   "enableSystemNotificationsSettingDescription": {
     "message": "Lets you control if LiNotify should trigger system notifications. Appearance and sound are entirely operating system dependent."
+  },
+  "enableAutoClearOldNotificationsSettingTitle": {
+    "message": "Automatically Clear old Notifications"
+  },
+  "enableAutoClearOldNotificationsSettingDescription": {
+    "message": "Test"
   }
 }
