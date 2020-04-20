@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.2, Apr, 19, 2020
+## 1.0.2, Apr, 20, 2020
 
 - Fixed an issue where the online status was not correctly displayed.
 - Browser icon badge text number is now decremented (cleared when < 0) when a user stops playing or goes offline.  
