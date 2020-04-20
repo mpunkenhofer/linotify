@@ -11,8 +11,6 @@ if (process.env.NODE_ENV === "development") {
     enableStorageApiLogger();
 }
 
-let updateCount = 0;
-
 const userDataPollPeriodInMinutes = 30;
 const statusPollPeriodInMinutes = 1;
 
@@ -24,6 +22,7 @@ const clearNotification = (user: User): void => {
 
 const createOnlineNotification = (user: User): void => {
     if (user.notifyWhenOnline) {
+
         // clear old notification
         clearNotification(user);
 
@@ -38,6 +37,7 @@ const createOnlineNotification = (user: User): void => {
 
 const createPlayingNotification = (user: User): void => {
     if (user.notifyWhenPlaying) {
+
         // clear old notification
         clearNotification(user);
 
@@ -78,56 +78,59 @@ const updateBadgeText = (text: string): void => {
     browser.browserAction.setBadgeText({ text });
 }
 
-const updateUserStatuses = (): void => {
-    getPreferences()
-        .then(prefs => {
-            getUsers()
-                .then(users => {
-                    if (!users || users.length < 1)
-                        return;
+const incBadgeNumber = (n: number): void => {
+    browser.browserAction.getBadgeText({})
+        .then(text => {
+            const badgeNumber = Number(text);
 
-                    const userIds = users.map(u => u.id);
+            if(!isNaN(badgeNumber)) {
+                updateBadgeText((badgeNumber + n).toString());
+            }
+        }).catch(err => console.error(err));
+}
 
-                    const userRecord = users
-                        .map(u => {
-                            return { [u.id.toLowerCase()]: { ...u } }
-                        })
-                        .reduce((a, b) => Object.assign(a, b), {});
+const updateUserStatuses = async (): Promise<void> => {
+    try {
+        const users = await getUsers();
 
-                    getUserStatus(userIds).then(userStatuses => {
-                        if (!userStatuses || userStatuses.length < 1)
-                            return;
+        const userIds = users.map(u => u.id);
+        const userRecord = users.map(u => { return { [u.id.toLowerCase()]: { ...u } } }).reduce((a, b) => Object.assign(a, b), {});
 
-                        for (const status of userStatuses) {
-                            if (status.id) {
-                                const user: User = userRecord[status.id];
+        const [prefs, userStatuses] = await Promise.all([getPreferences(), getUserStatus(userIds)]);
 
-                                if (user) {
-                                    const updated = { ...user, ...status } as User;
-                                    updateUser({ ...status });
+        let updateCount = 0;
 
-                                    //check if a user started playing or came online and display notification
-                                    if (!user.playing && status.playing) {
-                                        prefs.notificationsEnabled && createPlayingNotification(updated);
-                                        updateCount++;
-                                    } else if (!user.online && status.online) {
-                                        prefs.notificationsEnabled && createOnlineNotification(updated);
-                                        updateCount++;
-                                    } else if (user.playing && !status.playing || user.online && !status.online) {
-                                        clearNotification(updated);
-                                    }
-                                }
-                            }
-                        }
+        for (const status of userStatuses) {
+            if (status.id) {
+                const user: User = userRecord[status.id];
 
-                        if (updateCount > 0 && prefs.displayBadgeTextEnabled)
-                            updateBadgeText(updateCount.toString());
-                        else
-                            clearBadgeText();
-                    });
-                })
-        })
-        .catch(err => console.error(err));
+                if (user) {
+                    const updated = { ...user, ...status } as User;
+                    updateUser({ ...status });
+
+                    //check if a user started playing or came online and display notification
+                    if (!user.playing && status.playing) {
+                        prefs.notificationsEnabled && createPlayingNotification(updated);
+                        updateCount++;
+                    } else if (!user.online && status.online) {
+                        prefs.notificationsEnabled && createOnlineNotification(updated);
+                        updateCount++;
+                    } else if (user.playing && !status.playing || user.online && !status.online) {
+                        clearNotification(updated);
+                        updateCount--;
+                    }
+                }
+            }
+        }
+
+        if (updateCount > 0 && prefs.displayBadgeTextEnabled)
+            incBadgeNumber(updateCount);
+        else
+            clearBadgeText();
+
+    } catch (err) {
+        console.error(err);
+    }
 
     return;
 }
@@ -136,7 +139,6 @@ const messageHandler = (message: { [_: string]: string }): void => {
     if (message && message.request !== undefined) {
         if (message.request === clearBadgeTextMessage) {
             clearBadgeText();
-            updateCount = 0;
         }
     }
 }
