@@ -4,16 +4,16 @@ LiNotify (li[chess] notify{notifications}) is a cross browser extension that not
 
 ## LiNotify Buttons
 
-![LiNotify Button Example Image 1](https://raw.githubusercontent.com/mpunkenhofer/linotify/master/assets/promo/promo-github-1.png)
-![LiNotify Button Example Image 2](https://raw.githubusercontent.com/mpunkenhofer/linotify/master/assets/promo/promo-github-2.png)
+![LiNotify Button Example Image 1](assets/promo/promo-github-1.png)
+![LiNotify Button Example Image 2](assets/promo/promo-github-2.png)
 
 ## LiNotify Extension Popup
 
-![LiNotify Popup Example Image](https://raw.githubusercontent.com/mpunkenhofer/linotify/master/assets/promo/promo-github-3.png)
+![LiNotify Popup Example Image](assets/promo/promo-github-3.png)
 
 ## LiNotify Options
 
-![LiNotify Options Example Image](https://raw.githubusercontent.com/mpunkenhofer/linotify/master/assets/promo/promo-github-4.png)
+![LiNotify Options Example Image](assets/promo/promo-github-4.png)
 
 LiNotify is written in [Typescript](https://www.typescriptlang.org/), uses [Webpack](https://webpack.js.org/) for module
 bundling. Lichess [API](https://lichess.org/api) requests are made with [Axios](https://github.com/axios/axios), CSS is generated with [Sass](https://sass-lang.com/), making use of [Bootstrap](https://getbootstrap.com/), for cross browser support [webextension-polyfill-ts](https://github.com/Lusito/webextension-polyfill-ts) is used. System notifications are displayed by using the browser [notifications api](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/notifications) which is supported by most modern browsers.

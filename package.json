@@ -14,10 +14,9 @@
   "scripts": {
     "clean": "rimraf dist",
     "prebuild": "rimraf dist",
-    "build": "cross-env NODE_ENV=production webpack --config webpack.prod.config.js --mode=production --display-error-details",
-    "predev": "rimraf dist",
-    "dev": "cross-env NODE_ENV=development webpack --config webpack.dev.config.js --mode=development --watch --display-error-details",
-    "dev-firefox": "cross-env NODE_ENV=development webpack --config webpack.dev.config.js --mode=development --watch --display-error-details --env.browser=firefox",
+    "build": "webpack --config webpack.production.js",
+    "prewatch": "rimraf dist",
+    "watch": "webpack --config webpack.development.js",
     "lint": "eslint . --ext .js,.ts",
     "icons": "py ./bin/svg2pngs.py ./assets/images/linotify_icon.svg -d assets/images/ -p linotify_icon -r 16 32 48 64 96 128"
   },
@@ -27,14 +26,14 @@
     "@typescript-eslint/parser": "^2.27.0",
     "bootstrap": "^4.4.1",
     "copy-webpack-plugin": "^5.1.1",
-    "cross-env": "^7.0.2",
     "css-loader": "^3.5.1",
     "eslint": "^6.8.0",
     "fast-css-loader": "^1.0.2",
     "fast-sass-loader": "^1.5.0",
+    "fork-ts-checker-webpack-plugin": "^4.1.3",
     "ignore-emit-webpack-plugin": "^2.0.2",
     "mini-css-extract-plugin": "^0.9.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.0",
     "rimraf": "^3.0.2",
     "sass-loader": "^8.0.2",
     "terser-webpack-plugin": "^2.3.5",
@@ -45,6 +44,7 @@
     "webpack-cli": "^3.3.11",
     "webpack-extension-manifest-plugin": "^0.5.0",
     "webpack-extension-reloader": "^1.1.4",
+    "webpack-merge": "^4.2.2",
     "zip-webpack-plugin": "^3.0.0"
   },
   "dependencies": {

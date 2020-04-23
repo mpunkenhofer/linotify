@@ -9,5 +9,4 @@ locales
 # don't lint assets folder
 assets
 # don't list webpack config files
-webpack.dev.config.js
-webpack.prod.config.js
+webpack.*

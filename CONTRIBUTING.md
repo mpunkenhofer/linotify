@@ -29,7 +29,7 @@ gauge feedback. When ready: [make an issue ticket](https://github.com/mpunkenhof
 
 ### Build commands
 
-**`npm run dev`** will clean `dist/`, then build LiNotify (dev mode), and start a watch task that will rebuild LiNotify when
+**`npm run watch`** will clean `dist/`, then build LiNotify (dev mode), and start a watch task that will rebuild LiNotify when
 you make changes. Only changed files will be rebuilt.
 
 **`npm run build`** will clean `dist/`, then build LiNotify (prod mode) and create a .zip file in `dist/zip/`
