@@ -1,5 +1,5 @@
 import * as storage from "../common/storage";
-import { User, PopupThemeType } from "../common/types";
+import { User, PopupThemeType } from "../types";
 import { TITLES, ICONS, GITHUB, clearBadgeTextMessage } from "../constants";
 import { topPerformance, sortByRating } from "../common/util";
 import { isString } from "lodash";

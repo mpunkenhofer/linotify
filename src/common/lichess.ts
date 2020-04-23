@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { User } from './types';
+import { User } from '../types';
 
 const lichessApi = axios.create({
     baseURL: 'https://lichess.org/api/',

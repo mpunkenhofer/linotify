@@ -1,4 +1,4 @@
-import { User, RatingType } from "./types";
+import { User, RatingType } from "../types";
 
 const interestingRatings = ['bullet', 'blitz', 'rapid', 'classical', 'ultraBullet', 'crazyhouse', 'antichess', 'atomic', 'threeCheck', 'kingOfTheHill', 'horde', 'racingKings'];
 

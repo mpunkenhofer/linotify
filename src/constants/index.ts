@@ -1,4 +1,4 @@
-import { Preferences } from "../common/types";
+import { Preferences } from "../types";
 import { i18n } from "./i18n";
 
 export const defaultPreferences: Preferences = {

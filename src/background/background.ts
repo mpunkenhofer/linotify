@@ -1,7 +1,7 @@
 import { browser } from "webextension-polyfill-ts";
 import { enableStorageApiLogger, getUsers, updateUser, getPreferences } from "../common/storage";
 import { getUserStatus, getUserData } from "../common/lichess";
-import { User } from "../common/types";
+import { User } from "../types";
 import { delay } from "lodash";
 import { clearBadgeTextMessage } from "../constants";
 

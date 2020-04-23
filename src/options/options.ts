@@ -1,7 +1,7 @@
 import { enableStorageApiLogger, getPreferences, toggleNotificationsEnabled, toggleDisplayBadgeTextEnabled, getUsers, removeUser, toggleNotifyWhenOnline, toggleNotifyWhenPlaying } from "../common/storage";
 import pkg from "../../package.json"
 import { i18n } from "../constants/i18n";
-import { User } from "../common/types";
+import { User } from "../types";
 import { debounce } from "lodash";
 import { sortByName } from "../common/util";
 

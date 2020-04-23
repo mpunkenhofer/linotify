@@ -1,5 +1,5 @@
 import { browser } from "webextension-polyfill-ts";
-import { User, Preferences, PopupThemeType, PopupCollapsibleStatusesType } from "./types";
+import { User, Preferences, PopupThemeType, PopupCollapsibleStatusesType } from "../types";
 import { getUserData } from "./lichess";
 import { defaultPreferences } from "../constants";
 import { createUser } from "./util";
