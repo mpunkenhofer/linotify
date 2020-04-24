@@ -1,5 +1,8 @@
 # LiNotify
 
+[link-cws]: https://chrome.google.com/webstore/detail/linotify/dpfdenddcngojnndogbfhpampiplllpj "Version published on Chrome Web Store"
+[link-amo]: https://addons.mozilla.org/en-US/firefox/addon/linotify/ "Version published on Mozilla Add-ons"
+
 LiNotify (li[chess] notify{notifications}) is a cross browser extension that notifies you if a certain player is online and/or playing on [lichess.org](https://www.lichess.org).
 
 ## LiNotify Buttons
@@ -26,8 +29,8 @@ This extension requires the following permissions:
 
 ### LiNotify in Stores
 
-* [Chrome](https://chrome.google.com/webstore/detail/linotify/dpfdenddcngojnndogbfhpampiplllpj)
-* [Firefox](https://addons.mozilla.org/en-US/firefox/addon/linotify/)
+- [Chrome][link-cws] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/dpfdenddcngojnndogbfhpampiplllpj?label=%20&style=flat-square">][link-cws]
+- [Firefox][link-amo] [<img valign="middle" src="https://img.shields.io/amo/v/linotify?label=%20&style=flat-square">][link-amo]
 
 ## Building and contributing
 
