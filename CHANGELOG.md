@@ -3,6 +3,7 @@
 ## 1.1.0, Apr, 28, 2020
 
 - [#1](https://github.com/mpunkenhofer/linotify/issues/1) Fixed notification spam after brief status changes.
+- [#2](https://github.com/mpunkenhofer/linotify/issues/2) Added a feature to manually add users.
 
 ## 1.0.2, Apr, 20, 2020
 
