@@ -291,7 +291,6 @@ const createAddUserElement = (): HTMLElement => {
 
         getUserStatus(input.value || '')
             .then((statusResponse) => {
-                console.log(statusResponse);
                 if (!isEmpty(statusResponse)) {
                     if (statusResponse[0].id !== undefined) {
                         addUser(statusResponse[0].id)
@@ -304,7 +303,7 @@ const createAddUserElement = (): HTMLElement => {
                     inputGroup.appendChild(invalidFeedback);
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
             .finally(() => {
                 button.innerHTML = '';
                 button.textContent = i18n.add;
