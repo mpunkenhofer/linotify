@@ -13,6 +13,7 @@ export const createUser = (id: string): User => (
         perfs: {},
         seenAt: 0,
         lastApiUpdate: 0,
+        lastNotification: 0,
         notifyWhenOnline: false,
         notifyWhenPlaying: true
     }

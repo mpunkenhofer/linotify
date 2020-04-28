@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0, Apr, 28, 2020
+
+- [#1](https://github.com/mpunkenhofer/linotify/issues/1) Fixed notification spam after brief status changes.
+
 ## 1.0.2, Apr, 20, 2020
 
 - Fixed an issue where the online status was not correctly displayed.

@@ -12,9 +12,16 @@ if (process.env.NODE_ENV === "development") {
 }
 
 const userDataPollPeriodInMinutes = 30;
+const notificationCooldownInMinutes = 4;
 const statusPollPeriodInMinutes = 1;
 
-browser.alarms.create('apiStatusPollAlarm', { periodInMinutes: statusPollPeriodInMinutes })
+browser.alarms.create('apiStatusPollAlarm', { periodInMinutes: statusPollPeriodInMinutes });
+
+const notificationCooldownElapsed = (user: User): boolean => {
+    const diff = Date.now() - user.lastNotification;
+    const diffInMinutes = Math.floor(diff / (1000 * 60));
+    return diffInMinutes >= notificationCooldownInMinutes;
+}
 
 const clearNotification = (user: User): void => {
     browser.notifications.clear(user.id);
@@ -105,20 +112,28 @@ const updateUserStatuses = async (): Promise<void> => {
                 const user: User = userRecord[status.id];
 
                 if (user) {
-                    const updated = { ...user, ...status } as User;
-                    updateUser({ ...status });
+                    const updatedUser = { ...user, ...status } as User;
+                    let lastNotification = updatedUser.lastNotification;
 
                     //check if a user started playing or came online and display notification
                     if (!user.playing && status.playing) {
-                        prefs.notificationsEnabled && createPlayingNotification(updated);
+                        if(prefs.notificationsEnabled && notificationCooldownElapsed(updatedUser)) {
+                            createPlayingNotification(updatedUser);
+                            lastNotification = Date.now();
+                        }                 
                         updateCount++;
                     } else if (!user.online && status.online) {
-                        prefs.notificationsEnabled && createOnlineNotification(updated);
+                        if(prefs.notificationsEnabled && notificationCooldownElapsed(updatedUser)) {
+                            createOnlineNotification(updatedUser);
+                            lastNotification = Date.now();
+                        }       
                         updateCount++;
                     } else if (user.playing && !status.playing || user.online && !status.online) {
-                        clearNotification(updated);
+                        clearNotification(updatedUser);
                         updateCount--;
                     }
+
+                    updateUser({ ...status, lastNotification });
                 }
             }
         }

@@ -11,6 +11,7 @@ export interface User {
     perfs: { [_: string]: { games: number; rating: number; prog: number; prov: boolean } };
     seenAt: number;
     lastApiUpdate: number;
+    lastNotification: number;
     notifyWhenOnline: boolean;
     notifyWhenPlaying: boolean;
 }
