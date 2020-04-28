@@ -39,6 +39,10 @@
   "gm": {
     "message": "Grand Master"
   },
+  "add": {
+    "message": "Add",
+    "description": "As in: add user"
+  },
   "name": {
     "message": "Name"
   },
@@ -75,8 +79,17 @@
   "settings": {
     "message": "Settings"
   },
+  "addUser": {
+    "message": "Add User"
+  },
+  "username": {
+    "message": "Username"
+  },
   "userCount": {
     "message": "User count"
+  },
+  "checking": {
+    "message": "Checking..."
   },
   "liNotifyButtonActivate": {
     "message": "Enable LiNotify!"
@@ -98,6 +111,15 @@
   },
   "notifyWhenPlayingQuestion": {
     "message": "Notify when playing ?"
+  },
+  "invalidUsernameFeedback": {
+    "message": "Invalid username."
+  },
+  "userListDescription": {
+    "message": "List of users you receive notifications for:"
+  },
+  "addUserDescription": {
+    "message": "You can add a user you would like to receive notifications for by either by clicking the LiNotify icon on their profile page, or manually here:"
   },
   "displayBadgeTextSettingTitle": {
     "message": "Enable Extension Icon Badge Text"
