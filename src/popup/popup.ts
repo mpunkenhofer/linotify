@@ -224,15 +224,41 @@ const createOptionsLink = (): HTMLElement => {
     return options;
 }
 
-const createGitHubLink = (): HTMLElement => {
-    const github = document.createElement('a');
-    github.classList.add('github-link');
-    github.href = GITHUB;
-    github.textContent = 'GitHub';
-    github.target = '_blank';
-    github.rel = 'noopener noreferrer'
+// const createGitHubLink = (): HTMLElement => {
+//     const github = document.createElement('a');
+//     github.classList.add('github-link');
+//     github.href = GITHUB;
+//     github.textContent = 'GitHub';
+//     github.target = '_blank';
+//     github.rel = 'noopener noreferrer'
 
-    return github;
+//     return github;
+// }
+
+const createSystemNotificationToggle = (active: boolean, onSystemNotificationToggleClicked?: () => void): HTMLElement => {
+    const toggleWrap = document.createElement('div');
+    toggleWrap.classList.add('system-notifications-toggle');
+
+    const toggle = document.createElement('a');
+    toggle.classList.add(active ? 'notifications-enabled-icon' : 'notifications-disabled-icon');
+    toggle.title = active ? i18n.disableSystemNotifications : i18n.enableSystemNotifications;
+    toggle.onclick = (): void => {
+        if(onSystemNotificationToggleClicked) {
+            onSystemNotificationToggleClicked();
+            if(toggle.classList.contains('notifications-enabled-icon')) {
+                toggle.classList.replace('notifications-enabled-icon', 'notifications-disabled-icon');
+                toggle.title = i18n.enableSystemNotifications;
+            }
+            else {
+                toggle.classList.replace('notifications-disabled-icon', 'notifications-enabled-icon');
+                toggle.title = i18n.disableSystemNotifications;
+            }
+        }
+    }
+
+    toggleWrap.appendChild(toggle);
+
+    return toggleWrap;
 }
 
 const createVersionIndicator = (): HTMLElement => {
@@ -297,7 +323,8 @@ if (root) {
 
                     root.appendChild(createFooter(
                         createOptionsLink(),
-                        createGitHubLink(),
+                        // createGitHubLink(),
+                        createSystemNotificationToggle(prefs.notificationsEnabled, storage.toggleNotificationsEnabled),
                         createThemeSwitch(prefs.popupTheme, (newTheme: PopupThemeType) => {
                             storage.setTheme(newTheme)
                         }),

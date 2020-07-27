@@ -38,11 +38,13 @@ export const i18n = {
     liNotifyButtonActivate: i('liNotifyButtonActivate'),
     invalidUsernameFeedback: i('invalidUsernameFeedback'),
     liNotifyButtonDeactivate: i('liNotifyButtonDeactivate'),
+    enableSystemNotifications: i('enableSystemNotifications'),
+    disableSystemNotifications: i('disableSystemNotifications'),
     notifyWhenOnlineQuestion: i('notifyWhenOnlineQuestion'),
     notifyWhenPlayingQuestion: i('notifyWhenPlayingQuestion'),
     searchUsersInputPlaceholder: i('searchUsersInputPlaceholder'),
     displayBadgeTextSettingTitle: i('displayBadgeTextSettingTitle'),
     displayBadgeTextSettingDescription: i('displayBadgeTextSettingDescription'),
-    enableSystemNotificationsSettingTitle: i('enableSystemNotificationsSettingTitle'),
-    enableSystemNotificationsSettingDescription: i('enableSystemNotificationsSettingDescription')
+    systemNotificationsSettingTitle: i('systemNotificationsSettingTitle'),
+    systemNotificationsSettingDescription: i('systemNotificationsSettingDescription')
 }

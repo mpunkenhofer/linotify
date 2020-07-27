@@ -6,7 +6,7 @@
   display: flex;
   flex-flow: row wrap;
   font: inherit;
-  margin-left: auto;
+  //margin-left: auto;
 
   @include themify() {
     background-color: themed("bg-tertiary");

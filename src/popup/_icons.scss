@@ -26,7 +26,9 @@
 .rp::before,
 .game-link::before,
 .line::before,
-.options-link::before {
+.options-link::before,
+.notifications-enabled-icon::before,
+.notifications-disabled-icon::before {
     font-family: "lichess";
 }
 
@@ -81,4 +83,14 @@ bad::before {
 .dark-theme-icon::before {
     font-size: 1em !important;
     content: "M";
+}
+
+.notifications-enabled-icon::before {
+    font-size: 1em !important;
+    content: "\e00f";
+}
+
+.notifications-disabled-icon::before {
+    font-size: 1em !important;
+    content: "¿";
 }

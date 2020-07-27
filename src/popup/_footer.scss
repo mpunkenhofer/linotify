@@ -26,6 +26,47 @@
         }
     }
 
+    .system-notifications-toggle {
+        overflow: hidden;
+        border-radius: 2px;
+        display: flex;
+        flex-flow: row wrap;
+
+        @include themify() {
+            background-color: themed("bg-tertiary");
+            border: 1px solid themed("border-primary");
+        }
+
+        margin-left: auto;
+        margin-right: 1em;
+
+        .notifications-disabled-icon {
+            box-shadow: 0 3px 4px hsla(0, 0, 0, 0.15) inset;
+
+            // @include themify() {
+            //     background: themed("bad");
+            // }
+        }
+
+        a {
+            @include themify() {
+                color: themed("font");
+            }
+
+            display: flex;
+            flex-flow: row wrap;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 0.2em 0.5em 0.2em 0.5em;
+
+            height: 100%;
+            user-select: none;
+            cursor: pointer; 
+        }
+    }
+
     .version {
         margin-left: 2em;
     }
