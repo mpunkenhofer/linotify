@@ -31,6 +31,7 @@ export const i18n = {
     settings: i('settings'),
     username: i('username'),
     userCount: i('userCount'),
+    noUsersInfo: i('noUsersInfo'),
     addUserDescription: i('addUserDescription'),
     userListDescription: i('userListDescription'),
     darkThemeButtonTitle: i('darkThemeButtonTitle'),

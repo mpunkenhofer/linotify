@@ -6,7 +6,7 @@
     align-items: center;
 
     .options-link,
-    .github-link {
+    .version-link {
         @include themify() {
             color: themed("font");
         }
@@ -26,6 +26,10 @@
         }
     }
 
+    .version-link {
+        margin-left: 2em;
+    }
+    
     .system-notifications-toggle {
         overflow: hidden;
         border-radius: 2px;
@@ -42,10 +46,6 @@
 
         .notifications-disabled-icon {
             box-shadow: 0 3px 4px hsla(0, 0, 0, 0.15) inset;
-
-            // @include themify() {
-            //     background: themed("bad");
-            // }
         }
 
         a {
@@ -65,9 +65,5 @@
             user-select: none;
             cursor: pointer; 
         }
-    }
-
-    .version {
-        margin-left: 2em;
     }
 }

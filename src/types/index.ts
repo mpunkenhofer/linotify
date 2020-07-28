@@ -14,6 +14,7 @@ export interface User {
     lastNotification: number;
     notifyWhenOnline: boolean;
     notifyWhenPlaying: boolean;
+    statusChangeNoticed: boolean;
 }
 
 export type PopupThemeType = 'dark' | 'light';

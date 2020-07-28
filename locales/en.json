@@ -92,7 +92,7 @@
     "message": "Checking..."
   },
   "liNotifyButtonActivate": {
-    "message": "Enable LiNotify!"
+    "message": "Add to linotify!"
   },
   "darkThemeButtonTitle": {
     "message": "Dark Theme"
@@ -101,7 +101,7 @@
     "message": "Light Theme"
   },
   "liNotifyButtonDeactivate": {
-    "message": "Disable LiNotify!"
+    "message": "Remove from linotify!"
   },
   "searchUsersInputPlaceholder": {
     "message": "Search Users..."
@@ -119,7 +119,7 @@
     "message": "List of users you receive notifications for:"
   },
   "addUserDescription": {
-    "message": "You can add a user to receive notifications for, by either clicking the LiNotify icon on their profile page, or manually here:"
+    "message": "You can add a user to receive notifications for by either clicking the linotify icon on their lichess profile page, or manually here:"
   },
   "displayBadgeTextSettingTitle": {
     "message": "Extension Icon Badge Text"
@@ -131,7 +131,7 @@
     "message": "System Notifications"
   },
   "systemNotificationsSettingDescription": {
-    "message": "Lets you control if LiNotify should trigger system notifications. Appearance and sound are entirely operating system dependent."
+    "message": "Lets you control if linotify should trigger system notifications. Appearance and sound are entirely operating system dependent."
   },
   "enableAutoClearOldNotificationsSettingTitle": {
     "message": "Automatically Clear old Notifications"
@@ -144,5 +144,8 @@
   },
   "disableSystemNotifications": {
     "message": "Disable System Notifications"
+  },
+  "noUsersInfo": {
+    "message": "You have not added any users yet. To add a user click the linotify icon on their lichess profile page or manually in the options."
   }
 }

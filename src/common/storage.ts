@@ -85,9 +85,9 @@ export const removeUser = (id_: string): Promise<void> => {
 }
 
 export const updateUser = async (user: Partial<User>): Promise<void> => {
-    if(user.id) {
-        const u = (await getUser(user.id)) || createUser(user.id); 
-        const updated: User = {...u, ...user} as User;
+    if (user.id) {
+        const u = (await getUser(user.id)) || createUser(user.id);
+        const updated: User = { ...u, ...user } as User;
         return setUser(updated);
     } else {
         Promise.reject('user missing id');
@@ -98,6 +98,15 @@ export const addUser = async (id: string): Promise<void> => {
     const newUser = createUser(id.toLowerCase());
     await setUser(newUser);
     getUserData(id).then(userData => updateUser(userData)).catch(err => console.error(err));
+    return;
+}
+
+export const markUserStatusChangeNoticed = async (users: User[]): Promise<void> => {
+    for (const user of users) {
+        if (!user.statusChangeNoticed) {
+            await updateUser({ ...user, statusChangeNoticed: true });
+        }
+    }
     return;
 }
 
