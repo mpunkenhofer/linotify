@@ -1,5 +1,6 @@
 export type TitleType = 'LM' | 'CM' | 'WCM' | 'NM' | 'WNM' | 'FM' | 'WFM' | 'IM' | 'WIM' | 'GM' | 'WGM' | '';
 export type RatingType = 'bullet' | 'blitz' | 'rapid' | 'classical' | 'ultraBullet' | 'crazyhouse' | 'antichess' | 'atomic' | 'threeCheck' | 'kingOfTheHill' | 'horde' | 'racingKings' | 'correspondence' | 'puzzle';
+export type NotificationType = 'playing' | 'online';
 
 export interface User {
     id: string;
@@ -14,7 +15,8 @@ export interface User {
     lastNotification: number;
     notifyWhenOnline: boolean;
     notifyWhenPlaying: boolean;
-    statusChangeNoticed: boolean;
+    statusChanged: boolean;
+    statusPersistence: number;
 }
 
 export type PopupThemeType = 'dark' | 'light';

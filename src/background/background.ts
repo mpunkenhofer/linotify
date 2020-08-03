@@ -1,33 +1,34 @@
 import { browser } from "webextension-polyfill-ts";
 import { enableStorageApiLogger, getUsers, updateUser, getPreferences } from "../common/storage";
 import { getUserStatus, getUserData } from "../common/lichess";
-import { User } from "../types";
+import { User, NotificationType } from "../types";
 import { delay } from "lodash";
-import { clearBadgeTextMessage } from "../constants";
+import { clearBadgeTextMessage, GITHUB } from "../constants";
 
-console.log('LiNotify is open source! https://github.com/mpunkenhofer/linotify');
+console.log(`LiNotify is open source! ${GITHUB}`);
 
 if (process.env.NODE_ENV === "development") {
     enableStorageApiLogger();
 }
 
-const userDataPollPeriodInMinutes = 30;
-const notificationCooldownInMinutes = 5;
-const statusPollPeriodInMinutes = 1;
+const userDataPollPeriodInMinutes = 30; // request all user data from the lichess api (ratings, lastSeen, ...)
+const statusPollPeriodInMinutes = 1; // only request the user status (online, playing)
+const notificationCooldownInMinutes = 10;
+const statusPersistenceThreshold = 3;
 
 browser.alarms.create('apiStatusPollAlarm', { periodInMinutes: statusPollPeriodInMinutes });
 
 browser.notifications.onClicked.addListener((id) => {
     //console.log('Notification ' + id + ' was clicked by the user');
-    browser.tabs.create({ url:  `https://lichess.org/@/${id}/tv`});
+    browser.tabs.create({ url: `https://lichess.org/@/${id}/tv` });
 });
 
 const notificationCooldownElapsed = (user: User): boolean => {
-    if(user.lastNotification === undefined)
-        user.lastNotification = 0;
-        
     const diff = Date.now() - user.lastNotification;
     const diffInMinutes = Math.floor(diff / (1000 * 60));
+
+    //console.log(`%cLast notification trigger for ${user.id} was ${diffInMinutes} min ago`, 'font-size: 1em; color: blue');
+
     return diffInMinutes >= notificationCooldownInMinutes;
 }
 
@@ -35,36 +36,24 @@ const clearNotification = (user: User): void => {
     browser.notifications.clear(user.id);
 }
 
-const createOnlineNotification = (user: User): void => {
-    if (user.notifyWhenOnline) {
+const createNotification = (user: User, notificationType: NotificationType = 'playing'): User => {
+    if (((notificationType === 'online' && user.notifyWhenOnline) || (notificationType === 'playing' && user.notifyWhenPlaying))
+        && notificationCooldownElapsed(user)) {
+        //console.log(`%cTriggering notification for ${user.id}; type: ${notificationType}`, 'font-size: 2em; font-weight: bold; color: red');
 
-        // clear old notification
         clearNotification(user);
 
         browser.notifications.create(user.id, {
             "type": "basic",
             "iconUrl": browser.runtime.getURL("assets/images/linotify_icon.svg"),
             "title": "LiNotify!",
-            "message": `${(user.username && user.username.length > 0) ? user.username : user.id} is now online on lichess.org.`
+            "message": (notificationType == 'playing') ? `${(user.username && user.username.length > 0) ? user.username : user.id} is playing on lichess.org!` :
+                `${(user.username && user.username.length > 0) ? user.username : user.id} is now online on lichess.org.`
         });
     }
+
+    return { ...user, lastNotification: Date.now() };
 }
-
-const createPlayingNotification = (user: User): void => {
-    if (user.notifyWhenPlaying) {
-
-        // clear old notification
-        clearNotification(user);
-
-        browser.notifications.create(user.id, {
-            "type": "basic",
-            "iconUrl": browser.runtime.getURL("assets/images/linotify_icon.svg"),
-            "title": "LiNotify!",
-            "message": `${(user.username && user.username.length > 0) ? user.username : user.id} is playing on lichess.org!`,
-        });
-    }
-}
-
 
 const updateUserData = (): void => {
     const successiveUpdateDelayInMs = 3000;
@@ -93,17 +82,6 @@ const updateBadgeText = (text: string): void => {
     browser.browserAction.setBadgeText({ text });
 }
 
-// const incBadgeNumber = (n: number): void => {
-//     browser.browserAction.getBadgeText({})
-//         .then(text => {
-//             const badgeNumber = Number(text);
-
-//             if(!isNaN(badgeNumber)) {
-//                 updateBadgeText((badgeNumber + n).toString());
-//             }
-//         }).catch(err => console.error(err));
-// }
-
 const updateUserStatuses = async (): Promise<void> => {
     try {
         const users = await getUsers();
@@ -113,47 +91,38 @@ const updateUserStatuses = async (): Promise<void> => {
 
         const [prefs, userStatuses] = await Promise.all([getPreferences(), getUserStatus(userIds)]);
 
-        let updateCount = 0;
+        let statusChangedCnt = 0;
 
         for (const status of userStatuses) {
             if (status.id) {
-                const user: User = userRecord[status.id];
+                let user: User = userRecord[status.id];
 
                 if (user) {
-                    const updatedUser = { ...user, ...status } as User;
-                    let lastNotification = updatedUser.lastNotification;
-                    let statusChangeNoticed = updatedUser.statusChangeNoticed;
+                    if (!status.online && !user.online && user.statusPersistence >= statusPersistenceThreshold) {
+                        user.statusChanged = false;
+                        clearNotification(user);
+                    }
+                    else if ((!user.playing && status.playing || !user.online && status.online) && user.statusPersistence >= statusPersistenceThreshold) {
+                        user.statusChanged = true;
+                        statusChangedCnt++;
 
-                    //check if a user started playing or came online and display notification
-                    if (!user.playing && status.playing) {
-                        statusChangeNoticed = false;
-                        if(prefs.notificationsEnabled && notificationCooldownElapsed(updatedUser)) {
-                            console.log('tiggering playing notification!', user, updatedUser);
-                            createPlayingNotification(updatedUser);
-                            lastNotification = Date.now();
-                        }                 
-                    } else if (!user.online && status.online) {
-                        statusChangeNoticed = false;
-                        if(prefs.notificationsEnabled && notificationCooldownElapsed(updatedUser)) {
-                            console.log('tiggering online notification!', user, updatedUser);
-                            createOnlineNotification(updatedUser);
-                            lastNotification = Date.now();
-                        }       
-                    } else if (user.playing && !status.playing || user.online && !status.online) {
-                        statusChangeNoticed = true;
-                        clearNotification(updatedUser);
+                        if (prefs.notificationsEnabled) {
+                            if (status.playing)
+                                user = createNotification(user, 'playing');
+                            else if (status.online)
+                                user = createNotification(user, 'online');
+                        }
                     }
 
-                    updateUser({ ...updatedUser, lastNotification, statusChangeNoticed });
-                    
-                    if(!statusChangeNoticed)
-                        updateCount++;
+                    user = (user.online === status.online && user.playing === status.playing) ?
+                        { ...user, statusPersistence: user.statusPersistence + 1 } : { ...user, statusPersistence: 0 };
+                    updateUser({ ...user, ...status });
                 }
             }
         }
 
-        if (updateCount > 0 && prefs.displayBadgeTextEnabled)
-            updateBadgeText(updateCount.toString());
+        if (statusChangedCnt > 0 && prefs.displayBadgeTextEnabled)
+            updateBadgeText(statusChangedCnt.toString());
         else
             clearBadgeText();
 

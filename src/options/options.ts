@@ -5,8 +5,9 @@ import { User } from "../types";
 import { debounce, isEmpty } from "lodash";
 import { sortByName } from "../common/util";
 import { getUserStatus } from "../common/lichess";
+import { GITHUB } from "../constants";
 
-console.log('LiNotify is open source! https://github.com/mpunkenhofer/linotify');
+console.log(`LiNotify is open source! ${GITHUB}`);
 
 if (process.env.NODE_ENV === "development") {
     enableStorageApiLogger();
@@ -373,9 +374,8 @@ if (content) {
                     }),
                 )
             );
-
-            content.appendChild(createBoxWrapper(i18n.users, i18n.userListDescription, createUserTable()));
             content.appendChild(createBoxWrapper(i18n.addUser, i18n.addUserDescription, createAddUserElement()));
+            content.appendChild(createBoxWrapper(i18n.users, i18n.userListDescription, createUserTable()));
         })
         .catch(err => console.error(err));
 } 

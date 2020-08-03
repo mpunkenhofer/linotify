@@ -49,7 +49,7 @@ export const getUsers = async (): Promise<User[]> => {
             const users: User[] = Object.values(usersObj);
 
             if (users) {
-                return users;
+                return users.map((u: User) => { return { ...createUser(u.id), ...u } });
             }
         }
     } catch (err) {
@@ -65,7 +65,7 @@ export const getUser = async (id_: string): Promise<User | null> => {
         const user = await browser.storage.sync.get(id);
 
         if (user && user[id] != undefined)
-            return user[id];
+            return { ...createUser(id), ...user[id] };
     } catch (err) {
         console.error(err);
     }
@@ -94,17 +94,18 @@ export const updateUser = async (user: Partial<User>): Promise<void> => {
     }
 }
 
-export const addUser = async (id: string): Promise<void> => {
-    const newUser = createUser(id.toLowerCase());
+export const addUser = async (id_: string): Promise<void> => {
+    const id = id_.toLowerCase();
+    const newUser = createUser(id);
     await setUser(newUser);
     getUserData(id).then(userData => updateUser(userData)).catch(err => console.error(err));
     return;
 }
 
-export const markUserStatusChangeNoticed = async (users: User[]): Promise<void> => {
+export const setUserStatusChanged = async (users: User[], statusChanged: boolean): Promise<void> => {
     for (const user of users) {
-        if (!user.statusChangeNoticed) {
-            await updateUser({ ...user, statusChangeNoticed: true });
+        if (!user.statusChanged) {
+            await updateUser({ ...user, statusChanged: statusChanged });
         }
     }
     return;

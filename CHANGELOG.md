@@ -1,10 +1,15 @@
 # Changelog
 
+## 1.2.1, Aug, 04, 2020
+
+- Updated dependencies
+- System notifications should appear less often (spam) when a player keeps playing (e.g. arena).
+
 ## 1.2.0, Jul, 28, 2020
 
 - Added system notification toggle button to popup.
 - Clicking on a notification now opens a new tab to spectate the players game.
-- Chaged how extension icon badge number is being calculated.
+- Changed how extension icon badge number is being calculated.
 - Removed github link from popup. Linked version number to github linotify releases page.
 
 ## 1.1.0, Apr, 28, 2020

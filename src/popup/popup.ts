@@ -6,9 +6,9 @@ import { isString } from "lodash";
 import { browser } from "webextension-polyfill-ts";
 import pkg from "../../package.json"
 import { i18n } from "../constants/i18n";
-import { markUserStatusChangeNoticed } from "../common/storage";
+import { setUserStatusChanged } from "../common/storage";
 
-console.log('LiNotify is open source! https://github.com/mpunkenhofer/linotify');
+console.log(`LiNotify is open source! ${GITHUB}`);
 
 if (process.env.NODE_ENV === "development") {
     storage.enableStorageApiLogger();
@@ -305,7 +305,7 @@ if (root) {
             storage.getUsers()
                 .then(users => {
                     requestClearBadgeText();
-                    markUserStatusChangeNoticed(users);
+                    setUserStatusChanged(users, false);
                     
                     if (users.length > 0) {
                         const playing = users.filter(u => u.playing);

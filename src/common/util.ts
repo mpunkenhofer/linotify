@@ -14,9 +14,10 @@ export const createUser = (id: string): User => (
         seenAt: 0,
         lastApiUpdate: 0,
         lastNotification: 0,
+        statusChanged: false,
         notifyWhenOnline: false,
         notifyWhenPlaying: true,
-        statusChangeNoticed: true,
+        statusPersistence: 1000,
     }
 );
 
@@ -39,7 +40,7 @@ export const sortByRating = (users: User[]): User[] => {
     return users.sort((a, b) => {
         const d = topPerformance(b).rating - topPerformance(a).rating;
 
-        if(d != 0)
+        if (d != 0)
             return d;
         else
             return a.id.localeCompare(b.id);

@@ -1,8 +1,9 @@
 import { enableStorageApiLogger, getUser, addUser, removeUser } from "../common/storage";
 import { browser } from "webextension-polyfill-ts";
 import { i18n } from "../constants/i18n";
+import { GITHUB } from "../constants";
 
-console.log('LiNotify is open source! https://github.com/mpunkenhofer/linotify');
+console.log(`LiNotify is open source! ${GITHUB}`);
 
 if (process.env.NODE_ENV === "development") {
     enableStorageApiLogger();
