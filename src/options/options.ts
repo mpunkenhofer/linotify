@@ -360,8 +360,8 @@ if (content) {
             content.appendChild(
                 createBoxWrapper(i18n.settings, '',
                     createSwitch({
-                        title: i18n.enableSystemNotificationsSettingTitle,
-                        description: i18n.enableSystemNotificationsSettingDescription,
+                        title: i18n.systemNotificationsSettingTitle,
+                        description: i18n.systemNotificationsSettingDescription,
                         status: prefs.notificationsEnabled,
                         onToggle: toggleNotificationsEnabled
                     }),

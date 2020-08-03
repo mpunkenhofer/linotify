@@ -15,7 +15,8 @@ export const createUser = (id: string): User => (
         lastApiUpdate: 0,
         lastNotification: 0,
         notifyWhenOnline: false,
-        notifyWhenPlaying: true
+        notifyWhenPlaying: true,
+        statusChangeNoticed: true,
     }
 );
 

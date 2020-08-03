@@ -92,7 +92,7 @@
     "message": "Checking..."
   },
   "liNotifyButtonActivate": {
-    "message": "Enable LiNotify!"
+    "message": "Add to linotify!"
   },
   "darkThemeButtonTitle": {
     "message": "Dark Theme"
@@ -101,7 +101,7 @@
     "message": "Light Theme"
   },
   "liNotifyButtonDeactivate": {
-    "message": "Disable LiNotify!"
+    "message": "Remove from linotify!"
   },
   "searchUsersInputPlaceholder": {
     "message": "Search Users..."
@@ -119,24 +119,33 @@
     "message": "List of users you receive notifications for:"
   },
   "addUserDescription": {
-    "message": "You can add a user you would like to receive notifications for by either by clicking the LiNotify icon on their profile page, or manually here:"
+    "message": "You can add a user to receive notifications for by either clicking the linotify icon on their lichess profile page, or manually here:"
   },
   "displayBadgeTextSettingTitle": {
-    "message": "Enable Extension Icon Badge Text"
+    "message": "Extension Icon Badge Text"
   },
   "displayBadgeTextSettingDescription": {
     "message": "Controls if there should be a number displayed bellow the extension icon or not. The number signifies how many users came online/started playing since you last checked."
   },
-  "enableSystemNotificationsSettingTitle": {
-    "message": "Enable System Notifications"
+  "systemNotificationsSettingTitle": {
+    "message": "System Notifications"
   },
-  "enableSystemNotificationsSettingDescription": {
-    "message": "Lets you control if LiNotify should trigger system notifications. Appearance and sound are entirely operating system dependent."
+  "systemNotificationsSettingDescription": {
+    "message": "Lets you control if linotify should trigger system notifications. Appearance and sound are entirely operating system dependent."
   },
   "enableAutoClearOldNotificationsSettingTitle": {
     "message": "Automatically Clear old Notifications"
   },
   "enableAutoClearOldNotificationsSettingDescription": {
     "message": "Test"
+  },
+  "enableSystemNotifications": {
+    "message": "Enable System Notifications"
+  },
+  "disableSystemNotifications": {
+    "message": "Disable System Notifications"
+  },
+  "noUsersInfo": {
+    "message": "You have not added any users yet. To add a user click the linotify icon on their lichess profile page or manually in the options."
   }
 }

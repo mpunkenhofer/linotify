@@ -12,10 +12,15 @@ if (process.env.NODE_ENV === "development") {
 }
 
 const userDataPollPeriodInMinutes = 30;
-const notificationCooldownInMinutes = 4;
+const notificationCooldownInMinutes = 5;
 const statusPollPeriodInMinutes = 1;
 
 browser.alarms.create('apiStatusPollAlarm', { periodInMinutes: statusPollPeriodInMinutes });
+
+browser.notifications.onClicked.addListener((id) => {
+    //console.log('Notification ' + id + ' was clicked by the user');
+    browser.tabs.create({ url:  `https://lichess.org/@/${id}/tv`});
+});
 
 const notificationCooldownElapsed = (user: User): boolean => {
     if(user.lastNotification === undefined)
@@ -88,16 +93,16 @@ const updateBadgeText = (text: string): void => {
     browser.browserAction.setBadgeText({ text });
 }
 
-const incBadgeNumber = (n: number): void => {
-    browser.browserAction.getBadgeText({})
-        .then(text => {
-            const badgeNumber = Number(text);
+// const incBadgeNumber = (n: number): void => {
+//     browser.browserAction.getBadgeText({})
+//         .then(text => {
+//             const badgeNumber = Number(text);
 
-            if(!isNaN(badgeNumber)) {
-                updateBadgeText((badgeNumber + n).toString());
-            }
-        }).catch(err => console.error(err));
-}
+//             if(!isNaN(badgeNumber)) {
+//                 updateBadgeText((badgeNumber + n).toString());
+//             }
+//         }).catch(err => console.error(err));
+// }
 
 const updateUserStatuses = async (): Promise<void> => {
     try {
@@ -117,32 +122,38 @@ const updateUserStatuses = async (): Promise<void> => {
                 if (user) {
                     const updatedUser = { ...user, ...status } as User;
                     let lastNotification = updatedUser.lastNotification;
+                    let statusChangeNoticed = updatedUser.statusChangeNoticed;
 
                     //check if a user started playing or came online and display notification
                     if (!user.playing && status.playing) {
+                        statusChangeNoticed = false;
                         if(prefs.notificationsEnabled && notificationCooldownElapsed(updatedUser)) {
+                            console.log('tiggering playing notification!', user, updatedUser);
                             createPlayingNotification(updatedUser);
                             lastNotification = Date.now();
                         }                 
-                        updateCount++;
                     } else if (!user.online && status.online) {
+                        statusChangeNoticed = false;
                         if(prefs.notificationsEnabled && notificationCooldownElapsed(updatedUser)) {
+                            console.log('tiggering online notification!', user, updatedUser);
                             createOnlineNotification(updatedUser);
                             lastNotification = Date.now();
                         }       
-                        updateCount++;
                     } else if (user.playing && !status.playing || user.online && !status.online) {
+                        statusChangeNoticed = true;
                         clearNotification(updatedUser);
-                        updateCount--;
                     }
 
-                    updateUser({ ...status, lastNotification });
+                    updateUser({ ...updatedUser, lastNotification, statusChangeNoticed });
+                    
+                    if(!statusChangeNoticed)
+                        updateCount++;
                 }
             }
         }
 
         if (updateCount > 0 && prefs.displayBadgeTextEnabled)
-            incBadgeNumber(updateCount);
+            updateBadgeText(updateCount.toString());
         else
             clearBadgeText();
 

@@ -6,6 +6,7 @@ import { isString } from "lodash";
 import { browser } from "webextension-polyfill-ts";
 import pkg from "../../package.json"
 import { i18n } from "../constants/i18n";
+import { markUserStatusChangeNoticed } from "../common/storage";
 
 console.log('LiNotify is open source! https://github.com/mpunkenhofer/linotify');
 
@@ -224,22 +225,51 @@ const createOptionsLink = (): HTMLElement => {
     return options;
 }
 
-const createGitHubLink = (): HTMLElement => {
-    const github = document.createElement('a');
-    github.classList.add('github-link');
-    github.href = GITHUB;
-    github.textContent = 'GitHub';
-    github.target = '_blank';
-    github.rel = 'noopener noreferrer'
+// const createGitHubLink = (): HTMLElement => {
+//     const github = document.createElement('a');
+//     github.classList.add('github-link');
+//     github.href = GITHUB;
+//     github.textContent = 'GitHub';
+//     github.target = '_blank';
+//     github.rel = 'noopener noreferrer'
 
-    return github;
+//     return github;
+// }
+
+const createSystemNotificationToggle = (active: boolean, onSystemNotificationToggleClicked?: () => Promise<void> | void): HTMLElement => {
+    const toggleWrap = document.createElement('div');
+    toggleWrap.classList.add('system-notifications-toggle');
+
+    const toggle = document.createElement('a');
+    toggle.classList.add(active ? 'notifications-enabled-icon' : 'notifications-disabled-icon');
+    toggle.title = active ? i18n.disableSystemNotifications : i18n.enableSystemNotifications;
+    toggle.onclick = (): void => {
+        if (onSystemNotificationToggleClicked) {
+            onSystemNotificationToggleClicked();
+            if (toggle.classList.contains('notifications-enabled-icon')) {
+                toggle.classList.replace('notifications-enabled-icon', 'notifications-disabled-icon');
+                toggle.title = i18n.enableSystemNotifications;
+            }
+            else {
+                toggle.classList.replace('notifications-disabled-icon', 'notifications-enabled-icon');
+                toggle.title = i18n.disableSystemNotifications;
+            }
+        }
+    }
+
+    toggleWrap.appendChild(toggle);
+
+    return toggleWrap;
 }
 
 const createVersionIndicator = (): HTMLElement => {
-    const version = document.createElement('span');
-    version.classList.add('version');
+    const version = document.createElement('a');
+    version.classList.add('version-link');
     version.textContent = `v${pkg.version}`;
     version.title = i18n.version;
+    version.href = GITHUB + '/releases';
+    version.target = '_blank';
+    version.rel = 'noopener noreferrer';
 
     return version;
 }
@@ -255,6 +285,13 @@ const createFooter = (...elements: HTMLElement[]): HTMLElement => {
     return footer;
 }
 
+const createNoUsersInfo = (): HTMLElement => {
+    const info = document.createElement('div');
+    info.classList.add('info-text');
+    info.textContent = i18n.noUsersInfo;
+    return info;
+}
+
 const requestClearBadgeText = (): void => {
     browser.runtime.sendMessage({ 'request': clearBadgeTextMessage }).catch(err => console.error(err));
 }
@@ -267,37 +304,42 @@ if (root) {
             setTheme(prefs.popupTheme);
             storage.getUsers()
                 .then(users => {
-                    // clear badge
                     requestClearBadgeText();
+                    markUserStatusChangeNoticed(users);
+                    
+                    if (users.length > 0) {
+                        const playing = users.filter(u => u.playing);
+                        const online = users.filter(u => !u.playing && u.online);
+                        const offline = users.filter(u => !u.playing && !u.online);
 
-                    const playing = users.filter(u => u.playing);
-                    const online = users.filter(u => !u.playing && u.online);
-                    const offline = users.filter(u => !u.playing && !u.online);
+                        playing.length > 0 && root.appendChild(createCollapsible({
+                            element: createUserTable(sortByRating(playing)),
+                            title: `${i18n.playing} (${playing.length})`,
+                            show: prefs.popupCollapsibleStatuses.playing,
+                            onShow: () => storage.toggleCollapsibleStatus('playing')
+                        }));
 
-                    playing.length > 0 && root.appendChild(createCollapsible({
-                        element: createUserTable(sortByRating(playing)),
-                        title: `${i18n.playing} (${playing.length})`,
-                        show: prefs.popupCollapsibleStatuses.playing,
-                        onShow: () => storage.toggleCollapsibleStatus('playing')
-                    }));
+                        online.length > 0 && root.appendChild(createCollapsible({
+                            element: createUserTable(sortByRating(online)),
+                            title: `${i18n.online} (${online.length})`,
+                            show: prefs.popupCollapsibleStatuses.online,
+                            onShow: () => storage.toggleCollapsibleStatus('online')
+                        }));
 
-                    online.length > 0 && root.appendChild(createCollapsible({
-                        element: createUserTable(sortByRating(online)),
-                        title: `${i18n.online} (${online.length})`,
-                        show: prefs.popupCollapsibleStatuses.online,
-                        onShow: () => storage.toggleCollapsibleStatus('online')
-                    }));
-
-                    offline.length > 0 && root.appendChild(createCollapsible({
-                        element: createUserTable(sortByRating(offline)),
-                        title: `${i18n.offline} (${offline.length})`,
-                        show: prefs.popupCollapsibleStatuses.offline,
-                        onShow: () => storage.toggleCollapsibleStatus('offline')
-                    }));
+                        offline.length > 0 && root.appendChild(createCollapsible({
+                            element: createUserTable(sortByRating(offline)),
+                            title: `${i18n.offline} (${offline.length})`,
+                            show: prefs.popupCollapsibleStatuses.offline,
+                            onShow: () => storage.toggleCollapsibleStatus('offline')
+                        }));
+                    } else {
+                        root.appendChild(createNoUsersInfo());
+                    }
 
                     root.appendChild(createFooter(
                         createOptionsLink(),
-                        createGitHubLink(),
+                        // createGitHubLink(),
+                        createSystemNotificationToggle(prefs.notificationsEnabled, storage.toggleNotificationsEnabled),
                         createThemeSwitch(prefs.popupTheme, (newTheme: PopupThemeType) => {
                             storage.setTheme(newTheme)
                         }),
