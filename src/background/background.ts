@@ -18,6 +18,9 @@ const statusPollPeriodInMinutes = 1;
 browser.alarms.create('apiStatusPollAlarm', { periodInMinutes: statusPollPeriodInMinutes });
 
 const notificationCooldownElapsed = (user: User): boolean => {
+    if(user.lastNotification === undefined)
+        user.lastNotification = 0;
+        
     const diff = Date.now() - user.lastNotification;
     const diffInMinutes = Math.floor(diff / (1000 * 60));
     return diffInMinutes >= notificationCooldownInMinutes;
