@@ -1,13 +1,17 @@
 # Changelog
 
+## 1.2.3, Oct, 26, 2020
+
+- Fixed an issue with the offline icon not showing correctly on the extension popup.
+
 ## 1.2.2, Oct, 26, 2020
 
-- Updated dependencies
-- Updated bullet rating icon to match lichess.org
+- Updated dependencies.
+- Updated bullet rating icon to match lichess.org.
 
 ## 1.2.1, Aug, 04, 2020
 
-- Updated dependencies
+- Updated dependencies.
 - System notifications should appear less often (spam) when a player keeps playing (e.g. arena).
 
 ## 1.2.0, Jul, 28, 2020

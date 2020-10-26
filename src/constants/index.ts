@@ -24,7 +24,7 @@ export const TITLES = {
     'WIM': i18n.wim,
     'GM': i18n.gm,
     'WGM': i18n.wgm,
-} 
+}
 
 export const ICONS = {
     'bullet': 'T',
@@ -44,7 +44,6 @@ export const ICONS = {
     'puzzle': '-',
     'arrow-upperright': 'N',
     'arrow-lowerright': 'M',
-    'ograve': 'Ò',
     'patron': '\ue019',
     'online': '\ue010',
     'tv': '1',
