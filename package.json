@@ -7,7 +7,7 @@
     "extension",
     "notify"
   ],
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Browser extension for lichess.org which notifies you if a certain player is online and/or playing.",
   "homepage": "https://github.com/mpunkenhofer/linotify",
   "private": true,
@@ -21,26 +21,26 @@
     "icons": "py ./bin/svg2pngs.py ./assets/images/linotify_icon.svg -d assets/images/ -p linotify_icon -r 16 32 48 64 96 128"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.158",
+    "@types/lodash": "^4.14.162",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
-    "bootstrap": "^4.5.0",
-    "copy-webpack-plugin": "^5.1.1",
+    "bootstrap": "^4.5.3",
+    "copy-webpack-plugin": "^5.1.2",
     "css-loader": "^3.6.0",
     "eslint": "^6.8.0",
     "fast-css-loader": "^1.0.2",
     "fast-sass-loader": "^1.5.0",
     "fork-ts-checker-webpack-plugin": "^4.1.6",
-    "ignore-emit-webpack-plugin": "^2.0.2",
+    "ignore-emit-webpack-plugin": "^2.0.3",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
     "rimraf": "^3.0.2",
     "sass-loader": "^8.0.2",
-    "terser-webpack-plugin": "^2.3.7",
+    "terser-webpack-plugin": "^2.3.8",
     "ts-loader": "^6.2.2",
     "typescript": "^3.9.7",
     "webextension-polyfill-ts": "^0.14.0",
-    "webpack": "^4.44.0",
+    "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-extension-manifest-plugin": "^0.5.0",
     "webpack-extension-reloader": "^1.1.4",
@@ -49,6 +49,6 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "lodash": "^4.17.19"
+    "lodash": "^4.17.20"
   }
 }

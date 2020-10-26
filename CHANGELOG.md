@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.2, Oct, 26, 2020
+
+- Updated dependencies
+- Updated bullet rating icon to match lichess.org
+
 ## 1.2.1, Aug, 04, 2020
 
 - Updated dependencies

@@ -21,6 +21,14 @@
     content: attr(data-icon);
 }
 
+.rp::before {
+    margin-right: .2em;
+}
+
+[data-icon]::before {
+    margin-right: .4em;
+}
+
 [data-icon]::before,
 .rp::before,
 .rp::before,
