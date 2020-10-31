@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.4, Oct, 30, 2020
+
+- Fixed disable notification icon which was broken with the last update.
+
 ## 1.2.3, Oct, 26, 2020
 
 - Fixed an issue with the offline icon not showing correctly on the extension popup.
