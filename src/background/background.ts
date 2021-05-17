@@ -1,5 +1,5 @@
 import { browser } from "webextension-polyfill-ts";
-import { enableStorageApiLogger, getUsers, updateUser, getPreferences } from "../common/storage";
+import { enableStorageApiLogger, getUsers, updateUser, getPreferences, getUser } from "../common/storage";
 import { getUserStatus, getUserData } from "../common/lichess";
 import { User, NotificationType } from "../types";
 import { delay } from "lodash";
@@ -20,7 +20,18 @@ browser.alarms.create('apiStatusPollAlarm', { periodInMinutes: statusPollPeriodI
 
 browser.notifications.onClicked.addListener((id) => {
     //console.log('Notification ' + id + ' was clicked by the user');
-    browser.tabs.create({ url: `https://lichess.org/@/${id}/tv` });
+    getUser(id)
+        .then(user => {
+            if (user && !user.playing) {
+                browser.tabs.create({ url: `https://lichess.org/@/${id}` });
+            } else {
+                browser.tabs.create({ url: `https://lichess.org/@/${id}/tv` });
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            browser.tabs.create({ url: `https://lichess.org/@/${id}/tv` });
+        });
 });
 
 const notificationCooldownElapsed = (user: User): boolean => {
@@ -37,6 +48,7 @@ const clearNotification = (user: User): void => {
 }
 
 const createNotification = (user: User, notificationType: NotificationType = 'playing'): User => {
+    //console.log(`create notification for user: ${user.id}; type: ${notificationType}`);
     if (((notificationType === 'online' && user.notifyWhenOnline) || (notificationType === 'playing' && user.notifyWhenPlaying))
         && notificationCooldownElapsed(user)) {
         //console.log(`%cTriggering notification for ${user.id}; type: ${notificationType}`, 'font-size: 2em; font-weight: bold; color: red');

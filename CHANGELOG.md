@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.5, May, 17, 2021
+
+- Notify when online notification now redirects to lichess profile instead of tv.
+
 ## 1.2.4, Oct, 30, 2020
 
 - Fixed disable notification icon which was broken with the last update.
