@@ -14,7 +14,8 @@
     margin-left: 0.6rem;
 }
 
-.linotify__btn[data-icon]::before {
+.linotify__btn[data-icon]::before, 
+.linotify_symbol[data-icon]::before {
     font-family: 'linotify' !important;
 }
 

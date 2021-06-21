@@ -1,7 +1,7 @@
 import { enableStorageApiLogger, getUser, addUser, removeUser } from "../common/storage";
 import { browser } from "webextension-polyfill-ts";
 import { i18n } from "../constants/i18n";
-import { GITHUB } from "../constants";
+import { GITHUB, ICONS } from "../constants";
 
 console.log(`LiNotify is open source! ${GITHUB}`);
 
@@ -11,7 +11,6 @@ if (process.env.NODE_ENV === "development") {
 
 const createFontStyleNode = (): void => {
     const node = document.createElement('style');
-    node.type = "text/css";
     node.textContent = `@font-face { 
         font-family: linotify; 
         src: url('${browser.extension.getURL("assets/fonts/linotify.woff2")}');
@@ -26,7 +25,7 @@ const createNotifyButton = (userId: string): HTMLElement => {
     const button = document.createElement('a');
     button.title = i18n.liNotifyButtonActivate;
     button.classList.add('btn-rack__btn', 'linotify__btn');
-    button.setAttribute('data-icon', 'A');
+    button.setAttribute('data-icon', ICONS.linotify);
 
     const check = document.createElement('i');
 
@@ -39,17 +38,17 @@ const createNotifyButton = (userId: string): HTMLElement => {
             }
         })
         .catch(err => console.error(err));
-    check.setAttribute('data-icon', 'E');
+    check.setAttribute('data-icon', ICONS.check);
 
     button.appendChild(check);
 
     button.onmouseover = (): void => {
-        check.setAttribute('data-icon', 'L');
+        check.setAttribute('data-icon', ICONS.times);
         check.classList.remove('linotify_check');
         check.classList.add('linotify_times');
     }
     button.onmouseout = (): void => {
-        check.setAttribute('data-icon', 'E');
+        check.setAttribute('data-icon', ICONS.check);
         check.classList.remove('linotify_times');
         check.classList.add('linotify_check');
     }
@@ -117,8 +116,12 @@ const rack = document.querySelector('.btn-rack');
 
 // check if there is a button rack (e.g. profile page)
 if (rack) {
-    const userId = getUserId(document.querySelector('.user-link'));
-    userId && rack.insertAdjacentElement('beforeend', createNotifyButton(userId));
+    const userIdMatch = /@\/([^\/]+)/.exec(window.location.pathname);
+    if(userIdMatch && userIdMatch.length > 1) {
+        const userId = userIdMatch[1];
+        console.log(userId);
+        userId && rack.insertAdjacentElement('beforeend', createNotifyButton(userId));
+    }
 }
 
 const powerTip = document.getElementById('powerTip');

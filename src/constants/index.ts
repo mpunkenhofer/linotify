@@ -47,7 +47,10 @@ export const ICONS = {
     'patron': '\ue019',
     'online': '\ue010',
     'tv': '1',
-    'delicious': '4'
+    'delicious': '4',
+    'check': 'F',
+    'times': 'G',
+    'linotify': 'A'
 }
 
 export const clearBadgeTextMessage = 'clearBadgeText';
