@@ -8,5 +8,9 @@ coverage
 locales
 # don't lint assets folder
 assets
+# don't lint vendor folder
+vendor
 # don't list webpack config files
 webpack.*
+# ignore eslint config
+.eslintrc.js

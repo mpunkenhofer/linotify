@@ -1,24 +1,24 @@
 @import "themes";
 @import "common";
-@import "fonts";
-@import "icons";
+@import "../common/data-icon";
 @import "table";
 @import "collapsible";
 @import "footer";
 @import "switch";
+@import "minigame";
 
 body {
     min-width: 25em;
 }
 
-main {
+main { 
     @include themify() {
         background-color: themed('bg-primary');
         color: themed('font');
     }
 
     padding: .5em;
-
+    
     .info-text {
         margin: .5em 1em 1em 1em;
     }

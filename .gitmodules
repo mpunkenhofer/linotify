@@ -1,0 +1,3 @@
+[submodule "vendor/chessground"]
+	path = vendor/chessground
+	url = https://github.com/ornicar/chessground

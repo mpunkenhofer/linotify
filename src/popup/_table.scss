@@ -68,6 +68,10 @@ tr {
 
     .rp {
         text-align: right;
+
+        &::before {
+            margin-right: .2em;
+        }
     }
 
     .line {
@@ -80,6 +84,10 @@ tr {
         width: 1.5em;
         text-align: center;
         vertical-align: text-top; 
+
+        &::before {
+            margin-right: .4em;
+        }
     }
 
     .user-link.online .line {
@@ -111,5 +119,11 @@ tr {
 
             opacity: 1;
         }
+
+        margin-right: .5em;
+    }
+
+    .rating::before {
+        margin-right: .3em;
     }
 }

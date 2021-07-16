@@ -125,19 +125,13 @@
     "message": "Extension Icon Badge Text"
   },
   "displayBadgeTextSettingDescription": {
-    "message": "Controls if there should be a number displayed bellow the extension icon or not. The number signifies how many users came online/started playing since you last checked."
+    "message": "Should there be a number displayed below the extension icon or not? The number signifies how many users came online or started playing since you last checked."
   },
   "systemNotificationsSettingTitle": {
     "message": "System Notifications"
   },
   "systemNotificationsSettingDescription": {
-    "message": "Lets you control if linotify should trigger system notifications. Appearance and sound are entirely operating system dependent."
-  },
-  "enableAutoClearOldNotificationsSettingTitle": {
-    "message": "Automatically Clear old Notifications"
-  },
-  "enableAutoClearOldNotificationsSettingDescription": {
-    "message": "Test"
+    "message": "Should linotify trigger system notifications? Appearance and sound are entirely operating system dependent."
   },
   "enableSystemNotifications": {
     "message": "Enable System Notifications"

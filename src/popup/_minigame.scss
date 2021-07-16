@@ -1,0 +1,13 @@
+@import "../vendor/chessground/assets/chessground.base.css";
+@import "../vendor/chessground/assets/chessground.brown.css";
+@import "../vendor/chessground/assets/chessground.cburnett.css";
+
+.mini-game {
+    display: block;
+    visibility: visible;
+    user-select: none;
+    z-index: 1;   
+    width: 400px;
+    height: 400px;
+    left: -20px;
+}

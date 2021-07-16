@@ -39,7 +39,7 @@
       }
 
       text-shadow: 0 1px 1px black !important;
-      box-shadow: 0 3px 4px hsla(0, 0, 0, 0.15) inset;
+      box-shadow: 0 3px 4px hsla(0deg, 0%, 0%, 0.15) inset;
     }
   }
 
@@ -54,10 +54,14 @@
     align-items: center;
     justify-content: center;
 
-    padding: .2em .5em .2em .5em;
+    padding: 0.2em 0.5em 0.2em 0.5em;
 
     height: 100%;
     user-select: none;
     cursor: pointer;
+
+    &:before {
+      font-size: 1em !important;
+    }
   }
 }

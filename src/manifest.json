@@ -9,18 +9,18 @@
     "notifications"
   ],
   "icons": {
-    "48": "assets/images/linotify_icon48.png",
-    "96": "assets/images/linotify_icon96.png",
-    "128": "assets/images/linotify_icon128.png"
+    "48": "images/linotify_icon48.png",
+    "96": "images/linotify_icon96.png",
+    "128": "images/linotify_icon128.png"
   },
   "browser_action": {
     "browser_style": true,
     "default_title": "LiNotify",
     "default_icon": {
-      "32": "assets/images/linotify_icon32.png",
-      "48": "assets/images/linotify_icon48.png",
-      "96": "assets/images/linotify_icon96.png",
-      "128": "assets/images/linotify_icon128.png"
+      "32": "images/linotify_icon32.png",
+      "48": "images/linotify_icon48.png",
+      "96": "images/linotify_icon96.png",
+      "128": "images/linotify_icon128.png"
     },
     "default_popup": "popup.html"
   },
@@ -29,17 +29,17 @@
     "open_in_tab": true
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["js/background.js"]
   },
   "content_scripts": [
     {
       "matches": [ "http://*.lichess.org/*", "https://*.lichess.org/*" ],
-      "js": ["content.js"],
-      "css": [ "content.css" ]
+      "js": ["js/content.js"],
+      "css": [ "css/content.css" ]
     }
   ],
   "web_accessible_resources": [
-    "assets/fonts/linotify.woff2",
+    "fonts/linotify.woff2",
     "options.html"
   ]
 }

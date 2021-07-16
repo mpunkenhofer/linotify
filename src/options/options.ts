@@ -5,7 +5,7 @@ import { User } from "../types";
 import { debounce, isEmpty } from "lodash";
 import { sortByName } from "../common/util";
 import { getUserStatus } from "../common/lichess";
-import { GITHUB } from "../constants";
+import { GITHUB, ICONS } from "../constants";
 
 console.log(`LiNotify is open source! ${GITHUB}`);
 
@@ -26,12 +26,12 @@ const createSwitch = ({ title, description, status, onToggle }: SwitchProps): HT
     const switchId = `switch-${switchCount++}`;
 
     const switchWrapper = document.createElement('div');
-    switchWrapper.classList.add('d-flex', 'flex-column', 'custom-control', 'custom-switch');
+    switchWrapper.classList.add('form-check', 'form-switch');
 
     const switchElement = document.createElement('input');
-    switchElement.classList.add('custom-control-input');
-    switchElement.id = switchId;
+    switchElement.classList.add('form-check-input');
     switchElement.type = 'checkbox';
+    switchElement.id = switchId;
     switchElement.checked = status;
     switchElement.onchange = (): void => {
         onToggle();
@@ -40,7 +40,7 @@ const createSwitch = ({ title, description, status, onToggle }: SwitchProps): HT
     switchWrapper.appendChild(switchElement);
 
     const switchLabel = document.createElement('label');
-    switchLabel.classList.add('custom-control-label');
+    switchLabel.classList.add('form-check-label');
     switchLabel.setAttribute('for', switchId);
     switchLabel.innerText = title;
 
@@ -102,36 +102,36 @@ const createUserCellElement = (user: User): HTMLElement => {
     return userLink;
 }
 
+const onSettingCellClick = (btn: HTMLElement, f: () => void): void => {
+    if (btn.getAttribute('data-icon') == ICONS.check) {
+        btn.setAttribute('data-icon', ICONS.times);
+        btn.classList.replace('check', 'times');
+    } else {
+        btn.setAttribute('data-icon', ICONS.check);
+        btn.classList.replace('times', 'check');
+    }
+
+    f();
+}
+
 const createNotifyWhenOnlineSettingCell = (user: User): HTMLElement => {
     const button = document.createElement('a');
-    button.classList.add('notify-online-btn', user.notifyWhenOnline ? 'check-icon' : 'times-icon');
-    button.onclick = (): void => {
-        if (button.classList.contains('check-icon')) {
-            button.classList.replace('check-icon', 'times-icon');
-        } else {
-            button.classList.remove('times-icon');
-            button.classList.add('check-icon');
-        }
+    button.classList.add('notify-online-btn');
+    button.classList.add(user.notifyWhenOnline ? 'check' : 'times');
+    button.setAttribute('data-icon', user.notifyWhenOnline ? ICONS.check : ICONS.times);
 
-        toggleNotifyWhenOnline(user.id);
-    }
+    button.onclick = () => onSettingCellClick(button, () => void toggleNotifyWhenOnline(user.id));
 
     return button;
 }
 
 const createNotifyWhenPlayingSettingCell = (user: User): HTMLElement => {
     const button = document.createElement('a');
-    button.classList.add('notify-playing-btn', user.notifyWhenPlaying ? 'check-icon' : 'times-icon');
-    button.onclick = (): void => {
-        if (button.classList.contains('check-icon')) {
-            button.classList.replace('check-icon', 'times-icon');
-        } else {
-            button.classList.remove('times-icon');
-            button.classList.add('check-icon');
-        }
-
-        toggleNotifyWhenPlaying(user.id);
-    }
+    button.classList.add('notify-playing-btn');
+    button.classList.add(user.notifyWhenPlaying ? 'check' : 'times');
+    button.setAttribute('data-icon', user.notifyWhenPlaying ? ICONS.check : ICONS.times);
+    
+    button.onclick = () => onSettingCellClick(button, () => void toggleNotifyWhenPlaying(user.id));
 
     return button;
 }
@@ -142,7 +142,7 @@ const createRemoveUserCell = (user: User, onRemove: (id?: string) => void): HTML
     button.classList.add('remove-user-btn', 'btn', 'btn-outline-danger');
     button.innerText = i18n.remove;
     button.onclick = (): void => {
-        removeUser(user.id);
+        void removeUser(user.id);
         onRemove();
     }
 
@@ -168,7 +168,7 @@ const createTable = (users: User[]): HTMLElement => {
         return document.createElement('div');
 
     const table = document.createElement('table');
-    table.classList.add('user-table', 'table');
+    table.classList.add('user-table', 'table', 'my-2', 'my-md-3');
     const tableHead = table.createTHead();
 
     if (tableHead) {
@@ -237,7 +237,7 @@ const createUserTable = (): HTMLElement => {
 
 const createAddUserElement = (): HTMLElement => {
     const inputGroup = document.createElement('div');
-    inputGroup.classList.add('input-group', 'mb-3');
+    inputGroup.classList.add('input-group', 'my-2', 'px-4');
 
     const input = document.createElement('input');
     input.classList.add('form-control')
@@ -294,7 +294,7 @@ const createAddUserElement = (): HTMLElement => {
             .then((statusResponse) => {
                 if (!isEmpty(statusResponse)) {
                     if (statusResponse[0].id !== undefined) {
-                        addUser(statusResponse[0].id)
+                        void addUser(statusResponse[0].id);
                         //location.reload();
                         input.value = '';
                         refreshTable();
@@ -320,7 +320,7 @@ const createAddUserElement = (): HTMLElement => {
 
 const createBoxWrapper = (title: string, description: string, ...elements: HTMLElement[]): HTMLElement => {
     const box = document.createElement('div');
-    box.classList.add('bg-light', 'border', 'py-2', 'py-md-3', 'px-2', 'px-md-3', 'mr-1', 'mr-md-2', 'mr-lg-4', 'my-1', 'my-md-3', 'my-lg-5', 'col');
+    box.classList.add('bg-light', 'border', 'py-2', 'py-md-3', 'px-2', 'px-md-3', 'mx-1', 'mx-md-2', 'mx-lg-4', 'my-1', 'my-md-3', 'my-lg-5', 'col');
 
     if (title.length > 0) {
         const titleElement = document.createElement('h2');

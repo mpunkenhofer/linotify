@@ -1,0 +1,13 @@
+@import "fonts";
+
+[data-icon]::before {
+    font-size: 1.2em;
+    vertical-align: middle;
+    font-family: "linotify";
+    font-style: normal;
+    font-weight: normal;
+    text-transform: none;
+    speak: none;
+    content: attr(data-icon);
+    opacity: 0.9;
+}

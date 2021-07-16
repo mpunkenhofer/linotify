@@ -1,25 +1,21 @@
 {
-    "cSpell.words": [
-        "afterbegin",
-        "beforeend",
-        "collapseable",
-        "enigmahack",
-        "inkscape",
-        "linotify",
-        "litags",
-        "nargs",
-        "necator",
-        "ograve",
-        "ornicar",
-        "perfs",
-        "pngs",
-        "woff"
-    ],
-    "cSpell.ignoreWords": [
-        "cchanged",
-        "mixins",
-        "noopener",
-        "prefs",
-        "utheme"
-    ]
+  "cSpell.words": [
+    "afterbegin",
+    "beforeend",
+    "cburnett",
+    "collapseable",
+    "enigmahack",
+    "inkscape",
+    "linotify",
+    "litags",
+    "nargs",
+    "necator",
+    "ograve",
+    "ornicar",
+    "perfs",
+    "pngs",
+    "woff"
+  ],
+  "cSpell.ignoreWords": ["cchanged", "mixins", "noopener", "prefs", "utheme"],
+  "files.eol": "\n"
 }

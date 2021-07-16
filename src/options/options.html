@@ -1,51 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta content="Options page for the LiNotify browser extension." name="description">
-        <title>Options · LiNotify</title>
-        <link rel="stylesheet" type="text/css" href="options.css">
-    </head>
-    <body>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        <main id="root">
-            <nav class="navbar navbar-expand navbar-dark bg-primary flex-column flex-md-row options-navbar">
-                <a class="navbar-brand" href="https://lichess.org/" target="_blank" rel="noopener noreferrer" aria-label="Lichess">
-                    <img src="/assets/images/linotify_icon.svg"
-                         class="d-inline-block align-top mr-2 mr-md-4 ln-brand-icon" alt="LiNotify Icon"/>
-                    LiNotify
-                </a>
-                <ul class="navbar-nav ml-md-auto mr-md-3">
-                    <li class="nav-item mr-md-2">
-                        <span id="ln-version" class="navbar-text p-2"></span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link p-2" href="https://github.com/mpunkenhofer/linotify" target="_blank" rel="noopener noreferrer"
-                           aria-label="GitHub">
-                            <img src="/assets/images/github.svg" class="navbar-icon"
-                                 alt="GitHub Litags Repository"/>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link p-2" href="https://discord.gg/4d7QWUK" target="_blank" rel="noopener noreferrer"
-                           aria-label="Discord">
-                            <img src="/assets/images/discord.svg" class="navbar-icon"
-                                 alt="Discord Community"/>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link p-2" href="https://paypal.me/litags" target="_blank" rel="noopener noreferrer"
-                           aria-label="PayPal">
-                            <img src="/assets/images/paypal.svg" class="navbar-icon"
-                                 alt="PayPal Donation Link"/>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div id="content" class="px-1 py-1 py-md-3 px-md-5 bg-white">
-            </div> 
-        </main>
-        <script type="text/javascript" src="options.js"></script>
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+      content="Options page for the LiNotify browser extension."
+      name="description"
+    />
+    <title>Options · LiNotify</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <main id="root">
+      <nav
+        class="
+          navbar navbar-expand-md navbar-dark
+          bg-primary
+          options-navbar
+          px-4
+          flex-column flex-md-row
+        "
+      >
+          <a
+            class="navbar-brand"
+            href="https://lichess.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Lichess"
+          >
+            <img
+              src="/assets/images/linotify_icon.svg"
+              class="d-inline-block align-top me-2 me-md-4 ln-brand-icon"
+              alt="LiNotify Icon"
+            />
+            LiNotify
+          </a>
+          <ul class="navbar-nav flex-row ms-md-auto me-md-3 me-0">
+            <li class="nav-item me-md-2 my-auto">
+              <a
+                class="nav-link"
+                id="ln-version"
+                href="https://github.com/mpunkenhofer/linotify/releases"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LiNotify Version"
+                >v?</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link p-2"
+                href="https://github.com/mpunkenhofer/linotify"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+              >
+                <img
+                  src="/assets/images/github.svg"
+                  class="navbar-icon"
+                  alt="GitHub Litags Repository"
+                />
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link p-2"
+                href="https://discord.gg/4d7QWUK"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Discord"
+              >
+                <img
+                  src="/assets/images/discord.svg"
+                  class="navbar-icon"
+                  alt="Discord Community"
+                />
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link p-2"
+                href="https://paypal.me/litags"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="PayPal"
+              >
+                <img
+                  src="/assets/images/paypal.svg"
+                  class="navbar-icon"
+                  alt="PayPal Donation Link"
+                />
+              </a>
+            </li>
+          </ul>
+      </nav>
+      <div id="content" class="px-1 py-1 py-md-3 px-md-5 bg-white"></div>
+    </main>
+  </body>
 </html>
